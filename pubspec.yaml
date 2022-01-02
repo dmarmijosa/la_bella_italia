@@ -32,6 +32,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   lottie: ^1.2.1
+  http: ^0.13.3
+  shared_preferences: ^2.0.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -52,8 +54,6 @@ flutter:
     - assets/img/
     - assets/json/
 
-  fonts:
-    - family:
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
@@ -65,10 +65,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+    - family: AirAmericana
+      fonts:
+        - asset: assets/fonts/Air/AirAmericana.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
