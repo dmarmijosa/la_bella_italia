@@ -235,6 +235,7 @@ class _RegistroState extends State<Registro> {
   }
 
   Widget _btnRegistrar() {
+    print(_registro.context);
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
@@ -268,9 +269,7 @@ class _RegistroState extends State<Registro> {
         Icons.arrow_back_ios,
         color: Colors.white,
       ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
+      onPressed: _registro.back,
     );
   }
 

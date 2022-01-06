@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/api/enviroments.dart';
-import 'package:la_bella_italia/src/api/response_api.dart';
+import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 
 import 'package:http/http.dart' as http;
