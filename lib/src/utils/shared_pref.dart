@@ -28,14 +28,11 @@ class SharedPref {
     return prefs.remove(key);
   }
 
-  void logout(BuildContext context) async {
-    // UserProvider usersProvider = new UserProvider();
-    // usersProvider.init(context);
-    try {
-      await remove('user');
-      Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
-    } catch (e) {
-      return;
-    }
+  void logout(BuildContext context, String idUser) async {
+    UserProvider usersProvider = new UserProvider();
+    usersProvider.init(context);
+    usersProvider.logout(idUser);
+    await remove('user');
+    Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
   }
 }

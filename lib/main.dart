@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/rol.dart';
+import 'package:la_bella_italia/src/pages/cliente/actualizar/cliente_actualizar_controller.dart';
+import 'package:la_bella_italia/src/pages/cliente/actualizar/cliente_actualizar_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_page.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/lista/delivery_ordenes_lista_page.dart';
 import 'package:la_bella_italia/src/pages/login/login_page.dart';
+import 'package:la_bella_italia/src/pages/login/recuperarCuenta/recuperar_cuenta_page.dart';
 import 'package:la_bella_italia/src/pages/registro/registro_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/lista/restaurante_ordenes_list_page.dart';
 import 'package:la_bella_italia/src/pages/roles/roles_page.dart';
@@ -27,6 +29,8 @@ class MyApp extends StatelessWidget {
             DeliveryOrdenesListaPage(),
         'restaurante/ordenes/lista': (BuildContext context) =>
             RestauranteOrdenesListaPage(),
+        'recuperar': (BuildContext context) => RecuperarCuentaPage(),
+        'cliente/actualizar': (BuildContext context) => ClienteActualizarPage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,

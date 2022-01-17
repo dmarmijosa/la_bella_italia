@@ -37,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
                 _edtCorreo(),
                 _edtPassword(),
                 _btnLogin(),
-                _txtRegistrarse()
+                _txtRegistrarse(),
+                _txtRecuperar()
               ],
             ),
           ),
@@ -142,7 +143,39 @@ class _LoginPageState extends State<LoginPage> {
           child: Text(
             'Registrate',
             style: TextStyle(
-                fontWeight: FontWeight.bold, color: MyColors.primaryColor),
+                fontWeight: FontWeight.bold,
+                color: MyColors.primaryColor,
+                fontSize: 17),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _txtRecuperar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+          height: 50,
+        ),
+        Text(
+          '¿ Olvidaste la contraseña ?',
+          style: TextStyle(color: MyColors.primaryColor),
+        ),
+        SizedBox(
+          width: 7,
+        ),
+        GestureDetector(
+          onTap: () {
+            _login.recuperar();
+          },
+          child: Text(
+            'Recuperar cuenta',
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: MyColors.primaryColor,
+                fontSize: 17),
           ),
         )
       ],

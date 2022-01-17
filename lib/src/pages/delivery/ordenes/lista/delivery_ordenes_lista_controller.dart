@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
-class ClienteProductoListaController {
+class DeliveryOrdenesListaController {
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
@@ -26,9 +26,5 @@ class ClienteProductoListaController {
 
   void cambiarROl() {
     Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
-  }
-
-  void editarPerfil() {
-    Navigator.pushNamed(context, 'cliente/actualizar');
   }
 }

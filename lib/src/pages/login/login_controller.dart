@@ -43,6 +43,10 @@ class LoginController {
     Navigator.pushNamed(context, 'registro');
   }
 
+  void recuperar() {
+    Navigator.pushNamed(context, 'recuperar');
+  }
+
   void login() async {
     String correo = correoController.text.trim();
     String password = passController.text.trim();

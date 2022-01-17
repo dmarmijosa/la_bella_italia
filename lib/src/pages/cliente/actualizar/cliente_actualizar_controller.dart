@@ -6,52 +6,55 @@ import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/my_snackbar.dart';
+import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class RegistroController {
+class ClienteActualizarController {
   BuildContext context;
-
-  TextEditingController correoController = new TextEditingController();
   TextEditingController nombreController = new TextEditingController();
   TextEditingController apellidoController = new TextEditingController();
   TextEditingController telefonoController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
   TextEditingController confirPassController = new TextEditingController();
 
-  UserProvider userProvider = new UserProvider();
+  UserProvider usersProvider = new UserProvider();
 
   PickedFile pickedFile;
   File imageFile;
   Function refresh;
+
   ProgressDialog _progressDialog;
+
   bool isEnable = true;
+  User user;
+  SharedPref _sharedPref = new SharedPref();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    userProvider.init(context);
-    _progressDialog = ProgressDialog(context: context);
 
-    try {
-      final result = await InternetAddress.lookup('www34.google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
-    } catch (_) {
-      MyScnackbar.show(context, "SIN CONEXION AL SERVIDOR");
-    }
+    _progressDialog = ProgressDialog(context: context);
+    user = User.fromJson(await _sharedPref.read('user'));
+    usersProvider.init(context, sessionUser: user);
+
+    nombreController.text = user.name;
+    apellidoController.text = user.lastname;
+    telefonoController.text = user.phone;
+
+    refresh();
   }
 
-  Future<void> registro() async {
-    String correo = correoController.text;
-    String nombre = nombreController.text;
-    String apellido = apellidoController.text;
-    String telefono = telefonoController.text;
-    String pass = passController.text;
-    String confirPass = confirPassController.text;
+  void actualizar() async {
+    String nombre = nombreController.text.toUpperCase().trim();
+    String apellido = apellidoController.text.toUpperCase().trim();
+    String telefono = telefonoController.text.trim();
+    String pass = passController.text.trim();
+    String confirPass = confirPassController.text.trim();
 
-    if (correo.isEmpty ||
-        nombre.isEmpty ||
+    if (nombre.isEmpty ||
         apellido.isEmpty ||
         telefono.isEmpty ||
         pass.isEmpty ||
@@ -59,53 +62,41 @@ class RegistroController {
       MyScnackbar.show(context, 'Todos los campos son onligatorios.');
       return;
     }
+
     if (confirPass != pass) {
       MyScnackbar.show(context, "Las contraseñas deben ser iguales.");
       return;
     }
-    if (pass.length <= 6) {
-      MyScnackbar.show(context, "la contraseña debe tener 8 caracteres.");
-      return;
-    }
-    if (MyScnackbar.emailValid(correo) == false) {
-      MyScnackbar.show(context, "Correo no valido");
-      return;
-    }
-    if (imageFile == null) {
-      MyScnackbar.show(context, "Selecciona una imagen");
-      return;
-    }
-    _progressDialog.show(max: 100, msg: "Espere un momento");
+    _progressDialog.show(max: 100, msg: 'Espere un momento...');
     isEnable = false;
-    User user = new User(
-      email: correo.trim().toLowerCase(),
-      name: nombre.trim().toUpperCase(),
-      lastname: apellido.trim().toUpperCase(),
-      phone: telefono,
-      password: pass.trim(),
-    );
-    Stream stream = await userProvider.createWithImage(user, imageFile);
+
+    User myUser = new User(
+        id: user.id,
+        name: nombre,
+        lastname: apellido,
+        phone: telefono,
+        image: user.image,
+        password: pass);
+
+    Stream stream = await usersProvider.update(myUser, imageFile);
     stream.listen(
-      (res) {
+      (res) async {
         _progressDialog.close();
-        //ResponseApi responseApi = await userProvider.create(user);
+
         ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-        print('respuesta ${responseApi.message}');
-        MyScnackbar.show(context, responseApi.message);
+        Fluttertoast.showToast(msg: responseApi.message);
+
         if (responseApi.success) {
-          Future.delayed(
-            Duration(seconds: 3),
-            () {
-              Navigator.pushReplacementNamed(context, 'login');
-            },
-          );
+          user = await usersProvider.getById(myUser.id);
+          print('usuario obtenido: ${user.toJson()}');
+          _sharedPref.save('user', user.toJson());
+          Navigator.pushNamedAndRemoveUntil(
+              context, 'cliente/productos/lista', (route) => false);
         } else {
           isEnable = true;
         }
       },
     );
-
-    //print('$correo $nombre $apellido $telefono $pass $confirPass');
   }
 
   Future selectImage(ImageSource imageSource) async {

@@ -1,75 +1,65 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/pages/registro/registro_controller.dart';
+import 'package:la_bella_italia/src/pages/cliente/actualizar/cliente_actualizar_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
-class Registro extends StatefulWidget {
-  Registro({key}) : super(key: key);
+class ClienteActualizarPage extends StatefulWidget {
+  const ClienteActualizarPage({key}) : super(key: key);
 
   @override
-  _RegistroState createState() => _RegistroState();
+  _ClienteActualizarPageState createState() => _ClienteActualizarPageState();
 }
 
-class _RegistroState extends State<Registro> {
-  // ignore: non_constant_identifier_names
+class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
   bool is_press = true;
-  RegistroController _registro = new RegistroController();
+  ClienteActualizarController _ccac = new ClienteActualizarController();
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _registro.init(context, refresh);
+      _ccac.init(context, refresh);
     });
+    setState(() {});
+  }
+
+  void refresh() {
+    setState(
+      () {},
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      onTap: () => {
+        FocusScope.of(context).requestFocus(FocusNode()),
+        setState(
+          () {},
+        )
+      },
       child: Scaffold(
+        appBar: AppBar(
+          title: Text('Editar perfil'),
+        ),
         body: Container(
           width: double.infinity,
-          child: Stack(
-            children: [
-              Positioned(
-                top: -80,
-                left: -100,
-                child: _circle(),
-              ),
-              Positioned(
-                child: _txtRegistro(),
-                top: 65,
-                left: 27,
-              ),
-              Positioned(
-                child: _iconBack(),
-                top: 56,
-                left: -5,
-              ),
-              Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(top: 150),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      _imageUser(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      _edtCorreo(),
-                      _edtNombre(),
-                      _edtApellido(),
-                      _edtTelefono(),
-                      _edtPassword(),
-                      _edtConfirmPassword(),
-                      _btnRegistrar()
-                    ],
-                  ),
+          margin: EdgeInsets.only(top: 50),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _imageUser(),
+                SizedBox(
+                  height: 30,
                 ),
-              )
-            ],
+                _edtNombre(),
+                _edtApellido(),
+                _edtTelefono(),
+                _edtPassword(),
+                _edtConfirmPassword(),
+                _btnActualizar()
+              ],
+            ),
           ),
         ),
       ),
@@ -78,56 +68,15 @@ class _RegistroState extends State<Registro> {
 
   Widget _imageUser() {
     return GestureDetector(
-      onTap: _registro.showAlertDialog,
+      onTap: _ccac.showAlertDialog,
       child: CircleAvatar(
-        radius: 63,
-        backgroundColor: Colors.red[400],
-        child: CircleAvatar(
-          backgroundImage: _registro.imageFile != null
-              ? FileImage(_registro.imageFile)
-              : AssetImage('assets/img/user_profile_2.png'),
-          radius: 60,
-          backgroundColor: Colors.grey[300],
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: CircleAvatar(
-              backgroundColor: Colors.red[400],
-              radius: 22,
-              child: CircleAvatar(
-                backgroundColor: Colors.grey[100],
-                child: Icon(
-                  Icons.add_a_photo,
-                  color: Colors.black,
-                  size: 34,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _edtCorreo() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _registro.correoController,
-        keyboardType: TextInputType.emailAddress,
-        decoration: InputDecoration(
-          hintText: 'Correo electronico',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(
-            Icons.email_sharp,
-            color: MyColors.primaryColor,
-          ),
-          hintStyle: TextStyle(color: MyColors.primaryColorDark),
-        ),
+        backgroundImage: _ccac.imageFile != null
+            ? FileImage(_ccac.imageFile)
+            : _ccac.user?.image != null
+                ? NetworkImage(_ccac.user?.image)
+                : AssetImage('assets/img/user_profile_2.png'),
+        radius: 60,
+        backgroundColor: Colors.grey[200],
       ),
     );
   }
@@ -140,7 +89,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.nombreController,
+        controller: _ccac.nombreController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Nombre',
@@ -164,7 +113,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.apellidoController,
+        controller: _ccac.apellidoController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Apellido',
@@ -188,7 +137,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.telefonoController,
+        controller: _ccac.telefonoController,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           hintText: 'Número de teléfono',
@@ -212,7 +161,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.passController,
+        controller: _ccac.passController,
         obscureText: this.is_press,
         decoration: InputDecoration(
           hintText: 'Contraseña',
@@ -239,7 +188,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.confirPassController,
+        controller: _ccac.confirPassController,
         obscureText: this.is_press,
         decoration: InputDecoration(
           hintText: 'Confirmar contraseña',
@@ -258,14 +207,14 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _btnRegistrar() {
+  Widget _btnActualizar() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
-        icon: Icon(Icons.how_to_reg),
-        onPressed: _registro.isEnable ? _registro.registro : null,
-        label: Text('Registrarse'),
+        icon: Icon(Icons.autorenew),
+        onPressed: _ccac.isEnable ? _ccac.actualizar : null,
+        label: Text('Actualizar'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
             shape: RoundedRectangleBorder(
@@ -273,39 +222,6 @@ class _RegistroState extends State<Registro> {
             ),
             padding: EdgeInsets.symmetric(vertical: 10)),
       ),
-    );
-  }
-
-  Widget _circle() {
-    return Container(
-      width: 240,
-      height: 230,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(100),
-          color: MyColors.primaryColor),
-    );
-  }
-
-  Widget _iconBack() {
-    return IconButton(
-      icon: Icon(
-        Icons.arrow_back_ios,
-        color: Colors.white,
-      ),
-      onPressed: _registro.back,
-    );
-  }
-
-  Widget _txtRegistro() {
-    return Text(
-      'Registro',
-      style: TextStyle(color: Colors.white, fontSize: 22),
-    );
-  }
-
-  void refresh() {
-    setState(
-      () {},
     );
   }
 }

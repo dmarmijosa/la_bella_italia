@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
-class ClienteProductoListaController {
+class RestauranteOrdenesListaController {
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   User user;
   Function refresh;
-
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
@@ -26,9 +25,5 @@ class ClienteProductoListaController {
 
   void cambiarROl() {
     Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
-  }
-
-  void editarPerfil() {
-    Navigator.pushNamed(context, 'cliente/actualizar');
   }
 }
