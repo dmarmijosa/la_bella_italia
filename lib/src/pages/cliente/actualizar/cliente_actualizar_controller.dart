@@ -78,7 +78,7 @@ class ClienteActualizarController {
         image: user.image,
         password: pass);
 
-    Stream stream = await usersProvider.update(myUser, imageFile);
+    Stream stream = await usersProvider.updateUser(myUser, imageFile);
     stream.listen(
       (res) async {
         _progressDialog.close();

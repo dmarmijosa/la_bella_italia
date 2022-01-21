@@ -23,7 +23,15 @@ class RestauranteOrdenesListaController {
     key.currentState.openDrawer();
   }
 
-  void cambiarROl() {
+  void irACrearCategoria() {
+    Navigator.pushNamed(context, 'restaurante/categorias/crear');
+  }
+
+  void irACrearProducto() {
+    Navigator.pushNamed(context, 'restaurante/producto/crear');
+  }
+
+  void cambiarRol() {
     Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
   }
 }

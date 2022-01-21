@@ -17,6 +17,7 @@ class _RestauranteOrdenesListaPageState
       new RestauranteOrdenesListaController();
 
   @override
+  // ignore: must_call_super
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _crolc.init(context, refresh);
@@ -99,16 +100,18 @@ class _RestauranteOrdenesListaPageState
             ),
           ),
           ListTile(
-            title: Text('Editar perfil'),
+            onTap: _crolc.irACrearProducto,
+            title: Text('Crear producto'),
             trailing: Icon(
-              Icons.edit,
+              Icons.create,
               color: Colors.black,
             ),
           ),
           ListTile(
-            title: Text('Mis pedidos'),
+            onTap: _crolc.irACrearCategoria,
+            title: Text('Crear categoría'),
             trailing: Icon(
-              Icons.shopping_bag,
+              Icons.create_new_folder,
               color: Colors.black,
             ),
           ),
@@ -116,7 +119,7 @@ class _RestauranteOrdenesListaPageState
               ? _crolc.user.roles.length > 1
                   ? ListTile(
                       title: Text('Cambiar de rol'),
-                      onTap: _crolc.cambiarROl,
+                      onTap: _crolc.cambiarRol,
                       trailing: Icon(
                         Icons.sync,
                         color: Colors.black,
