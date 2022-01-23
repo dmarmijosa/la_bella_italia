@@ -71,6 +71,7 @@ class RegistroController {
       MyScnackbar.show(context, "Correo no valido");
       return;
     }
+
     if (imageFile == null) {
       MyScnackbar.show(context, "Selecciona una imagen");
       return;
@@ -89,18 +90,25 @@ class RegistroController {
       (res) {
         _progressDialog.close();
         //ResponseApi responseApi = await userProvider.create(user);
-        ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-        print('respuesta ${responseApi.message}');
-        MyScnackbar.show(context, responseApi.message);
-        if (responseApi.success) {
-          Future.delayed(
-            Duration(seconds: 3),
-            () {
-              Navigator.pushReplacementNamed(context, 'login');
-            },
-          );
-        } else {
+        try {
+          ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+          print('respuesta ${responseApi.message}');
+          MyScnackbar.show(context, responseApi.message);
+          if (responseApi.success) {
+            Future.delayed(
+              Duration(seconds: 3),
+              () {
+                Navigator.pushReplacementNamed(context, 'login');
+              },
+            );
+          } else {
+            isEnable = true;
+          }
+        } catch (e) {
           isEnable = true;
+          MyScnackbar.show(
+              context, "Correo ya ha sido registrado anteriormente.");
+          return;
         }
       },
     );

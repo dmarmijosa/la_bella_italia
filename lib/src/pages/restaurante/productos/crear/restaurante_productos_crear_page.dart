@@ -21,6 +21,7 @@ class _RestauranteProductosCrearPageState
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _crpcc.init(context, refresh);
@@ -29,60 +30,84 @@ class _RestauranteProductosCrearPageState
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Agregar producto'),
-        ),
-        body: Container(
-          width: double.infinity,
-          margin: EdgeInsets.only(top: 50),
-          child: SingleChildScrollView(
-            child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Nueva producto'),
+      ),
+      body: ListView(
+        children: [
+          SizedBox(height: 30),
+          _edtNombre(),
+          _edtDescripcion(),
+          _edtPrecio(),
+          Container(
+            height: 100,
+            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _edtNombreProducto(),
-                _edtDescripcionProducto(),
-                _edtCostoProducto(),
-                Container(
-                  height: 100,
-                  margin: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                  child: Row(
-                    children: [
-                      _tarjetaImagen(null, 1),
-                      _tarjetaImagen(null, 2),
-                      _tarjetaImagen(null, 3),
-                    ],
-                  ),
-                ),
-                _dropDCategorias(_crpcc.categorias),
-                _btnCrearProducto()
+                _tarjetaImagen(_crpcc.imageFile1, 1),
+                _tarjetaImagen(_crpcc.imageFile2, 2),
+                _tarjetaImagen(_crpcc.imageFile3, 3),
               ],
             ),
           ),
-        ),
+          _dropDownCategories(_crpcc.categorias),
+          _btnCrear(),
+        ],
       ),
     );
   }
 
-  Widget _btnCrearProducto() {
+  Widget _edtNombre() {
     return Container(
-      height: 50,
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
-      child: ElevatedButton(
-        onPressed: () {},
-        child: Text('Crear producto'),
-        style: ElevatedButton.styleFrom(
-            primary: MyColors.primaryColor,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            padding: EdgeInsets.symmetric(vertical: 15)),
+      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      decoration: BoxDecoration(
+          color: MyColors.primaryOpacityColor,
+          borderRadius: BorderRadius.circular(30)),
+      child: TextField(
+        controller: _crpcc.nombreController,
+        maxLines: 1,
+        maxLength: 180,
+        decoration: InputDecoration(
+            hintText: 'Nombre de la producto',
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(15),
+            hintStyle: TextStyle(color: MyColors.primaryColorDark),
+            icon: Icon(
+              Icons.local_pizza,
+              color: MyColors.primaryColor,
+            )),
       ),
     );
   }
 
-  Widget _dropDCategorias(List<Categoria> categorias) {
+  Widget _edtPrecio() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      decoration: BoxDecoration(
+          color: MyColors.primaryOpacityColor,
+          borderRadius: BorderRadius.circular(30)),
+      child: TextField(
+        controller: _crpcc.precioController,
+        keyboardType: TextInputType.phone,
+        maxLines: 1,
+        decoration: InputDecoration(
+            hintText: 'Precio',
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.all(15),
+            hintStyle: TextStyle(color: MyColors.primaryColorDark),
+            icon: Icon(
+              Icons.monetization_on,
+              color: MyColors.primaryColor,
+            )),
+      ),
+    );
+  }
+
+  Widget _dropDownCategories(List<Categoria> categories) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 33),
       child: Material(
@@ -99,16 +124,11 @@ class _RestauranteProductosCrearPageState
                     Icons.search,
                     color: MyColors.primaryColor,
                   ),
-                  SizedBox(
-                    width: 15,
-                  ),
+                  SizedBox(width: 15),
                   Text(
-                    'Categoria',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
-                  ),
+                    'Categorias',
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  )
                 ],
               ),
               Container(
@@ -125,16 +145,15 @@ class _RestauranteProductosCrearPageState
                   isExpanded: true,
                   hint: Text(
                     'Seleccionar categoria',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
-                  items: _dropDownItems(categorias),
-                  value: _crpcc.idCategoria,
-                  onChanged: (opcion) {
+                  items: _dropDownItems(categories),
+                  value: _crpcc.idCategory,
+                  onChanged: (option) {
                     setState(() {
-                      _crpcc.idCategoria = opcion;
+                      print('Categoria seleccionda $option');
+                      _crpcc.idCategory =
+                          option; // ESTABLECIENDO EL VALOR SELECCIONADO
                     });
                   },
                 ),
@@ -146,66 +165,38 @@ class _RestauranteProductosCrearPageState
     );
   }
 
-  List<DropdownMenuItem<String>> _dropDownItems(List<Categoria> categorias) {
+  List<DropdownMenuItem<String>> _dropDownItems(List<Categoria> categories) {
     List<DropdownMenuItem<String>> list = [];
-    categorias.forEach((categoria) {
-      list.add(
-        DropdownMenuItem(
-          child: Text(categoria.name),
-          value: categoria.id,
-        ),
-      );
+    categories.forEach((category) {
+      list.add(DropdownMenuItem(
+        child: Text(category.name),
+        value: category.id,
+      ));
     });
+
     return list;
   }
 
-  Widget _edtNombreProducto() {
+  Widget _edtDescripcion() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _crpcc.nombreController,
-        keyboardType: TextInputType.name,
-        maxLength: 100,
-        maxLines: 2,
-        decoration: InputDecoration(
-          hintText: 'Nombre del producto',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(
-            Icons.local_pizza,
-            color: MyColors.primaryColor,
-          ),
-          hintStyle: TextStyle(color: MyColors.primaryColorDark),
-        ),
-      ),
-    );
-  }
-
-  Widget _edtDescripcionProducto() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(30),
-      ),
+          color: MyColors.primaryOpacityColor,
+          borderRadius: BorderRadius.circular(30)),
       child: TextField(
         controller: _crpcc.descripcionController,
-        keyboardType: TextInputType.name,
-        maxLength: 200,
         maxLines: 3,
+        maxLength: 255,
         decoration: InputDecoration(
-          hintText: 'Descripción del producto',
+          hintText: 'Descripcion de la categoria',
           border: InputBorder.none,
           contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(
+          hintStyle: TextStyle(color: MyColors.primaryColorDark),
+          icon: Icon(
             Icons.description,
             color: MyColors.primaryColor,
           ),
-          hintStyle: TextStyle(color: MyColors.primaryColorDark),
         ),
       ),
     );
@@ -213,7 +204,9 @@ class _RestauranteProductosCrearPageState
 
   Widget _tarjetaImagen(File imageFile, int numberFile) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        _crpcc.showAlertDialog(numberFile);
+      },
       child: imageFile != null
           ? Card(
               elevation: 3.0,
@@ -239,31 +232,24 @@ class _RestauranteProductosCrearPageState
     );
   }
 
-  Widget _edtCostoProducto() {
+  Widget _btnCrear() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
-      decoration: BoxDecoration(
-        color: MyColors.primaryOpacityColor,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      child: TextField(
-        controller: _crpcc.precioController,
-        keyboardType: TextInputType.number,
-        decoration: InputDecoration(
-          hintText: 'costo del producto',
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.all(15),
-          prefixIcon: Icon(
-            Icons.monetization_on,
-            color: MyColors.primaryColor,
-          ),
-          hintStyle: TextStyle(color: MyColors.primaryColorDark),
-        ),
+      height: 50,
+      width: double.infinity,
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+      child: ElevatedButton(
+        onPressed: _crpcc.createProduct,
+        child: Text('Crear producto'),
+        style: ElevatedButton.styleFrom(
+            primary: MyColors.primaryColor,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+            padding: EdgeInsets.symmetric(vertical: 15)),
       ),
     );
   }
 
-  Function refresh() {
+  void refresh() {
     setState(() {});
   }
 }

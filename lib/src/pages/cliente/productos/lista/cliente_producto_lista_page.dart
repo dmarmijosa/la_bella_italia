@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/scheduler.dart';
+import 'package:la_bella_italia/src/models/categoria.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
@@ -25,16 +26,191 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _cplc.key,
-      appBar: AppBar(
-        leading: _menuDraver(),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: DefaultTabController(
+        length: _cplc.categorias?.length,
+        child: Scaffold(
+          key: _cplc.key,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(170),
+            child: AppBar(
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.white,
+              actions: [
+                _menuShopping(),
+              ],
+              flexibleSpace: Column(
+                children: [
+                  SizedBox(height: 40),
+                  _menuDraver(),
+                  SizedBox(height: 20),
+                  _edtBuscar(),
+                ],
+              ),
+              bottom: TabBar(
+                indicatorColor: Colors.black,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey[400],
+                isScrollable: true,
+                tabs: List<Widget>.generate(
+                  _cplc.categorias.length,
+                  (index) {
+                    return Tab(
+                      child: Text(_cplc.categorias[index].name ?? ''),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+          drawer: _drawer(),
+          body: TabBarView(
+            children: _cplc.categorias.map(
+              (Categoria categoria) {
+                return GridView.count(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.7,
+                  children: List.generate(1, (index) {
+                    return _tarjetaProducto();
+                  }),
+                );
+              },
+            ).toList(),
+          ),
+        ),
       ),
-      drawer: _drawer(),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: _cplc.logout,
-          child: Text('Cerrar Sessión'),
+    );
+  }
+
+  Widget _tarjetaProducto() {
+    return Container(
+      height: 250,
+      child: Card(
+        //color: Colors.green,
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: -1,
+              right: -1,
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: MyColors.primaryColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                  ),
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {},
+                ),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 150,
+                  margin: EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.all(20),
+                  width: MediaQuery.of(context).size.width * 0.45,
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/img/pizza2.png'),
+                    fit: BoxFit.contain,
+                    fadeInDuration: Duration(milliseconds: 50),
+                    image: AssetImage('assets/img/pizza2.png'),
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  height: 33,
+                  child: Text(
+                    'Nombre producto',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'AirAmericana',
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    '0.0€',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _menuShopping() {
+    return Stack(
+      children: [
+        Container(
+          margin: EdgeInsets.only(right: 15, top: 15),
+          child: Icon(
+            Icons.shopping_bag_outlined,
+            color: Colors.black,
+          ),
+        ),
+        Positioned(
+          right: 16,
+          bottom: 30,
+          child: Container(
+            width: 9,
+            height: 9,
+            decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.all(Radius.circular(30))),
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _edtBuscar() {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: TextField(
+        decoration: InputDecoration(
+          hintText: 'Buscar',
+          suffixIcon: Icon(
+            Icons.search,
+            color: Colors.grey[400],
+          ),
+          hintStyle: TextStyle(
+            fontSize: 17,
+            color: Colors.grey[500],
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25),
+            borderSide: BorderSide(color: Colors.grey[300]),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25),
+            borderSide: BorderSide(color: Colors.grey[300]),
+          ),
+          contentPadding: EdgeInsets.all(15),
         ),
       ),
     );
@@ -46,7 +222,10 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
       child: Container(
         margin: EdgeInsets.only(left: 20),
         alignment: Alignment.centerLeft,
-        child: Icon(Icons.menu),
+        child: Icon(
+          Icons.menu,
+          color: Colors.black,
+        ),
       ),
     );
   }

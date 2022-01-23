@@ -57,6 +57,20 @@ class UserProvider {
     }
   }
 
+  Future<ResponseApi> findUserEmail(String email) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/findbyEmail/$email');
+      Map<String, String> headers = {'Content-type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
   /*Future<ResponseApi> create(User user) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
