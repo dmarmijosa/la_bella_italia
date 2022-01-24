@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/scheduler.dart';
 import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/producto.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
@@ -68,12 +69,22 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
           body: TabBarView(
             children: _cplc.categorias.map(
               (Categoria categoria) {
-                return GridView.count(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.7,
-                  children: List.generate(1, (index) {
-                    return _tarjetaProducto();
-                  }),
+                return FutureBuilder(
+                  future: _cplc.obtenerProductos(categoria.id),
+                  builder: (context, AsyncSnapshot<List<Producto>> snapshot) {
+                    return GridView.builder(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 0.7,
+                      ),
+                      itemCount: snapshot.data?.length ?? 0,
+                      itemBuilder: (_, index) {
+                        return _tarjetaProducto(snapshot.data[index]);
+                      },
+                    );
+                  },
                 );
               },
             ).toList(),
@@ -83,11 +94,10 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     );
   }
 
-  Widget _tarjetaProducto() {
+  Widget _tarjetaProducto(Producto producto) {
     return Container(
       height: 250,
       child: Card(
-        //color: Colors.green,
         elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -128,7 +138,9 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                     placeholder: AssetImage('assets/img/pizza2.png'),
                     fit: BoxFit.contain,
                     fadeInDuration: Duration(milliseconds: 50),
-                    image: AssetImage('assets/img/pizza2.png'),
+                    image: producto.image1 != null
+                        ? NetworkImage(producto.image1)
+                        : AssetImage('assets/img/pizza2.png'),
                   ),
                 ),
                 Spacer(),
@@ -136,19 +148,16 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   height: 33,
                   child: Text(
-                    'Nombre producto',
+                    producto.name.toUpperCase() ?? 'PRODUCTO',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'AirAmericana',
-                    ),
+                    style: TextStyle(fontSize: 15, color: Colors.black),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Text(
-                    '0.0€',
+                    '${producto.price ?? 0}\€',
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,

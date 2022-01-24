@@ -100,7 +100,7 @@ class _RestauranteProductosCrearPageState
             contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(color: MyColors.primaryColorDark),
             icon: Icon(
-              Icons.monetization_on,
+              Icons.euro,
               color: MyColors.primaryColor,
             )),
       ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/producto.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/category_provider.dart';
+import 'package:la_bella_italia/src/providers/product_provider.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
 class ClienteProductoListaController {
@@ -12,14 +14,20 @@ class ClienteProductoListaController {
   Function refresh;
   List<Categoria> categorias = [];
   CategoryProvider _categoryProvider = new CategoryProvider();
+  ProductoProvider _productoProvider = new ProductoProvider();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     user = User.fromJson(await _sharedPref.read('user') ?? {});
     _categoryProvider.init(context, user);
+    _productoProvider.init(context, user);
     obtenerCategorias();
     refresh();
+  }
+
+  Future<List<Producto>> obtenerProductos(String id_category) async {
+    return await _productoProvider.getByCategory(id_category);
   }
 
   void obtenerCategorias() async {

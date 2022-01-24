@@ -34,7 +34,7 @@ class ProductoProvider {
         Fluttertoast.showToast(msg: 'Sesion expirada');
         new SharedPref().logout(context, sessionUser.id);
       }
-      final data = json.decode(res.body); // CATEGORIAS
+      final data = json.decode(res.body);
       Producto product = Producto.fromJsonList(data);
       return product.toList;
     } catch (e) {
