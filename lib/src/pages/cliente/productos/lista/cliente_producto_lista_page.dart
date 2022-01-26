@@ -5,6 +5,7 @@ import 'package:la_bella_italia/src/models/categoria.dart';
 import 'package:la_bella_italia/src/models/producto.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
+import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
 
 class ClienteProductoListaPage extends StatefulWidget {
   const ClienteProductoListaPage({key}) : super(key: key);
@@ -72,18 +73,31 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                 return FutureBuilder(
                   future: _cplc.obtenerProductos(categoria.id),
                   builder: (context, AsyncSnapshot<List<Producto>> snapshot) {
-                    return GridView.builder(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 0.7,
-                      ),
-                      itemCount: snapshot.data?.length ?? 0,
-                      itemBuilder: (_, index) {
-                        return _tarjetaProducto(snapshot.data[index]);
-                      },
-                    );
+                    if (snapshot.hasData) {
+                      if (snapshot.data.length > 0) {
+                        return GridView.builder(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 20),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.7,
+                          ),
+                          itemCount: snapshot.data?.length ?? 0,
+                          itemBuilder: (_, index) {
+                            return _tarjetaProducto(snapshot.data[index]);
+                          },
+                        );
+                      } else {
+                        return NoDataWidget(
+                          texto: 'No hay productos',
+                        );
+                      }
+                    } else {
+                      return NoDataWidget(
+                        texto: 'No hay productos',
+                      );
+                    }
                   },
                 );
               },
@@ -95,78 +109,80 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
   }
 
   Widget _tarjetaProducto(Producto producto) {
-    return Container(
-      height: 250,
-      child: Card(
-        elevation: 3,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: -1,
-              right: -1,
-              child: Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: MyColors.primaryColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
+    return GestureDetector(
+      onTap: () {
+        _cplc.mostrarSheet(producto);
+      },
+      child: Container(
+        height: 250,
+        child: Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: -1,
+                right: -1,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: MyColors.primaryColor,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
                   ),
-                ),
-                child: IconButton(
-                  icon: Icon(
+                  child: Icon(
                     Icons.add,
                     color: Colors.white,
                   ),
-                  onPressed: () {},
                 ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 150,
-                  margin: EdgeInsets.only(top: 20),
-                  padding: EdgeInsets.all(20),
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  child: FadeInImage(
-                    placeholder: AssetImage('assets/img/pizza2.png'),
-                    fit: BoxFit.contain,
-                    fadeInDuration: Duration(milliseconds: 50),
-                    image: producto.image1 != null
-                        ? NetworkImage(producto.image1)
-                        : AssetImage('assets/img/pizza2.png'),
-                  ),
-                ),
-                Spacer(),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20),
-                  height: 33,
-                  child: Text(
-                    producto.name.toUpperCase() ?? 'PRODUCTO',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 15, color: Colors.black),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Text(
-                    '${producto.price ?? 0}\€',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 150,
+                    margin: EdgeInsets.only(top: 20),
+                    padding: EdgeInsets.all(20),
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    child: FadeInImage(
+                      placeholder: AssetImage('assets/img/pizza2.png'),
+                      fit: BoxFit.contain,
+                      fadeInDuration: Duration(milliseconds: 50),
+                      image: producto.image1 != null
+                          ? NetworkImage(producto.image1)
+                          : AssetImage('assets/img/pizza2.png'),
                     ),
                   ),
-                )
-              ],
-            )
-          ],
+                  Spacer(),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    height: 33,
+                    child: Text(
+                      producto.name.toUpperCase() ?? 'PRODUCTO',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontSize: 15, color: Colors.black),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    child: Text(
+                      '${producto.price ?? 0}\€',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -176,12 +192,14 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     return Stack(
       children: [
         Container(
-          margin: EdgeInsets.only(right: 15, top: 15),
-          child: Icon(
-            Icons.shopping_bag_outlined,
-            color: Colors.black,
-          ),
-        ),
+            margin: EdgeInsets.only(right: 5, top: 5),
+            child: IconButton(
+              onPressed: _cplc.irACrearOrdenPage,
+              icon: Icon(
+                Icons.shopping_bag_outlined,
+                color: Colors.black,
+              ),
+            )),
         Positioned(
           right: 16,
           bottom: 30,

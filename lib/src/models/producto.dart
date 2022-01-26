@@ -15,6 +15,7 @@ class Producto {
   int idCategory;
   int quantity;
   List<Producto> toList = [];
+  String detail;
 
   Producto({
     this.id,
@@ -26,6 +27,7 @@ class Producto {
     this.price,
     this.idCategory,
     this.quantity,
+    this.detail,
   });
 
   factory Producto.fromJson(Map<String, dynamic> json) => Producto(
@@ -44,6 +46,7 @@ class Producto {
             ? int.parse(json["id_category"])
             : json["id_category"],
         quantity: json["quantity"],
+        detail: json["detail"],
       );
 
   Producto.fromJsonList(List<dynamic> jsonList) {
@@ -64,6 +67,7 @@ class Producto {
         "price": price,
         "id_category": idCategory,
         "quantity": quantity,
+        "detail": detail,
       };
 
   static bool isInteger(num value) =>
