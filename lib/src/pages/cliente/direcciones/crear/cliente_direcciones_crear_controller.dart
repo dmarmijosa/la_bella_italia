@@ -38,8 +38,19 @@ class ClienteDireccionesCrerController {
     double lat = refPunto['lat'] ?? 0;
     double lng = refPunto['long'] ?? 0;
 
-    if (nombreDireccion.isEmpty || pueblo.isEmpty || lat == 0 || lng == 0) {
+    if (nombreDireccion.isEmpty ||
+        pueblo.isEmpty ||
+        lat == 0 ||
+        lng == 0 ||
+        refPunto.isEmpty) {
       MyScnackbar.show(context, "Todos los campos son obligatorio");
+      return;
+    }
+
+    if ((lat > 40.0547323 || lat < 39.9259837) ||
+        (lng > 3.9019499 || lng < 3.8920364)) {
+      MyScnackbar.show(
+          context, "La dirección esta fuera de la zona de distribución");
       return;
     }
 
