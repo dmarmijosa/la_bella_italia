@@ -13,14 +13,14 @@ class ClienteDireccionesCrearPage extends StatefulWidget {
 
 class _ClienteDireccionesCrearPageState
     extends State<ClienteDireccionesCrearPage> {
-  ClienteDireccionesCrerController _ccdcc =
+  ClienteDireccionesCrerController _ccdec =
       new ClienteDireccionesCrerController();
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ccdcc.init(context, refresh);
+      _ccdec.init(context, refresh);
     });
   }
 
@@ -57,8 +57,8 @@ class _ClienteDireccionesCrearPageState
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: TextField(
-        controller: _ccdcc.refPuntoController,
-        onTap: _ccdcc.abrirMapa,
+        controller: _ccdec.refPuntoController,
+        onTap: _ccdec.abrirMapa,
         autofocus: false,
         focusNode: AlwaysDisabledFocused(),
         decoration: InputDecoration(
@@ -76,7 +76,7 @@ class _ClienteDireccionesCrearPageState
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: TextField(
-        controller: _ccdcc.puebloController,
+        controller: _ccdec.puebloController,
         decoration: InputDecoration(
           labelText: 'Pueblo',
           suffixIcon: Icon(
@@ -92,7 +92,7 @@ class _ClienteDireccionesCrearPageState
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextField(
-        controller: _ccdcc.direccionController,
+        controller: _ccdec.direccionController,
         decoration: InputDecoration(
           labelText: 'Dirección',
           suffixIcon: Icon(
@@ -124,7 +124,7 @@ class _ClienteDireccionesCrearPageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
       child: ElevatedButton(
-        onPressed: _ccdcc.crearDireccion,
+        onPressed: _ccdec.crearDireccion,
         child: Text('AGREGAR DIRECCIÓN'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

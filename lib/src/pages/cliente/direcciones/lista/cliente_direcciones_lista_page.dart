@@ -137,7 +137,7 @@ class _ClienteDireccionesListaPageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: _ccdlc.crearOrden,
         child: Text('ACEPTAR'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
