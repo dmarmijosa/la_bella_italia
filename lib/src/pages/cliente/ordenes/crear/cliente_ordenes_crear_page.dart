@@ -61,7 +61,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     return Container(
       margin: EdgeInsets.only(left: 30, right: 30, top: 30, bottom: 40),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: _ccocc.irADirecciones,
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

@@ -16,6 +16,8 @@ class User {
   String sessionToken;
   String notificationToken;
   String image;
+  // ignore: non_constant_identifier_names
+  bool is_avaiable;
 
   List<Rol> roles = [];
 
@@ -29,6 +31,8 @@ class User {
     this.sessionToken,
     this.image,
     this.roles,
+    // ignore: non_constant_identifier_names
+    this.is_avaiable,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -40,6 +44,7 @@ class User {
         password: json["password"],
         sessionToken: json["session_token"],
         image: json["image"],
+        is_avaiable: json["is_avaiable"],
         roles: json["roles"] == null
             ? []
             : List<Rol>.from(
@@ -50,6 +55,7 @@ class User {
   User.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
     jsonList.forEach((item) {
+      // ignore: unused_local_variable
       User user = User.fromJson(item);
     });
   }
@@ -63,6 +69,7 @@ class User {
         "password": password,
         "session_token": sessionToken,
         "image": image,
+        "is_avaiable": is_avaiable,
         "roles": roles
       };
 }

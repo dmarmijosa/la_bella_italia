@@ -11,6 +11,7 @@ class ClienteActualizarPage extends StatefulWidget {
 }
 
 class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
+  // ignore: non_constant_identifier_names
   bool is_press = true;
   ClienteActualizarController _ccac = new ClienteActualizarController();
 

@@ -70,7 +70,5 @@ class LoginController {
     if (correo.isEmpty || password.isEmpty) {
       MyScnackbar.show(context, "Correo y contraseña son requeridos.");
     }
-
-    //print("Respuesta api rest ${responseApi.toJson()}");
   }
 }

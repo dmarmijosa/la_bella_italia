@@ -41,6 +41,10 @@ class ClienteProductoListaController {
     Navigator.pushNamed(context, 'cliente/ordenes/crear');
   }
 
+  void irAEliminarDirecciones() {
+    Navigator.pushNamed(context, 'cliente/direcciones/eliminar');
+  }
+
   // ignore: non_constant_identifier_names
   Future<List<Producto>> obtenerProductos(String id_category) async {
     return await _productoProvider.getByCategory(id_category);

@@ -61,7 +61,9 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
                   height: 60,
                   margin: EdgeInsets.only(top: 10, bottom: 4),
                   child: FadeInImage(
-                    image: AssetImage('assets/img/no-image.png'),
+                    image: _cdolc.user?.image != null
+                        ? NetworkImage(_cdolc.user.image)
+                        : AssetImage('assets/img/no-image.png'),
                     fit: BoxFit.contain,
                     fadeInDuration: Duration(milliseconds: 50),
                     placeholder: AssetImage('assets/img/no-image.png'),

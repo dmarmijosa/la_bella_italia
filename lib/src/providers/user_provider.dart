@@ -43,6 +43,18 @@ class UserProvider {
     }
   }
 
+  Future<bool> restaurantIsAvaiable() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/getStateRestaurant');
+      final res = await http.get(url);
+      final data = json.decode(res.body);
+      return data;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
   Future<ResponseApi> recoverAccountUser(String email) async {
     try {
       Uri url = Uri.http(_url, '$_api/recoverAccountUser/$email');
@@ -138,6 +150,20 @@ class UserProvider {
       return response.stream.transform(utf8.decoder);
     } catch (e) {
       print(e);
+      return null;
+    }
+  }
+
+  Future<ResponseApi> setValorRestaurant(String id) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/updateStateRestaurant/$id');
+      Map<String, String> headers = {'Content-type': 'application/json'};
+      final res = await http.put(url, headers: headers);
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
       return null;
     }
   }

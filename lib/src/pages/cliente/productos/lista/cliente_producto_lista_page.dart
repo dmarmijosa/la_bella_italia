@@ -318,9 +318,18 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             ),
           ),
           ListTile(
+            onTap: _cplc.irACrearOrdenPage,
             title: Text('Mis pedidos'),
             trailing: Icon(
               Icons.shopping_bag,
+              color: Colors.black,
+            ),
+          ),
+          ListTile(
+            onTap: _cplc.irAEliminarDirecciones,
+            title: Text('Mis direcciones'),
+            trailing: Icon(
+              Icons.my_location_sharp,
               color: Colors.black,
             ),
           ),

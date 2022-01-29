@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/lista/restaurante_ordenes_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 
 class RestauranteOrdenesListaPage extends StatefulWidget {
   const RestauranteOrdenesListaPage({key}) : super(key: key);
@@ -63,7 +64,9 @@ class _RestauranteOrdenesListaPageState
                   height: 60,
                   margin: EdgeInsets.only(top: 10, bottom: 4),
                   child: FadeInImage(
-                    image: AssetImage('assets/img/no-image.png'),
+                    image: _crolc.user?.image != null
+                        ? NetworkImage(_crolc.user.image)
+                        : AssetImage('assets/img/no-image.png'),
                     fit: BoxFit.contain,
                     fadeInDuration: Duration(milliseconds: 50),
                     placeholder: AssetImage('assets/img/no-image.png'),
@@ -97,6 +100,24 @@ class _RestauranteOrdenesListaPageState
                   maxLines: 1,
                 ),
               ],
+            ),
+          ),
+          Container(
+            child: FlutterSwitch(
+              width: 125.0,
+              height: 55.0,
+              valueFontSize: 25.0,
+              toggleSize: 45.0,
+              value: _crolc.estado,
+              borderRadius: 30.0,
+              padding: 8.0,
+              showOnOff: true,
+              onToggle: (val) {
+                setState(() {
+                  _crolc.estado = val;
+                  _crolc.actualizarEstado();
+                });
+              },
             ),
           ),
           ListTile(

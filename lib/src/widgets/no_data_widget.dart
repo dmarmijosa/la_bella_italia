@@ -8,7 +8,7 @@ class NoDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 250),
+      margin: EdgeInsets.only(bottom: 60),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

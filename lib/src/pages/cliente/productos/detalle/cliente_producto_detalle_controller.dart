@@ -44,7 +44,7 @@ class ClienteProductoDetalleController {
       productoSelecionado[index].detail = detalle;
     }
 
-    print('Datos: ${productoSelecionado[1].detail}');
+    print('Datos: ${productoSelecionado[0].detail}');
     _sharedPref.save('order', productoSelecionado);
     Fluttertoast.showToast(msg: 'Producto agregado');
   }

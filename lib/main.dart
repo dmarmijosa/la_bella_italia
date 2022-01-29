@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:la_bella_italia/src/pages/cliente/actualizar/cliente_actualizar_page.dart';
+import 'package:la_bella_italia/src/pages/cliente/direcciones/crear/cliente_direcciones_crear_page.dart';
+import 'package:la_bella_italia/src/pages/cliente/direcciones/eliminar/cliente_direcciones_eliminar_page.dart';
+
+import 'package:la_bella_italia/src/pages/cliente/direcciones/lista/cliente_direcciones_lista_page.dart';
+import 'package:la_bella_italia/src/pages/cliente/direcciones/mapa/cliente_direcciones_mapa_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/ordenes/crear/cliente_ordenes_crear_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_page.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/lista/delivery_ordenes_lista_page.dart';
@@ -31,6 +36,16 @@ class MyApp extends StatelessWidget {
         'cliente/productos/lista': (BuildContext context) =>
             ClienteProductoListaPage(),
         'cliente/actualizar': (BuildContext context) => ClienteActualizarPage(),
+        'cliente/ordenes/crear': (BuildContext context) =>
+            ClienteOrdenesCrearPage(),
+        'cliente/direcciones/lista': (BuildContext context) =>
+            ClienteDireccionesListaPage(),
+        'cliente/direcciones/crear': (BuildContext context) =>
+            ClienteDireccionesCrearPage(),
+        'cliente/direcciones/eliminar': (BuildContext context) =>
+            ClienteDireccionesEliminarPage(),
+        'cliente/direcciones/mapa': (BuildContext context) =>
+            ClienteDireccionesMapaPage(),
         'delivery/ordenes/lista': (BuildContext context) =>
             DeliveryOrdenesListaPage(),
         'restaurante/ordenes/lista': (BuildContext context) =>
@@ -39,8 +54,6 @@ class MyApp extends StatelessWidget {
             RestauranteCategoriasCrearPage(),
         'restaurante/producto/crear': (BuildContext context) =>
             RestauranteProductosCrearPage(),
-        'cliente/ordenes/crear': (BuildContext context) =>
-            ClienteOrdenesCrearPage()
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,
