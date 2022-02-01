@@ -43,6 +43,27 @@ class UserProvider {
     }
   }
 
+  Future<List<User>> getByDelivey() async {
+    try {
+      Uri url = Uri.http(_url, '$_api/findDeliverys');
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.get(url, headers: headers);
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Tu sessión expiro');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+      final data = json.decode(res.body);
+      User user = User.fromJsonList(data);
+      return user.toList;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
   Future<bool> restaurantIsAvaiable() async {
     try {
       Uri url = Uri.http(_url, '$_api/getStateRestaurant');

@@ -1,11 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:la_bella_italia/src/models/orden.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
+import 'package:la_bella_italia/src/pages/restaurante/ordenes/detalle/restaurante_ordenes_detalle_page.dart';
+import 'package:la_bella_italia/src/providers/order_provider.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class RestauranteOrdenesListaController {
   BuildContext context;
@@ -15,25 +17,49 @@ class RestauranteOrdenesListaController {
 
   Function refresh;
   UserProvider _userProvider = new UserProvider();
-  bool estado;
+  OrderProvider _orderProvider = new OrderProvider();
+  bool estado = false;
+  bool abiertoOCerrado = true;
+
+  List<String> status = ['CREADA', 'DESPACHADA', 'EN CAMINO', 'ENTREGADA'];
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    this.estado = estado;
+    //this.abiertoOCerrado = abiertoOCerrado;
 
     user = User.fromJson(await _sharedPref.read('user') ?? {});
-    _userProvider.init(context, sessionUser: user);
-    estado = await _userProvider.restaurantIsAvaiable();
+    _orderProvider.init(context, user);
+    abiertoOCerrado = await _userProvider.restaurantIsAvaiable();
 
     refresh();
 
     //print(estado);
   }
 
+  Future<List<Orden>> obtenerOrdenes(String status) async {
+    return await _orderProvider.getByStatus(status);
+  }
+
+  void abrirSheet(Orden orden) async {
+    estado = await showMaterialModalBottomSheet(
+      context: context,
+      builder: (context) => RestauranteOrdenesDetallePage(
+        orden: orden,
+      ),
+    );
+    refresh();
+
+    try {
+      if (estado) {
+        refresh();
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   void actualizarEstado() async {
-    print('sadkbakajsbgkjagbks');
-    print(user.id);
     ResponseApi responseApi = await _userProvider.setValorRestaurant(user.id);
     Fluttertoast.showToast(msg: responseApi.message);
     print(responseApi.message);

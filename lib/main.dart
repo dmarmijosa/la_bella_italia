@@ -13,8 +13,9 @@ import 'package:la_bella_italia/src/pages/login/login_page.dart';
 import 'package:la_bella_italia/src/pages/login/recuperarCuenta/recuperar_cuenta_page.dart';
 import 'package:la_bella_italia/src/pages/registro/registro_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/crear/restaurante_categorias_crear_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/ordenes/detalle/restaurante_ordenes_detalle_page.dart';
 
-import 'package:la_bella_italia/src/pages/restaurante/ordenes/lista/restaurante_ordenes_list_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/ordenes/lista/restaurante_ordenes_lista_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/productos/crear/restaurante_productos_crear_page.dart';
 import 'package:la_bella_italia/src/pages/roles/roles_page.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
@@ -54,6 +55,8 @@ class MyApp extends StatelessWidget {
             RestauranteCategoriasCrearPage(),
         'restaurante/producto/crear': (BuildContext context) =>
             RestauranteProductosCrearPage(),
+        'restaurante/ordenes/detalle': (BuildContext context) =>
+            RestauranteOrdenesDetallePage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,

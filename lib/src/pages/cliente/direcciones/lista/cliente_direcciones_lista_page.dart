@@ -66,6 +66,7 @@ class _ClienteDireccionesListaPageState
         builder: (context, AsyncSnapshot<List<Direccion>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.length > 0) {
+              print(snapshot.data);
               return ListView.builder(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   itemCount: snapshot.data?.length ?? 0,

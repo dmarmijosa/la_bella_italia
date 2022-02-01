@@ -58,11 +58,7 @@ class ClienteDireccionesListaController {
   Future<List<Direccion>> getDirecciones() async {
     direcciones = await _addressProvider.getByUser(user.id);
     Direccion d = Direccion.fromJson(await _sharedPref.read('address') ?? {});
-    int index = direcciones.indexWhere((element) => element.id == d.id);
 
-    if (index != -1) {
-      radioValue = index;
-    }
     print('Dato almacenado ${d.toJson()}');
 
     return direcciones;

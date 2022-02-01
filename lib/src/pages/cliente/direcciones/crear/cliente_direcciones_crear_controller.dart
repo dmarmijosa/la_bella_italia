@@ -47,7 +47,7 @@ class ClienteDireccionesCrerController {
       return;
     }
 
-    if ((lat > 40.0547323 || lat < 39.9259837) ||
+    if ((lat > 40.0547323 || lat < 39.9259837) &&
         (lng > 3.9019499 || lng < 3.8920364)) {
       MyScnackbar.show(
           context, "La dirección esta fuera de la zona de distribución");
@@ -74,15 +74,17 @@ class ClienteDireccionesCrerController {
   }
 
   void abrirMapa() async {
-    refPunto = await showMaterialModalBottomSheet(
-      context: context,
-      isDismissible: false,
-      enableDrag: false,
-      builder: (context) => ClienteDireccionesMapaPage(),
-    );
-    if (refPunto != null) {
-      refPuntoController.text = refPunto['address'];
-      refresh();
-    }
+    try {
+      refPunto = await showMaterialModalBottomSheet(
+        context: context,
+        isDismissible: false,
+        enableDrag: false,
+        builder: (context) => ClienteDireccionesMapaPage(),
+      );
+      if (refPunto != null) {
+        refPuntoController.text = refPunto['address'];
+        refresh();
+      }
+    } catch (e) {}
   }
 }

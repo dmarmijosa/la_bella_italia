@@ -1,26 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
+
+import 'package:la_bella_italia/src/models/orden.dart';
 import 'package:la_bella_italia/src/models/producto.dart';
-import 'package:la_bella_italia/src/pages/cliente/ordenes/crear/cliente_ordenes_crear_controller.dart';
+import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
+import 'package:la_bella_italia/src/pages/delivery/ordenes/detalle/delivery_ordenes_detalle_controller.dart';
+import 'package:la_bella_italia/src/utils/relative_time_util.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
 
-class ClienteOrdenesCrearPage extends StatefulWidget {
-  const ClienteOrdenesCrearPage({key}) : super(key: key);
+// ignore: must_be_immutable
+class DeliveryOrdenesDetallePage extends StatefulWidget {
+  Orden orden;
 
+  DeliveryOrdenesDetallePage({key, @required this.orden}) : super(key: key);
   @override
-  _ClienteOrdenesCrearPageState createState() =>
-      _ClienteOrdenesCrearPageState();
+  _DeliveryOrdenesDetallePageState createState() =>
+      _DeliveryOrdenesDetallePageState();
 }
 
-class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
-  ClienteOrdenesCrearController _ccocc = new ClienteOrdenesCrearController();
+class _DeliveryOrdenesDetallePageState
+    extends State<DeliveryOrdenesDetallePage> {
+  DeliveryOrdenesDetalleController _crodc =
+      new DeliveryOrdenesDetalleController();
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ccocc.init(context, refresh);
+      _crodc.init(context, refresh, widget.orden);
     });
   }
 
@@ -28,10 +35,10 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mi orden'),
+        title: Text('ORDEN #${_crodc.orden?.id ?? ''} '),
       ),
       bottomNavigationBar: Container(
-          height: MediaQuery.of(context).size.height * 0.23,
+          height: MediaQuery.of(context).size.height * 0.45,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -40,14 +47,22 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
                   endIndent: 30,
                   indent: 30,
                 ),
+                _txtNombreClienteLlamar(
+                    'Cliente : ',
+                    '${_crodc.orden.client?.name ?? ''} ${_crodc.orden.client?.lastname ?? ''}',
+                    '${_crodc.orden.client?.phone ?? ''}'),
+                _txtDatosCliente('Entregar en : ',
+                    '${_crodc.orden.address?.address ?? ''} '),
+                _txtDatosCliente('Creada : ',
+                    '${RelativeTimeUtil.getRelativeTime(_crodc.orden.timestamp) ?? ''} '),
                 _txtPRecioTotal(),
-                _btnConfirmarOrden()
+                _btnDespacharOrden(),
               ],
             ),
           )),
-      body: _ccocc.productosSeleccionados.length > 0
+      body: _crodc.orden.products.length > 0
           ? ListView(
-              children: _ccocc.productosSeleccionados.map(
+              children: _crodc.orden.products.map(
                 (Producto producto) {
                   return _tarjetaProducto(producto);
                 },
@@ -59,15 +74,53 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _btnConfirmarOrden() {
+  Widget _txtNombreClienteLlamar(
+      String titulo, String contenido, String numero) {
+    return GestureDetector(
+      onTap: () {
+        if (_crodc.orden.status == 'CREADA') {
+          _crodc.llamarCliente();
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20),
+        child: ListTile(
+          title: Text(titulo),
+          subtitle: Text(
+            contenido,
+            maxLines: 2,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _txtDatosCliente(String titulo, String contenido) {
     return Container(
-      margin: EdgeInsets.only(left: 30, right: 30, top: 30, bottom: 40),
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: ListTile(
+        title: Text(titulo),
+        subtitle: Text(
+          contenido,
+          maxLines: 2,
+        ),
+      ),
+    );
+  }
+
+  Widget _btnDespacharOrden() {
+    return Container(
+      margin: EdgeInsets.only(
+        left: 30,
+        right: 30,
+        top: 20,
+      ),
       child: ElevatedButton(
-        onPressed: _ccocc.irADirecciones,
+        onPressed: _crodc.updateOrden,
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          primary: MyColors.primaryColor,
+          primary: Colors.blue[600],
         ),
         child: Stack(
           children: [
@@ -77,7 +130,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  'Confirmar compra.'.toUpperCase(),
+                  'INCIAR ENTREGA',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -90,7 +143,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
               child: Container(
                 margin: EdgeInsets.only(left: 20, top: 10),
                 height: 20,
-                child: Icon(Icons.check_circle_sharp),
+                child: Icon(Icons.delivery_dining),
               ),
             ),
           ],
@@ -101,6 +154,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
 
   Widget _tarjetaProducto(Producto producto) {
     return Container(
+      margin: EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
           _imagenProducto(producto),
@@ -116,24 +170,33 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
                   fontWeight: FontWeight.bold,
                 )),
               ),
+              Container(
+                margin: EdgeInsets.symmetric(vertical: 10),
+                child: Text(
+                  'Cantidad: ${producto.quantity}' ?? '',
+                  style: (TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
+                ),
+              ),
               Text(
-                producto.detail ?? '',
+                'Detalles: ${producto.detail == null ? 'Ninguno' : producto.detail}' ??
+                    'Ninguno',
                 style: (TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.grey,
                 )),
+                maxLines: 2,
               ),
               SizedBox(
                 height: 10,
               ),
-              _agregarOEliminar(producto)
             ],
           ),
           Spacer(),
           Column(
             children: [
               _txtPrecio(producto),
-              _btnIconBorrarProduct(producto),
             ],
           )
         ],
@@ -143,7 +206,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
 
   Widget _txtPRecioTotal() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      margin: EdgeInsets.symmetric(horizontal: 30),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -155,7 +218,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
             ),
           ),
           Text(
-            '${_ccocc.total}\€',
+            '${_crodc.total}\€',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
@@ -163,18 +226,6 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
           )
         ],
       ),
-    );
-  }
-
-  Widget _btnIconBorrarProduct(Producto producto) {
-    return IconButton(
-      icon: Icon(
-        Icons.delete,
-        color: MyColors.primaryColor,
-      ),
-      onPressed: () {
-        _ccocc.eliminarItem(producto);
-      },
     );
   }
 
@@ -208,59 +259,6 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
             ? NetworkImage(producto.image1)
             : AssetImage('assets/img/no-image.png'),
       ),
-    );
-  }
-
-  Widget _agregarOEliminar(Producto producto) {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () {
-            _ccocc.reducirItem(producto);
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 7,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(8),
-                bottomLeft: Radius.circular(8),
-              ),
-              color: Colors.grey[200],
-            ),
-            child: Text('-'),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 12,
-            vertical: 7,
-          ),
-          color: Colors.grey[200],
-          child: Text('${producto?.quantity}' ?? 0),
-        ),
-        GestureDetector(
-          onTap: () {
-            _ccocc.aumentarItem(producto);
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 7,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              ),
-              color: Colors.grey[200],
-            ),
-            child: Text('+'),
-          ),
-        ),
-      ],
     );
   }
 

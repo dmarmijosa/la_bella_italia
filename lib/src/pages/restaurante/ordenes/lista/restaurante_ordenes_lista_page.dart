@@ -3,23 +3,24 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:la_bella_italia/src/models/orden.dart';
-import 'package:la_bella_italia/src/pages/delivery/ordenes/lista/delivery_ordenes_lista_controller.dart';
-
+import 'package:la_bella_italia/src/pages/restaurante/ordenes/lista/restaurante_ordenes_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:la_bella_italia/src/utils/relative_time_util.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
 
-class DeliveryOrdenesListaPage extends StatefulWidget {
-  const DeliveryOrdenesListaPage({key}) : super(key: key);
+class RestauranteOrdenesListaPage extends StatefulWidget {
+  const RestauranteOrdenesListaPage({key}) : super(key: key);
 
   @override
-  _DeliveryOrdenesListaPageState createState() =>
-      _DeliveryOrdenesListaPageState();
+  _RestauranteOrdenesListaPageState createState() =>
+      _RestauranteOrdenesListaPageState();
 }
 
-class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
-  DeliveryOrdenesListaController _crolc = new DeliveryOrdenesListaController();
+class _RestauranteOrdenesListaPageState
+    extends State<RestauranteOrdenesListaPage> {
+  RestauranteOrdenesListaController _crolc =
+      new RestauranteOrdenesListaController();
 
   @override
   // ignore: must_call_super
@@ -150,6 +151,19 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
                         ),
                       ),
                     ),
+                    orden.status != 'CREADA'
+                        ? Container(
+                            alignment: Alignment.centerLeft,
+                            width: double.infinity,
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            child: Text(
+                              'Repartidor: ${orden.delivery?.name ?? ''} ${orden.delivery?.lastname ?? ''}',
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                          )
+                        : Container(),
                     Container(
                       alignment: Alignment.centerLeft,
                       width: double.infinity,
@@ -248,6 +262,40 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
                   maxLines: 1,
                 ),
               ],
+            ),
+          ),
+          Container(
+            child: FlutterSwitch(
+              width: 125.0,
+              height: 55.0,
+              valueFontSize: 25.0,
+              toggleSize: 45.0,
+              value: _crolc.abiertoOCerrado,
+              borderRadius: 30.0,
+              padding: 8.0,
+              showOnOff: true,
+              onToggle: (val) {
+                setState(() {
+                  _crolc.abiertoOCerrado = val;
+                  _crolc.actualizarEstado();
+                });
+              },
+            ),
+          ),
+          ListTile(
+            onTap: _crolc.irACrearProducto,
+            title: Text('Crear producto'),
+            trailing: Icon(
+              Icons.create,
+              color: Colors.black,
+            ),
+          ),
+          ListTile(
+            onTap: _crolc.irACrearCategoria,
+            title: Text('Crear categoría'),
+            trailing: Icon(
+              Icons.create_new_folder,
+              color: Colors.black,
             ),
           ),
           _crolc.user != null

@@ -20,6 +20,7 @@ class User {
   bool is_avaiable;
 
   List<Rol> roles = [];
+  List<User> toList = [];
 
   User({
     this.id,
@@ -33,6 +34,7 @@ class User {
     this.roles,
     // ignore: non_constant_identifier_names
     this.is_avaiable,
+    this.toList,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -57,6 +59,7 @@ class User {
     jsonList.forEach((item) {
       // ignore: unused_local_variable
       User user = User.fromJson(item);
+      toList.add(user);
     });
   }
 
