@@ -70,8 +70,7 @@ class RestauranteOrdenesDetalleController {
     refresh();
   }
 
-  void llamarCliente() {
-    print('${orden?.client?.phone}');
-    launch("tel:${orden?.client?.phone}");
+  void llamarTelefono(String telefono) {
+    launch("tel:$telefono");
   }
 }

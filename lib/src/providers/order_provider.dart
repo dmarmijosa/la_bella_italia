@@ -116,4 +116,28 @@ class OrderProvider {
       return null;
     }
   }
+
+  Future<ResponseApi> updateToOntheWay(Orden orden) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/updateToOnWay');
+      String bodyParams = json.encode(orden);
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.put(url, headers: headers, body: bodyParams);
+
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Sesion expirada');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
 }

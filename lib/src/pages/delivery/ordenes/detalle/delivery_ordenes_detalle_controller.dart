@@ -40,20 +40,26 @@ class DeliveryOrdenesDetalleController {
   }
 
   void updateOrden() async {
-    if (idDelivery != null) {
-      orden.idDelivery = idDelivery;
-      ResponseApi responseApi =
-          await _orderProvider.updateToTheDispatched(orden);
+    ResponseApi responseApi = await _orderProvider.updateToOntheWay(orden);
+    Fluttertoast.showToast(msg: responseApi.message);
 
-      if (responseApi.success) {
-        Fluttertoast.showToast(msg: responseApi.message);
-        Navigator.pop(context, true);
-        refresh();
-      }
-    } else {
-      Fluttertoast.showToast(msg: 'Selecciona el repartidor');
+    if (responseApi.success) {
+      Navigator.pushNamed(
+        context,
+        'delivery/ordenes/mapa',
+        arguments: orden.toJson(),
+      );
       refresh();
     }
+  }
+
+  void irAMapa() async {
+    Navigator.pushNamed(
+      context,
+      'delivery/ordenes/mapa',
+      arguments: orden.toJson(),
+    );
+    refresh();
   }
 
   void getUsers() async {

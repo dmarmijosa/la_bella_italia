@@ -6,7 +6,7 @@ import 'package:la_bella_italia/src/models/producto.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/detalle/restaurante_ordenes_detalle_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
-import 'package:la_bella_italia/src/utils/my_snackbar.dart';
+
 import 'package:la_bella_italia/src/utils/relative_time_util.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
 
@@ -49,32 +49,33 @@ class _RestauranteOrdenesDetallePageState
                   indent: 30,
                 ),
                 _txtRepartidor(),
-                _crodc.orden.status != 'CREADA' ? _deliveryData() : Container(),
-                _crodc.orden.status == 'CREADA'
+                _crodc.orden?.status != 'CREADA'
+                    ? _deliveryData()
+                    : Container(),
+                _crodc.orden?.status == 'CREADA'
                     ? _dropDown(_crodc.users)
                     : Container(),
-                _txtNombreClienteLlamar(
-                    'Cliente : ',
-                    '${_crodc.orden.client?.name ?? ''} ${_crodc.orden.client?.lastname ?? ''}',
-                    '${_crodc.orden.client?.phone ?? ''}'),
+                _txtNombreClienteLlamar('Cliente : ',
+                    '${_crodc.orden?.client?.name ?? ''} ${_crodc.orden?.client?.lastname ?? ''}'),
                 _txtDatosCliente('Entregar en : ',
-                    '${_crodc.orden.address?.address ?? ''} '),
+                    '${_crodc.orden?.address?.address ?? ''} '),
                 _txtDatosCliente('Creada : ',
-                    '${RelativeTimeUtil.getRelativeTime(_crodc.orden.timestamp) ?? ''} '),
+                    '${RelativeTimeUtil.getRelativeTime(_crodc.orden?.timestamp ?? 0) ?? ''} '),
                 _txtPRecioTotal(),
-                _crodc.orden.status == 'CREADA'
+                _crodc.orden?.status == 'CREADA'
                     ? _btnDespacharOrden()
                     : Container(),
               ],
             ),
           )),
-      body: _crodc.orden.products.length > 0
+      // ignore: null_aware_before_operator
+      body: (_crodc.orden?.products?.length ?? 0) > 0
           ? ListView(
-              children: _crodc.orden.products.map(
+              children: _crodc.orden?.products?.map(
                 (Producto producto) {
                   return _tarjetaProducto(producto);
                 },
-              ).toList(),
+              )?.toList(),
             )
           : NoDataWidget(
               texto: 'Ningun producto agregado',
@@ -87,7 +88,7 @@ class _RestauranteOrdenesDetallePageState
       alignment: Alignment.topLeft,
       margin: EdgeInsets.only(left: 30),
       child: Text(
-        _crodc.orden.status == 'CREADA'
+        _crodc.orden?.status == 'CREADA'
             ? 'Asignar repartidor: '
             : 'Repartidor asignado: ',
         style: TextStyle(
@@ -160,8 +161,8 @@ class _RestauranteOrdenesDetallePageState
               placeholder: AssetImage('assets/img/no-image.png'),
               fit: BoxFit.cover,
               fadeInDuration: Duration(milliseconds: 50),
-              image: _crodc.orden.delivery?.image != null
-                  ? NetworkImage(_crodc.orden.delivery?.image)
+              image: _crodc.orden?.delivery?.image != null
+                  ? NetworkImage(_crodc.orden?.delivery?.image)
                   : AssetImage('assets/img/no-image.png'),
             ),
           ),
@@ -169,7 +170,24 @@ class _RestauranteOrdenesDetallePageState
             width: 20,
           ),
           Text(
-              '${_crodc.orden.delivery?.name} ${_crodc.orden.delivery?.lastname}'),
+              '${_crodc.orden?.delivery?.name} ${_crodc.orden?.delivery?.lastname}'),
+          Spacer(),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.grey,
+            ),
+            child: IconButton(
+              onPressed: () {
+                print(_crodc.orden?.delivery?.phone);
+                _crodc.llamarTelefono(_crodc.orden?.delivery?.phone);
+              },
+              icon: Icon(
+                Icons.phone,
+                color: Colors.white,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -211,23 +229,36 @@ class _RestauranteOrdenesDetallePageState
     return list;
   }
 
-  Widget _txtNombreClienteLlamar(
-      String titulo, String contenido, String numero) {
-    return GestureDetector(
-      onTap: () {
-        if (_crodc.orden.status == 'CREADA') {
-          _crodc.llamarCliente();
-        }
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: ListTile(
-          title: Text(titulo),
-          subtitle: Text(
-            contenido,
-            maxLines: 2,
+  Widget _txtNombreClienteLlamar(String titulo, String contenido) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        children: [
+          Flexible(
+            child: ListTile(
+              title: Text(titulo),
+              subtitle: Text(
+                contenido,
+                maxLines: 2,
+              ),
+            ),
           ),
-        ),
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.grey,
+            ),
+            child: IconButton(
+              onPressed: () {
+                _crodc.llamarTelefono(_crodc.orden?.client?.phone);
+              },
+              icon: Icon(
+                Icons.phone,
+                color: Colors.white,
+              ),
+            ),
+          )
+        ],
       ),
     );
   }

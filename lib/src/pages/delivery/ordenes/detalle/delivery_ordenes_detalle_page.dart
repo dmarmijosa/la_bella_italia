@@ -49,24 +49,24 @@ class _DeliveryOrdenesDetallePageState
                 ),
                 _txtNombreClienteLlamar(
                     'Cliente : ',
-                    '${_crodc.orden.client?.name ?? ''} ${_crodc.orden.client?.lastname ?? ''}',
-                    '${_crodc.orden.client?.phone ?? ''}'),
+                    '${_crodc.orden?.client?.name ?? ''} ${_crodc.orden?.client?.lastname ?? ''}',
+                    '${_crodc.orden?.client?.phone ?? ''}'),
                 _txtDatosCliente('Entregar en : ',
-                    '${_crodc.orden.address?.address ?? ''} '),
+                    '${_crodc.orden?.address?.address ?? ''} '),
                 _txtDatosCliente('Creada : ',
-                    '${RelativeTimeUtil.getRelativeTime(_crodc.orden.timestamp) ?? ''} '),
+                    '${RelativeTimeUtil.getRelativeTime(_crodc.orden?.timestamp ?? 0) ?? ''} '),
                 _txtPRecioTotal(),
                 _btnDespacharOrden(),
               ],
             ),
           )),
-      body: _crodc.orden.products.length > 0
+      body: (_crodc.orden?.products?.length ?? 0) > 0
           ? ListView(
-              children: _crodc.orden.products.map(
+              children: _crodc.orden?.products?.map(
                 (Producto producto) {
                   return _tarjetaProducto(producto);
                 },
-              ).toList(),
+              )?.toList(),
             )
           : NoDataWidget(
               texto: 'Ningun producto agregado',
@@ -116,7 +116,12 @@ class _DeliveryOrdenesDetallePageState
         top: 20,
       ),
       child: ElevatedButton(
-        onPressed: _crodc.updateOrden,
+        //_crodc.updateOrden
+        onPressed: () {
+          _crodc.orden.status == 'DESPACHADA'
+              ? _crodc.updateOrden()
+              : _crodc.irAMapa();
+        },
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -130,7 +135,9 @@ class _DeliveryOrdenesDetallePageState
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  'INCIAR ENTREGA',
+                  _crodc.orden?.status == 'DESPACHADA'
+                      ? 'INCIAR ENTREGA'
+                      : 'VER MAPA',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -143,7 +150,9 @@ class _DeliveryOrdenesDetallePageState
               child: Container(
                 margin: EdgeInsets.only(left: 20, top: 10),
                 height: 20,
-                child: Icon(Icons.delivery_dining),
+                child: _crodc.orden?.status == 'DESPACHADA'
+                    ? Icon(Icons.delivery_dining)
+                    : Icon(Icons.location_on),
               ),
             ),
           ],

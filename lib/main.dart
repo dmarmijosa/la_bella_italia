@@ -9,6 +9,7 @@ import 'package:la_bella_italia/src/pages/cliente/direcciones/mapa/cliente_direc
 import 'package:la_bella_italia/src/pages/cliente/ordenes/crear/cliente_ordenes_crear_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_page.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/lista/delivery_ordenes_lista_page.dart';
+import 'package:la_bella_italia/src/pages/delivery/ordenes/mapa/delivery_ordenes_mapa_page.dart';
 import 'package:la_bella_italia/src/pages/login/login_page.dart';
 import 'package:la_bella_italia/src/pages/login/recuperarCuenta/recuperar_cuenta_page.dart';
 import 'package:la_bella_italia/src/pages/registro/registro_page.dart';
@@ -49,6 +50,8 @@ class MyApp extends StatelessWidget {
             ClienteDireccionesMapaPage(),
         'delivery/ordenes/lista': (BuildContext context) =>
             DeliveryOrdenesListaPage(),
+        'delivery/ordenes/mapa': (BuildContext context) =>
+            DeliveryOrdenesMapaPage(),
         'restaurante/ordenes/lista': (BuildContext context) =>
             RestauranteOrdenesListaPage(),
         'restaurante/categorias/crear': (BuildContext context) =>
