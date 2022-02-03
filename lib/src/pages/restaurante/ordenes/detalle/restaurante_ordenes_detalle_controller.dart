@@ -19,6 +19,7 @@ class RestauranteOrdenesDetalleController {
   OrderProvider _orderProvider = new OrderProvider();
 
   double total = 0;
+  String estado;
 
   User user;
   bool estadoRestaurante;
@@ -26,6 +27,7 @@ class RestauranteOrdenesDetalleController {
   Orden orden;
   List<User> users = [];
   String idDelivery;
+  List<String> status = ['DESPACHADA', 'EN CAMINO', 'ENTREGADA', 'CANCELADA'];
 
   Future init(BuildContext context, Function refresh, Orden orden) async {
     this.context = context;
@@ -52,6 +54,49 @@ class RestauranteOrdenesDetalleController {
       }
     } else {
       Fluttertoast.showToast(msg: 'Selecciona el repartidor');
+      refresh();
+    }
+  }
+
+  void updateToTheDispatchedBack() async {
+    ResponseApi responseApi =
+        await _orderProvider.updateToTheDispatchedBack(orden);
+    if (responseApi.success) {
+      Fluttertoast.showToast(msg: responseApi.message);
+      Navigator.pop(context, true);
+      refresh();
+    }
+  }
+
+  void updateOrdenToOnWay() async {
+    orden.idDelivery = idDelivery;
+    ResponseApi responseApi = await _orderProvider.updateToOntheWay(orden);
+
+    if (responseApi.success) {
+      Fluttertoast.showToast(msg: responseApi.message);
+      Navigator.pop(context, true);
+      refresh();
+    }
+  }
+
+  void updateOrdenToDelivered() async {
+    orden.idDelivery = idDelivery;
+    ResponseApi responseApi = await _orderProvider.updateToDelivered(orden);
+
+    if (responseApi.success) {
+      Fluttertoast.showToast(msg: responseApi.message);
+      Navigator.pop(context, true);
+      refresh();
+    }
+  }
+
+  void updateOrdenToCancel() async {
+    orden.idDelivery = idDelivery;
+    ResponseApi responseApi = await _orderProvider.updateToCancel(orden);
+
+    if (responseApi.success) {
+      Fluttertoast.showToast(msg: responseApi.message);
+      Navigator.pop(context, true);
       refresh();
     }
   }

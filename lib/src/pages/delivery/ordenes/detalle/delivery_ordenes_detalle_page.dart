@@ -3,8 +3,7 @@ import 'package:flutter/scheduler.dart';
 
 import 'package:la_bella_italia/src/models/orden.dart';
 import 'package:la_bella_italia/src/models/producto.dart';
-import 'package:la_bella_italia/src/models/user.dart';
-import 'package:la_bella_italia/src/utils/my_colors.dart';
+
 import 'package:la_bella_italia/src/pages/delivery/ordenes/detalle/delivery_ordenes_detalle_controller.dart';
 import 'package:la_bella_italia/src/utils/relative_time_util.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
@@ -21,13 +20,13 @@ class DeliveryOrdenesDetallePage extends StatefulWidget {
 
 class _DeliveryOrdenesDetallePageState
     extends State<DeliveryOrdenesDetallePage> {
-  DeliveryOrdenesDetalleController _crodc =
+  DeliveryOrdenesDetalleController _obj =
       new DeliveryOrdenesDetalleController();
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _crodc.init(context, refresh, widget.orden);
+      _obj.init(context, refresh, widget.orden);
     });
   }
 
@@ -35,7 +34,7 @@ class _DeliveryOrdenesDetallePageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ORDEN #${_crodc.orden?.id ?? ''} '),
+        title: Text('ORDEN #${_obj.orden?.id ?? ''} '),
       ),
       bottomNavigationBar: Container(
           height: MediaQuery.of(context).size.height * 0.45,
@@ -49,20 +48,22 @@ class _DeliveryOrdenesDetallePageState
                 ),
                 _txtNombreClienteLlamar(
                     'Cliente : ',
-                    '${_crodc.orden?.client?.name ?? ''} ${_crodc.orden?.client?.lastname ?? ''}',
-                    '${_crodc.orden?.client?.phone ?? ''}'),
-                _txtDatosCliente('Entregar en : ',
-                    '${_crodc.orden?.address?.address ?? ''} '),
+                    '${_obj.orden?.client?.name ?? ''} ${_obj.orden?.client?.lastname ?? ''}',
+                    '${_obj.orden?.client?.phone ?? ''}'),
+                _txtDatosCliente(
+                    'Entregar en : ', '${_obj.orden?.address?.address ?? ''} '),
                 _txtDatosCliente('Creada : ',
-                    '${RelativeTimeUtil.getRelativeTime(_crodc.orden?.timestamp ?? 0) ?? ''} '),
+                    '${RelativeTimeUtil.getRelativeTime(_obj.orden?.timestamp ?? 0) ?? ''} '),
                 _txtPRecioTotal(),
-                _btnDespacharOrden(),
+                _obj.orden?.status != 'ENTREGADA'
+                    ? _btnDespacharOrden()
+                    : Container(),
               ],
             ),
           )),
-      body: (_crodc.orden?.products?.length ?? 0) > 0
+      body: (_obj.orden?.products?.length ?? 0) > 0
           ? ListView(
-              children: _crodc.orden?.products?.map(
+              children: _obj.orden?.products?.map(
                 (Producto producto) {
                   return _tarjetaProducto(producto);
                 },
@@ -78,8 +79,8 @@ class _DeliveryOrdenesDetallePageState
       String titulo, String contenido, String numero) {
     return GestureDetector(
       onTap: () {
-        if (_crodc.orden.status == 'CREADA') {
-          _crodc.llamarCliente();
+        if (_obj.orden.status == 'CREADA') {
+          _obj.llamarCliente();
         }
       },
       child: Container(
@@ -118,9 +119,9 @@ class _DeliveryOrdenesDetallePageState
       child: ElevatedButton(
         //_crodc.updateOrden
         onPressed: () {
-          _crodc.orden.status == 'DESPACHADA'
-              ? _crodc.updateOrden()
-              : _crodc.irAMapa();
+          _obj.orden.status == 'DESPACHADA'
+              ? _obj.updateOrden()
+              : _obj.irAMapa();
         },
         style: ElevatedButton.styleFrom(
           shape:
@@ -135,7 +136,7 @@ class _DeliveryOrdenesDetallePageState
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  _crodc.orden?.status == 'DESPACHADA'
+                  _obj.orden?.status == 'DESPACHADA'
                       ? 'INCIAR ENTREGA'
                       : 'VER MAPA',
                   style: TextStyle(
@@ -150,7 +151,7 @@ class _DeliveryOrdenesDetallePageState
               child: Container(
                 margin: EdgeInsets.only(left: 20, top: 10),
                 height: 20,
-                child: _crodc.orden?.status == 'DESPACHADA'
+                child: _obj.orden?.status == 'DESPACHADA'
                     ? Icon(Icons.delivery_dining)
                     : Icon(Icons.location_on),
               ),
@@ -227,7 +228,7 @@ class _DeliveryOrdenesDetallePageState
             ),
           ),
           Text(
-            '${_crodc.total}\€',
+            '${_obj.total}\€',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,

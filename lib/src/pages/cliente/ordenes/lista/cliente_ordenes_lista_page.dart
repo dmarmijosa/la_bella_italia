@@ -3,23 +3,23 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:la_bella_italia/src/models/orden.dart';
-import 'package:la_bella_italia/src/pages/delivery/ordenes/lista/delivery_ordenes_lista_controller.dart';
+import 'package:la_bella_italia/src/pages/cliente/ordenes/lista/cliente_ordenes_lista_controller.dart';
 
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
 import 'package:la_bella_italia/src/utils/relative_time_util.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
 
-class DeliveryOrdenesListaPage extends StatefulWidget {
-  const DeliveryOrdenesListaPage({key}) : super(key: key);
+class ClienteOrdenesListaPage extends StatefulWidget {
+  const ClienteOrdenesListaPage({key}) : super(key: key);
 
   @override
-  _DeliveryOrdenesListaPageState createState() =>
-      _DeliveryOrdenesListaPageState();
+  _ClienteOrdenesListaPageState createState() =>
+      _ClienteOrdenesListaPageState();
 }
 
-class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
-  DeliveryOrdenesListaController _obj = new DeliveryOrdenesListaController();
+class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
+  ClienteOrdenesListaController _obj = new ClienteOrdenesListaController();
 
   @override
   // ignore: must_call_super

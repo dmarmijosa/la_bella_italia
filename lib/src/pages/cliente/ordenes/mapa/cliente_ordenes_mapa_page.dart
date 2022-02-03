@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/pages/delivery/ordenes/mapa/delivery_ordenes_mapa_controller.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:la_bella_italia/src/pages/cliente/ordenes/mapa/cliente_ordenes_mapa_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-class DeliveryOrdenesMapaPage extends StatefulWidget {
-  const DeliveryOrdenesMapaPage({key}) : super(key: key);
+class ClienteOrdenesMapaPage extends StatefulWidget {
+  const ClienteOrdenesMapaPage({key}) : super(key: key);
 
   @override
-  _DeliveryOrdenesMapaPageState createState() =>
-      _DeliveryOrdenesMapaPageState();
+  _ClienteOrdenesMapaPageState createState() => _ClienteOrdenesMapaPageState();
 }
 
-class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
-  DeliveryOrdenesMapaController _obj = new DeliveryOrdenesMapaController();
+class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
+  ClienteOrdenesMapaController _obj = new ClienteOrdenesMapaController();
 
   @override
   void initState() {

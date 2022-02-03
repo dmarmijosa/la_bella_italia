@@ -16,15 +16,14 @@ class RestauranteProductosCrearPage extends StatefulWidget {
 
 class _RestauranteProductosCrearPageState
     extends State<RestauranteProductosCrearPage> {
-  RestauranteProductoCrearController _crpcc =
+  RestauranteProductoCrearController _obj =
       new RestauranteProductoCrearController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _crpcc.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -46,13 +45,13 @@ class _RestauranteProductosCrearPageState
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _tarjetaImagen(_crpcc.imageFile1, 1),
-                _tarjetaImagen(_crpcc.imageFile2, 2),
-                _tarjetaImagen(_crpcc.imageFile3, 3),
+                _tarjetaImagen(_obj.imageFile1, 1),
+                _tarjetaImagen(_obj.imageFile2, 2),
+                _tarjetaImagen(_obj.imageFile3, 3),
               ],
             ),
           ),
-          _dropDownCategories(_crpcc.categorias),
+          _dropDownCategories(_obj.categorias),
           _btnCrear(),
         ],
       ),
@@ -67,7 +66,7 @@ class _RestauranteProductosCrearPageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _crpcc.nombreController,
+        controller: _obj.nombreController,
         maxLines: 1,
         maxLength: 180,
         decoration: InputDecoration(
@@ -91,7 +90,7 @@ class _RestauranteProductosCrearPageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _crpcc.precioController,
+        controller: _obj.precioController,
         keyboardType: TextInputType.phone,
         maxLines: 1,
         decoration: InputDecoration(
@@ -148,11 +147,11 @@ class _RestauranteProductosCrearPageState
                     style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
                   items: _dropDownItems(categories),
-                  value: _crpcc.idCategory,
+                  value: _obj.idCategory,
                   onChanged: (option) {
                     setState(() {
                       print('Categoria seleccionda $option');
-                      _crpcc.idCategory =
+                      _obj.idCategory =
                           option; // ESTABLECIENDO EL VALOR SELECCIONADO
                     });
                   },
@@ -185,7 +184,7 @@ class _RestauranteProductosCrearPageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _crpcc.descripcionController,
+        controller: _obj.descripcionController,
         maxLines: 3,
         maxLength: 255,
         decoration: InputDecoration(
@@ -205,7 +204,7 @@ class _RestauranteProductosCrearPageState
   Widget _tarjetaImagen(File imageFile, int numberFile) {
     return GestureDetector(
       onTap: () {
-        _crpcc.showAlertDialog(numberFile);
+        _obj.showAlertDialog(numberFile);
       },
       child: imageFile != null
           ? Card(
@@ -238,7 +237,7 @@ class _RestauranteProductosCrearPageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: _crpcc.createProduct,
+        onPressed: _obj.createProduct,
         child: Text('Crear producto'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,

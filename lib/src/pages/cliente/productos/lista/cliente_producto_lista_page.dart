@@ -16,12 +16,13 @@ class ClienteProductoListaPage extends StatefulWidget {
 }
 
 class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
-  ClienteProductoListaController _cplc = new ClienteProductoListaController();
+  ClienteProductoListaController _obj = new ClienteProductoListaController();
 
   @override
-  void initState() {
+  // ignore: must_call_super
+  void initState() async {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _cplc.init(context, refresh);
+      _obj.init(context, refresh);
       refresh();
     });
   }
@@ -31,9 +32,9 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: DefaultTabController(
-        length: _cplc.categorias?.length,
+        length: _obj.categorias?.length,
         child: Scaffold(
-          key: _cplc.key,
+          key: _obj.key,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(170),
             child: AppBar(
@@ -56,10 +57,10 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                 unselectedLabelColor: Colors.grey[400],
                 isScrollable: true,
                 tabs: List<Widget>.generate(
-                  _cplc.categorias.length,
+                  _obj.categorias.length,
                   (index) {
                     return Tab(
-                      child: Text(_cplc.categorias[index].name ?? ''),
+                      child: Text(_obj.categorias[index].name ?? ''),
                     );
                   },
                 ),
@@ -68,10 +69,10 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
           ),
           drawer: _drawer(),
           body: TabBarView(
-            children: _cplc.categorias.map(
+            children: _obj.categorias.map(
               (Categoria categoria) {
                 return FutureBuilder(
-                  future: _cplc.obtenerProductos(categoria.id),
+                  future: _obj.obtenerProductos(categoria.id),
                   builder: (context, AsyncSnapshot<List<Producto>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
@@ -111,7 +112,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
   Widget _tarjetaProducto(Producto producto) {
     return GestureDetector(
       onTap: () {
-        _cplc.mostrarSheet(producto);
+        _obj.mostrarSheet(producto);
       },
       child: Container(
         height: 250,
@@ -194,7 +195,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
         Container(
             margin: EdgeInsets.only(right: 5, top: 5),
             child: IconButton(
-              onPressed: _cplc.irACrearOrdenPage,
+              onPressed: _obj.irACrearOrdenPage,
               icon: Icon(
                 Icons.shopping_bag_outlined,
                 color: Colors.black,
@@ -245,7 +246,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
 
   Widget _menuDraver() {
     return GestureDetector(
-      onTap: _cplc.openDrawer,
+      onTap: _obj.openDrawer,
       child: Container(
         margin: EdgeInsets.only(left: 20),
         alignment: Alignment.centerLeft,
@@ -271,8 +272,8 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                   height: 60,
                   margin: EdgeInsets.only(top: 10, bottom: 4),
                   child: FadeInImage(
-                    image: _cplc.user?.image != null
-                        ? NetworkImage(_cplc.user.image)
+                    image: _obj.user?.image != null
+                        ? NetworkImage(_obj.user.image)
                         : AssetImage('assets/img/no-image.png'),
                     fit: BoxFit.contain,
                     fadeInDuration: Duration(milliseconds: 50),
@@ -280,7 +281,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                   ),
                 ),
                 Text(
-                  '${_cplc.user?.name ?? ' '} ${_cplc.user?.lastname ?? ' '} ',
+                  '${_obj.user?.name ?? ' '} ${_obj.user?.lastname ?? ' '} ',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
@@ -289,7 +290,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                   maxLines: 1,
                 ),
                 Text(
-                  '${_cplc.user?.email ?? ''}',
+                  '${_obj.user?.email ?? ''}',
                   style: TextStyle(
                       fontSize: 13,
                       color: Colors.white,
@@ -298,7 +299,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                   maxLines: 1,
                 ),
                 Text(
-                  '${_cplc.user?.phone ?? ''}',
+                  '${_obj.user?.phone ?? ''}',
                   style: TextStyle(
                       fontSize: 13,
                       color: Colors.white,
@@ -310,7 +311,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             ),
           ),
           ListTile(
-            onTap: _cplc.editarPerfil,
+            onTap: _obj.editarPerfil,
             title: Text('Editar perfil'),
             trailing: Icon(
               Icons.edit,
@@ -318,7 +319,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             ),
           ),
           ListTile(
-            onTap: _cplc.irACrearOrdenPage,
+            onTap: _obj.irACrearOrdenPage,
             title: Text('Mis pedidos'),
             trailing: Icon(
               Icons.shopping_bag,
@@ -326,18 +327,18 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             ),
           ),
           ListTile(
-            onTap: _cplc.irAEliminarDirecciones,
+            onTap: _obj.irAEliminarDirecciones,
             title: Text('Mis direcciones'),
             trailing: Icon(
               Icons.my_location_sharp,
               color: Colors.black,
             ),
           ),
-          _cplc.user != null
-              ? _cplc.user.roles.length > 1
+          _obj.user != null
+              ? _obj.user.roles.length > 1
                   ? ListTile(
                       title: Text('Cambiar de rol'),
-                      onTap: _cplc.cambiarROl,
+                      onTap: _obj.cambiarROl,
                       trailing: Icon(
                         Icons.sync,
                         color: Colors.black,
@@ -346,7 +347,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                   : Container()
               : Container(),
           ListTile(
-            onTap: _cplc.logout,
+            onTap: _obj.logout,
             title: Text('Cerrar sesión'),
             trailing: Icon(
               Icons.login_rounded,

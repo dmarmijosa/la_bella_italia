@@ -13,14 +13,14 @@ class ClienteDireccionesCrearPage extends StatefulWidget {
 
 class _ClienteDireccionesCrearPageState
     extends State<ClienteDireccionesCrearPage> {
-  ClienteDireccionesCrerController _ccdec =
+  ClienteDireccionesCrerController _obj =
       new ClienteDireccionesCrerController();
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ccdec.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -57,8 +57,8 @@ class _ClienteDireccionesCrearPageState
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: TextField(
-        controller: _ccdec.refPuntoController,
-        onTap: _ccdec.abrirMapa,
+        controller: _obj.refPuntoController,
+        onTap: _obj.abrirMapa,
         autofocus: false,
         focusNode: AlwaysDisabledFocused(),
         decoration: InputDecoration(
@@ -76,7 +76,7 @@ class _ClienteDireccionesCrearPageState
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: TextField(
-        controller: _ccdec.puebloController,
+        controller: _obj.puebloController,
         decoration: InputDecoration(
           labelText: 'Pueblo',
           suffixIcon: Icon(
@@ -92,7 +92,7 @@ class _ClienteDireccionesCrearPageState
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextField(
-        controller: _ccdec.direccionController,
+        controller: _obj.direccionController,
         decoration: InputDecoration(
           labelText: 'Dirección',
           suffixIcon: Icon(
@@ -124,7 +124,7 @@ class _ClienteDireccionesCrearPageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
       child: ElevatedButton(
-        onPressed: _ccdec.crearDireccion,
+        onPressed: _obj.crearDireccion,
         child: Text('AGREGAR DIRECCIÓN'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

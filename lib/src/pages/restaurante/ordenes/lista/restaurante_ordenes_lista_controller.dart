@@ -21,7 +21,13 @@ class RestauranteOrdenesListaController {
   bool estado = false;
   bool abiertoOCerrado = true;
 
-  List<String> status = ['CREADA', 'DESPACHADA', 'EN CAMINO', 'ENTREGADA'];
+  List<String> status = [
+    'CREADA',
+    'DESPACHADA',
+    'EN CAMINO',
+    'ENTREGADA',
+    'CANCELADA'
+  ];
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;

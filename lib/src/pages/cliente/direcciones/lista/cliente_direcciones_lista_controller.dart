@@ -52,7 +52,7 @@ class ClienteDireccionesListaController {
     _sharedPref.save('address', direcciones[value]);
 
     refresh();
-    print('Valor seleccionado ${radioValue}');
+    print('Valor seleccionado $radioValue');
   }
 
   Future<List<Direccion>> getDirecciones() async {

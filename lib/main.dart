@@ -59,7 +59,9 @@ class MyApp extends StatelessWidget {
         'restaurante/producto/crear': (BuildContext context) =>
             RestauranteProductosCrearPage(),
         'restaurante/ordenes/detalle': (BuildContext context) =>
-            RestauranteOrdenesDetallePage(),
+            RestauranteOrdenesDetallePage(
+              orden: null,
+            ),
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,

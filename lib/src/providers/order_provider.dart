@@ -16,7 +16,7 @@ class OrderProvider {
   BuildContext context;
   User sessionUser;
 
-  Future init(BuildContext context, User sessionUser) {
+  Future init(BuildContext context, User sessionUser) async {
     this.context = context;
     this.sessionUser = sessionUser;
   }
@@ -45,11 +45,11 @@ class OrderProvider {
   }
 
   Future<List<Orden>> getByDeliveryAndStatus(
-      String id_delivery, String status) async {
+      String idDelivery, String status) async {
     try {
       print('SESION TOKEN: ${sessionUser.sessionToken}');
       Uri url =
-          Uri.http(_url, '$_api/findByDeliveryAndStatus/$id_delivery/$status');
+          Uri.http(_url, '$_api/findByDeliveryAndStatus/$idDelivery/$status');
       Map<String, String> headers = {
         'Content-type': 'application/json',
         'Authorization': sessionUser.sessionToken
@@ -120,6 +120,78 @@ class OrderProvider {
   Future<ResponseApi> updateToOntheWay(Orden orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToOnWay');
+      String bodyParams = json.encode(orden);
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.put(url, headers: headers, body: bodyParams);
+
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Sesion expirada');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
+  Future<ResponseApi> updateToDelivered(Orden orden) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/updateToDelivered');
+      String bodyParams = json.encode(orden);
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.put(url, headers: headers, body: bodyParams);
+
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Sesion expirada');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
+  Future<ResponseApi> updateToCancel(Orden orden) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/updateToCancel');
+      String bodyParams = json.encode(orden);
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.put(url, headers: headers, body: bodyParams);
+
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Sesion expirada');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
+  Future<ResponseApi> updateToTheDispatchedBack(Orden orden) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/updateToDispathedBack');
       String bodyParams = json.encode(orden);
       Map<String, String> headers = {
         'Content-type': 'application/json',

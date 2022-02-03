@@ -14,14 +14,14 @@ class ClienteDireccionesMapaPage extends StatefulWidget {
 
 class _ClienteDireccionesMapaPageState
     extends State<ClienteDireccionesMapaPage> {
-  ClienteDireccionesMapaController _ccdmc =
+  ClienteDireccionesMapaController _obj =
       new ClienteDireccionesMapaController();
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ccdmc.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -58,7 +58,7 @@ class _ClienteDireccionesMapaPageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 70),
       child: ElevatedButton(
-        onPressed: _ccdmc.selectRefPunto,
+        onPressed: _obj.selectRefPunto,
         child: Text('SELECCIONAR DIRECCIÓN'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -87,7 +87,7 @@ class _ClienteDireccionesMapaPageState
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Text(
-            _ccdmc.addressName ?? '',
+            _obj.addressName ?? '',
             style: TextStyle(
                 color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
           ),
@@ -99,15 +99,15 @@ class _ClienteDireccionesMapaPageState
   Widget _mapaGoogle() {
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: _ccdmc.posicionIncial,
-      onMapCreated: _ccdmc.onMapCrear,
+      initialCameraPosition: _obj.posicionIncial,
+      onMapCreated: _obj.onMapCrear,
       myLocationButtonEnabled: false,
       myLocationEnabled: false,
       onCameraMove: (position) {
-        _ccdmc.posicionIncial = position;
+        _obj.posicionIncial = position;
       },
       onCameraIdle: () async {
-        await _ccdmc.SetLocalizacionInfo();
+        await _obj.setLocalizacionInfo();
       },
     );
   }

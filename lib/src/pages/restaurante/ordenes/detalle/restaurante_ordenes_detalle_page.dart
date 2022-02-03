@@ -22,13 +22,13 @@ class RestauranteOrdenesDetallePage extends StatefulWidget {
 
 class _RestauranteOrdenesDetallePageState
     extends State<RestauranteOrdenesDetallePage> {
-  RestauranteOrdenesDetalleController _crodc =
+  RestauranteOrdenesDetalleController _obj =
       new RestauranteOrdenesDetalleController();
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _crodc.init(context, refresh, widget.orden);
+      _obj.init(context, refresh, widget.orden);
     });
   }
 
@@ -36,7 +36,7 @@ class _RestauranteOrdenesDetallePageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ORDEN #${_crodc.orden?.id ?? ''} '),
+        title: Text('ORDEN #${_obj.orden?.id ?? ''} '),
       ),
       bottomNavigationBar: Container(
           height: MediaQuery.of(context).size.height * 0.5,
@@ -49,29 +49,38 @@ class _RestauranteOrdenesDetallePageState
                   indent: 30,
                 ),
                 _txtRepartidor(),
-                _crodc.orden?.status != 'CREADA'
+                (_obj.orden?.status == 'EN CAMINO' ||
+                        _obj.orden?.status == 'DESPACHADA')
+                    ? _dropDownStatu(_obj.status)
+                    : Container(),
+                (_obj.orden?.status != 'CREADA' &&
+                        _obj.orden?.status != 'CANCELADA')
                     ? _deliveryData()
                     : Container(),
-                _crodc.orden?.status == 'CREADA'
-                    ? _dropDown(_crodc.users)
+                _obj.orden?.status == 'CREADA'
+                    ? _dropDown(_obj.users)
                     : Container(),
                 _txtNombreClienteLlamar('Cliente : ',
-                    '${_crodc.orden?.client?.name ?? ''} ${_crodc.orden?.client?.lastname ?? ''}'),
-                _txtDatosCliente('Entregar en : ',
-                    '${_crodc.orden?.address?.address ?? ''} '),
+                    '${_obj.orden?.client?.name ?? ''} ${_obj.orden?.client?.lastname ?? ''}'),
+                _txtDatosCliente(
+                    'Entregar en : ', '${_obj.orden?.address?.address ?? ''} '),
                 _txtDatosCliente('Creada : ',
-                    '${RelativeTimeUtil.getRelativeTime(_crodc.orden?.timestamp ?? 0) ?? ''} '),
+                    '${RelativeTimeUtil.getRelativeTime(_obj.orden?.timestamp ?? 0) ?? ''} '),
                 _txtPRecioTotal(),
-                _crodc.orden?.status == 'CREADA'
+                _obj.orden?.status == 'CREADA'
                     ? _btnDespacharOrden()
+                    : Container(),
+                (_obj.orden?.status == 'EN CAMINO' ||
+                        _obj.orden?.status == 'DESPACHADA')
+                    ? _btnCambioDeEstado()
                     : Container(),
               ],
             ),
           )),
       // ignore: null_aware_before_operator
-      body: (_crodc.orden?.products?.length ?? 0) > 0
+      body: (_obj.orden?.products?.length ?? 0) > 0
           ? ListView(
-              children: _crodc.orden?.products?.map(
+              children: _obj.orden?.products?.map(
                 (Producto producto) {
                   return _tarjetaProducto(producto);
                 },
@@ -88,7 +97,7 @@ class _RestauranteOrdenesDetallePageState
       alignment: Alignment.topLeft,
       margin: EdgeInsets.only(left: 30),
       child: Text(
-        _crodc.orden?.status == 'CREADA'
+        _obj.orden?.status == 'CREADA'
             ? 'Asignar repartidor: '
             : 'Repartidor asignado: ',
         style: TextStyle(
@@ -96,6 +105,49 @@ class _RestauranteOrdenesDetallePageState
           fontStyle: FontStyle.italic,
           fontWeight: FontWeight.bold,
           fontSize: 15,
+        ),
+      ),
+    );
+  }
+
+  Widget _dropDownStatu(List<String> status) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+      child: Material(
+        elevation: 2.0,
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        child: Container(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: DropdownButton(
+                  underline: Container(
+                    alignment: Alignment.centerRight,
+                    child: Icon(
+                      Icons.arrow_drop_down_circle,
+                      color: MyColors.primaryColor,
+                    ),
+                  ),
+                  elevation: 3,
+                  isExpanded: true,
+                  hint: Text(
+                    'Seleccione estado',
+                    style: TextStyle(color: Colors.grey, fontSize: 16),
+                  ),
+                  items: _dropDownStatus(status),
+                  value: _obj.estado,
+                  onChanged: (option) {
+                    setState(() {
+                      print('Repartidor seleccionda $option');
+                      _obj.estado = option;
+                    });
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -128,11 +180,11 @@ class _RestauranteOrdenesDetallePageState
                     style: TextStyle(color: Colors.grey, fontSize: 16),
                   ),
                   items: _dropDownItems(usuarios),
-                  value: _crodc.idDelivery,
+                  value: _obj.idDelivery,
                   onChanged: (option) {
                     setState(() {
                       print('Repartidor seleccionda $option');
-                      _crodc.idDelivery = option;
+                      _obj.idDelivery = option;
                     });
                   },
                 ),
@@ -161,8 +213,8 @@ class _RestauranteOrdenesDetallePageState
               placeholder: AssetImage('assets/img/no-image.png'),
               fit: BoxFit.cover,
               fadeInDuration: Duration(milliseconds: 50),
-              image: _crodc.orden?.delivery?.image != null
-                  ? NetworkImage(_crodc.orden?.delivery?.image)
+              image: _obj.orden?.delivery?.image != null
+                  ? NetworkImage(_obj.orden?.delivery?.image)
                   : AssetImage('assets/img/no-image.png'),
             ),
           ),
@@ -170,7 +222,7 @@ class _RestauranteOrdenesDetallePageState
             width: 20,
           ),
           Text(
-              '${_crodc.orden?.delivery?.name} ${_crodc.orden?.delivery?.lastname}'),
+              '${_obj.orden?.delivery?.name} ${_obj.orden?.delivery?.lastname}'),
           Spacer(),
           Container(
             decoration: BoxDecoration(
@@ -179,8 +231,8 @@ class _RestauranteOrdenesDetallePageState
             ),
             child: IconButton(
               onPressed: () {
-                print(_crodc.orden?.delivery?.phone);
-                _crodc.llamarTelefono(_crodc.orden?.delivery?.phone);
+                print(_obj.orden?.delivery?.phone);
+                _obj.llamarTelefono(_obj.orden?.delivery?.phone);
               },
               icon: Icon(
                 Icons.phone,
@@ -191,6 +243,25 @@ class _RestauranteOrdenesDetallePageState
         ],
       ),
     );
+  }
+
+  List<DropdownMenuItem<String>> _dropDownStatus(List<String> status) {
+    List<DropdownMenuItem<String>> list = [];
+    status.forEach((statu) {
+      list.add(DropdownMenuItem(
+        child: Row(
+          children: [
+            SizedBox(
+              width: 20,
+            ),
+            Text(statu),
+          ],
+        ),
+        value: statu,
+      ));
+    });
+
+    return list;
   }
 
   List<DropdownMenuItem<String>> _dropDownItems(List<User> usuarios) {
@@ -250,7 +321,7 @@ class _RestauranteOrdenesDetallePageState
             ),
             child: IconButton(
               onPressed: () {
-                _crodc.llamarTelefono(_crodc.orden?.client?.phone);
+                _obj.llamarTelefono(_obj.orden?.client?.phone);
               },
               icon: Icon(
                 Icons.phone,
@@ -283,7 +354,7 @@ class _RestauranteOrdenesDetallePageState
         right: 30,
       ),
       child: ElevatedButton(
-        onPressed: _crodc.updateOrden,
+        onPressed: _obj.updateOrden,
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -298,6 +369,65 @@ class _RestauranteOrdenesDetallePageState
                 alignment: Alignment.center,
                 child: Text(
                   'DESPACHAR ORDEN.',
+                  style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Container(
+                margin: EdgeInsets.only(left: 20, top: 10),
+                height: 20,
+                child: Icon(Icons.done),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _btnCambioDeEstado() {
+    return Container(
+      margin: EdgeInsets.only(
+        left: 30,
+        right: 30,
+      ),
+      child: ElevatedButton(
+        onPressed: () {
+          if (_obj.estado == 'DESPACHADA') {
+            _obj.updateToTheDispatchedBack();
+          } else {
+            if (_obj.estado == 'EN CAMINO') {
+              _obj.updateOrdenToOnWay();
+            } else {
+              if (_obj.estado == 'ENTREGADA') {
+                _obj.updateOrdenToDelivered();
+              } else {
+                if (_obj.estado == 'CANCELADA') {
+                  _obj.updateOrdenToCancel();
+                }
+              }
+            }
+          }
+        },
+        style: ElevatedButton.styleFrom(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          primary: MyColors.primaryColor,
+        ),
+        child: Stack(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 50,
+                alignment: Alignment.center,
+                child: Text(
+                  'CAMBIO DE ESTADO.',
                   style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.bold,
@@ -385,7 +515,7 @@ class _RestauranteOrdenesDetallePageState
             ),
           ),
           Text(
-            '${_crodc.total}\€',
+            '${_obj.total}\€',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,

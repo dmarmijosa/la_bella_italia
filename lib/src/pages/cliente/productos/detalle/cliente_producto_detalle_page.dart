@@ -5,6 +5,7 @@ import 'package:la_bella_italia/src/pages/cliente/productos/detalle/cliente_prod
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
+// ignore: must_be_immutable
 class ClienteProductoDetallePage extends StatefulWidget {
   Producto producto;
 
@@ -17,14 +18,14 @@ class ClienteProductoDetallePage extends StatefulWidget {
 
 class _ClienteProductoDetallePageState
     extends State<ClienteProductoDetallePage> {
-  ClienteProductoDetalleController _ccpdc =
+  ClienteProductoDetalleController _obj =
       new ClienteProductoDetalleController();
   @override
   void initState() {
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ccpdc.init(context, refresh, widget.producto);
+      _obj.init(context, refresh, widget.producto);
     });
   }
 
@@ -64,7 +65,7 @@ class _ClienteProductoDetallePageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _ccpdc.detalleController,
+        controller: _obj.detalleController,
         keyboardType: TextInputType.name,
         maxLength: 200,
         maxLines: 1,
@@ -86,7 +87,7 @@ class _ClienteProductoDetallePageState
     return Container(
       margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
       child: ElevatedButton(
-        onPressed: _ccpdc.productosEnBolsa,
+        onPressed: _obj.productosEnBolsa,
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -127,7 +128,7 @@ class _ClienteProductoDetallePageState
       alignment: Alignment.bottomLeft,
       margin: EdgeInsets.only(right: 30, left: 30, top: 15),
       child: Text(
-        _ccpdc.producto?.description?.toUpperCase() ?? '',
+        _obj.producto?.description?.toUpperCase() ?? '',
         style: TextStyle(
           fontSize: 13,
           color: Colors.grey,
@@ -147,10 +148,10 @@ class _ClienteProductoDetallePageState
               color: Colors.grey,
               size: 30,
             ),
-            onPressed: _ccpdc.sumarItem,
+            onPressed: _obj.sumarItem,
           ),
           Text(
-            _ccpdc.cantidad.toString(),
+            _obj.cantidad.toString(),
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
@@ -163,13 +164,13 @@ class _ClienteProductoDetallePageState
               color: Colors.grey,
               size: 30,
             ),
-            onPressed: _ccpdc.restarItem,
+            onPressed: _obj.restarItem,
           ),
           Spacer(),
           Container(
             margin: EdgeInsets.only(right: 10),
             child: Text(
-              '${_ccpdc.precioProductoAgregado ?? 0} \€',
+              '${_obj.precioProductoAgregado ?? 0} \€',
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
@@ -186,7 +187,7 @@ class _ClienteProductoDetallePageState
       alignment: Alignment.bottomLeft,
       margin: EdgeInsets.only(right: 30, left: 30, top: 30),
       child: Text(
-        _ccpdc.producto?.name?.toUpperCase() ?? '',
+        _obj.producto?.name?.toUpperCase() ?? '',
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -237,24 +238,24 @@ class _ClienteProductoDetallePageState
                 placeholder: AssetImage('assets/img/pizza2.png'),
                 fit: BoxFit.contain,
                 fadeInDuration: Duration(milliseconds: 50),
-                image: _ccpdc.producto?.image1 != null
-                    ? NetworkImage(_ccpdc.producto.image1)
+                image: _obj.producto?.image1 != null
+                    ? NetworkImage(_obj.producto.image1)
                     : AssetImage('assets/img/pizza2.png'),
               ),
               FadeInImage(
                 placeholder: AssetImage('assets/img/pizza2.png'),
                 fit: BoxFit.contain,
                 fadeInDuration: Duration(milliseconds: 50),
-                image: _ccpdc.producto?.image2 != null
-                    ? NetworkImage(_ccpdc.producto.image1)
+                image: _obj.producto?.image2 != null
+                    ? NetworkImage(_obj.producto.image1)
                     : AssetImage('assets/img/no-image.png'),
               ),
               FadeInImage(
                 placeholder: AssetImage('assets/img/pizza2.png'),
                 fit: BoxFit.contain,
                 fadeInDuration: Duration(milliseconds: 50),
-                image: _ccpdc.producto?.image3 != null
-                    ? NetworkImage(_ccpdc.producto.image1)
+                image: _obj.producto?.image3 != null
+                    ? NetworkImage(_obj.producto.image1)
                     : AssetImage('assets/img/no-image.png'),
               ),
             ],
@@ -265,7 +266,7 @@ class _ClienteProductoDetallePageState
           left: 10,
           top: 5,
           child: IconButton(
-            onPressed: _ccpdc.regresarPaginaAnterior,
+            onPressed: _obj.regresarPaginaAnterior,
             icon: Icon(
               Icons.arrow_back_ios,
               color: MyColors.primaryColor,

@@ -15,14 +15,13 @@ class ClienteDireccionesEliminarPage extends StatefulWidget {
 
 class _ClienteDireccionesEliminarPageState
     extends State<ClienteDireccionesEliminarPage> {
-  ClienteDireccionesEliminarController _ccdlc =
+  ClienteDireccionesEliminarController _obj =
       new ClienteDireccionesEliminarController();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ccdlc.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -62,7 +61,7 @@ class _ClienteDireccionesEliminarPageState
 
   Widget _listaDirecciones() {
     return FutureBuilder(
-        future: _ccdlc.getDirecciones(),
+        future: _obj.getDirecciones(),
         builder: (context, AsyncSnapshot<List<Direccion>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.length > 0) {
@@ -90,8 +89,8 @@ class _ClienteDireccionesEliminarPageState
             children: [
               Radio(
                 value: index,
-                groupValue: _ccdlc.radioValue,
-                onChanged: _ccdlc.handleRadioCambio,
+                groupValue: _obj.radioValue,
+                onChanged: _obj.handleRadioCambio,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +121,7 @@ class _ClienteDireccionesEliminarPageState
     return Container(
       height: 40,
       child: ElevatedButton(
-        onPressed: _ccdlc.irACrearDireccion,
+        onPressed: _obj.irACrearDireccion,
         child: Text('Nueva dirección.'),
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
@@ -149,7 +148,7 @@ class _ClienteDireccionesEliminarPageState
               ),
               TextButton(
                 onPressed: () => {
-                  _ccdlc.eliminarDireccion(),
+                  _obj.eliminarDireccion(),
                   Navigator.pop(context, 'OK'),
                 },
                 child: const Text('Si'),
@@ -187,7 +186,7 @@ class _ClienteDireccionesEliminarPageState
         Icons.add,
         color: Colors.white,
       ),
-      onPressed: _ccdlc.irACrearDireccion,
+      onPressed: _obj.irACrearDireccion,
     );
   }
 

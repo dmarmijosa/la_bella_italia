@@ -20,7 +20,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:la_bella_italia/src/models/orden.dart';
 
-class DeliveryOrdenesMapaController {
+class ClienteOrdenesMapaController {
   BuildContext context;
   Function refresh;
   OrderProvider _orderProvider = new OrderProvider();

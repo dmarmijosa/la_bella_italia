@@ -11,12 +11,12 @@ class RecuperarCuentaPage extends StatefulWidget {
 }
 
 class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
-  RecuperarCuentaController _rcc = new RecuperarCuentaController();
+  RecuperarCuentaController _obj = new RecuperarCuentaController();
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _rcc.init(context);
+      _obj.init(context);
     });
   }
 
@@ -51,7 +51,7 @@ class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _rcc.correoController,
+        controller: _obj.correoController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Correo electronico',
@@ -86,7 +86,7 @@ class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.build),
-        onPressed: _rcc.recuperar,
+        onPressed: _obj.recuperar,
         label: Text('Recuperar'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,

@@ -18,7 +18,7 @@ class ClienteDireccionesMapaController {
 
   Completer<GoogleMapController> _mapController = Completer();
 
-  Future init(BuildContext context, Function refresh) {
+  Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
 
@@ -35,7 +35,7 @@ class ClienteDireccionesMapaController {
     Navigator.pop(context, data);
   }
 
-  Future<Null> SetLocalizacionInfo() async {
+  Future<Null> setLocalizacionInfo() async {
     if (posicionIncial != null) {
       double lat = posicionIncial.target.latitude;
       double lng = posicionIncial.target.longitude;
@@ -104,6 +104,7 @@ class ClienteDireccionesMapaController {
     }
   }
 
+  // ignore: missing_return
   Future<Position> _determinePosition() async {
     try {
       bool serviceEnabled;

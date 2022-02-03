@@ -15,14 +15,13 @@ class ClienteDireccionesListaPage extends StatefulWidget {
 
 class _ClienteDireccionesListaPageState
     extends State<ClienteDireccionesListaPage> {
-  ClienteDireccionesListaController _ccdlc =
+  ClienteDireccionesListaController _obj =
       new ClienteDireccionesListaController();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ccdlc.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -62,7 +61,7 @@ class _ClienteDireccionesListaPageState
 
   Widget _listaDirecciones() {
     return FutureBuilder(
-        future: _ccdlc.getDirecciones(),
+        future: _obj.getDirecciones(),
         builder: (context, AsyncSnapshot<List<Direccion>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.length > 0) {
@@ -91,8 +90,8 @@ class _ClienteDireccionesListaPageState
             children: [
               Radio(
                 value: index,
-                groupValue: _ccdlc.radioValue,
-                onChanged: _ccdlc.handleRadioCambio,
+                groupValue: _obj.radioValue,
+                onChanged: _obj.handleRadioCambio,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +122,7 @@ class _ClienteDireccionesListaPageState
     return Container(
       height: 40,
       child: ElevatedButton(
-        onPressed: _ccdlc.irACrearDireccion,
+        onPressed: _obj.irACrearDireccion,
         child: Text('Nueva dirección.'),
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
@@ -138,7 +137,7 @@ class _ClienteDireccionesListaPageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
       child: ElevatedButton(
-        onPressed: _ccdlc.crearOrden,
+        onPressed: _obj.crearOrden,
         child: Text('ACEPTAR'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -169,7 +168,7 @@ class _ClienteDireccionesListaPageState
         Icons.add,
         color: Colors.white,
       ),
-      onPressed: _ccdlc.irACrearDireccion,
+      onPressed: _obj.irACrearDireccion,
     );
   }
 

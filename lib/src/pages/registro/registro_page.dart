@@ -14,13 +14,13 @@ class Registro extends StatefulWidget {
 class _RegistroState extends State<Registro> {
   // ignore: non_constant_identifier_names
   bool is_press = true;
-  RegistroController _registro = new RegistroController();
+  RegistroController _obj = new RegistroController();
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _registro.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -78,13 +78,13 @@ class _RegistroState extends State<Registro> {
 
   Widget _imageUser() {
     return GestureDetector(
-      onTap: _registro.showAlertDialog,
+      onTap: _obj.showAlertDialog,
       child: CircleAvatar(
         radius: 63,
         backgroundColor: Colors.red[400],
         child: CircleAvatar(
-          backgroundImage: _registro.imageFile != null
-              ? FileImage(_registro.imageFile)
+          backgroundImage: _obj.imageFile != null
+              ? FileImage(_obj.imageFile)
               : AssetImage('assets/img/user_profile_2.png'),
           radius: 60,
           backgroundColor: Colors.grey[300],
@@ -116,7 +116,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.correoController,
+        controller: _obj.correoController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Correo electronico',
@@ -140,7 +140,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.nombreController,
+        controller: _obj.nombreController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Nombre',
@@ -164,7 +164,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.apellidoController,
+        controller: _obj.apellidoController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Apellido',
@@ -188,7 +188,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.telefonoController,
+        controller: _obj.telefonoController,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           hintText: 'Número de teléfono',
@@ -212,7 +212,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.passController,
+        controller: _obj.passController,
         obscureText: this.is_press,
         decoration: InputDecoration(
           hintText: 'Contraseña',
@@ -239,7 +239,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _registro.confirPassController,
+        controller: _obj.confirPassController,
         obscureText: this.is_press,
         decoration: InputDecoration(
           hintText: 'Confirmar contraseña',
@@ -264,7 +264,7 @@ class _RegistroState extends State<Registro> {
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.how_to_reg),
-        onPressed: _registro.isEnable ? _registro.registro : null,
+        onPressed: _obj.isEnable ? _obj.registro : null,
         label: Text('Registrarse'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
@@ -292,7 +292,7 @@ class _RegistroState extends State<Registro> {
         Icons.arrow_back_ios,
         color: Colors.white,
       ),
-      onPressed: _registro.back,
+      onPressed: _obj.back,
     );
   }
 

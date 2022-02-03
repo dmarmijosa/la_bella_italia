@@ -12,12 +12,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  LoginController _login = new LoginController();
+  LoginController _obj = new LoginController();
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _login.init(context);
+      _obj.init(context);
     });
   }
 
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _login.correoController,
+        controller: _obj.correoController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Correo electronico',
@@ -88,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _login.passController,
+        controller: _obj.passController,
         obscureText: this.is_press,
         decoration: InputDecoration(
           hintText: 'Contraseña',
@@ -113,7 +113,7 @@ class _LoginPageState extends State<LoginPage> {
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.restaurant),
-        onPressed: _login.login,
+        onPressed: _obj.login,
         label: Text('Ingresar'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
@@ -138,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         GestureDetector(
           onTap: () {
-            _login.irA();
+            _obj.irA();
           },
           child: Text(
             'Registrate',
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         GestureDetector(
           onTap: () {
-            _login.recuperar();
+            _obj.recuperar();
           },
           child: Text(
             'Recuperar cuenta',

@@ -14,14 +14,14 @@ class RestauranteCategoriasCrearPage extends StatefulWidget {
 
 class _RestauranteCategoriasCrearPageState
     extends State<RestauranteCategoriasCrearPage> {
-  RestauranteCategoriasCrearController _crccc =
+  RestauranteCategoriasCrearController _obj =
       new RestauranteCategoriasCrearController();
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _crccc.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -58,7 +58,7 @@ class _RestauranteCategoriasCrearPageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _crccc.nombreController,
+        controller: _obj.nombreController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Nombre de la categoría',
@@ -82,7 +82,7 @@ class _RestauranteCategoriasCrearPageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _crccc.descripcionController,
+        controller: _obj.descripcionController,
         keyboardType: TextInputType.name,
         maxLength: 200,
         maxLines: 3,
@@ -106,7 +106,7 @@ class _RestauranteCategoriasCrearPageState
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.add),
-        onPressed: _crccc.crearCategoria,
+        onPressed: _obj.crearCategoria,
         label: Text('Crear categoría'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,

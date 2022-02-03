@@ -13,13 +13,13 @@ class ClienteActualizarPage extends StatefulWidget {
 class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
   // ignore: non_constant_identifier_names
   bool is_press = true;
-  ClienteActualizarController _ccac = new ClienteActualizarController();
+  ClienteActualizarController _obj = new ClienteActualizarController();
 
   @override
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _ccac.init(context, refresh);
+      _obj.init(context, refresh);
     });
     setState(() {});
   }
@@ -69,12 +69,12 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
 
   Widget _imageUser() {
     return GestureDetector(
-      onTap: _ccac.showAlertDialog,
+      onTap: _obj.showAlertDialog,
       child: CircleAvatar(
-        backgroundImage: _ccac.imageFile != null
-            ? FileImage(_ccac.imageFile)
-            : _ccac.user?.image != null
-                ? NetworkImage(_ccac.user?.image)
+        backgroundImage: _obj.imageFile != null
+            ? FileImage(_obj.imageFile)
+            : _obj.user?.image != null
+                ? NetworkImage(_obj.user?.image)
                 : AssetImage('assets/img/user_profile_2.png'),
         radius: 60,
         backgroundColor: Colors.grey[200],
@@ -90,7 +90,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _ccac.nombreController,
+        controller: _obj.nombreController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Nombre',
@@ -114,7 +114,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _ccac.apellidoController,
+        controller: _obj.apellidoController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Apellido',
@@ -138,7 +138,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _ccac.telefonoController,
+        controller: _obj.telefonoController,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           hintText: 'Número de teléfono',
@@ -162,7 +162,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _ccac.passController,
+        controller: _obj.passController,
         obscureText: this.is_press,
         decoration: InputDecoration(
           hintText: 'Contraseña',
@@ -189,7 +189,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _ccac.confirPassController,
+        controller: _obj.confirPassController,
         obscureText: this.is_press,
         decoration: InputDecoration(
           hintText: 'Confirmar contraseña',
@@ -214,7 +214,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.autorenew),
-        onPressed: _ccac.isEnable ? _ccac.actualizar : null,
+        onPressed: _obj.isEnable ? _obj.actualizar : null,
         label: Text('Actualizar'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,

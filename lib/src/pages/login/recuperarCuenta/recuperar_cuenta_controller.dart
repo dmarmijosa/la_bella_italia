@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
-import 'package:la_bella_italia/src/models/user.dart';
+
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 
@@ -10,7 +10,7 @@ class RecuperarCuentaController {
 
   UserProvider userProvider = new UserProvider();
 
-  Future init(context) {
+  Future init(context) async {
     this.context = context;
 
     userProvider.init(context);

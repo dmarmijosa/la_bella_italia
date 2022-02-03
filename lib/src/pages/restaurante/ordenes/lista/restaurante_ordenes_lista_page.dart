@@ -19,14 +19,14 @@ class RestauranteOrdenesListaPage extends StatefulWidget {
 
 class _RestauranteOrdenesListaPageState
     extends State<RestauranteOrdenesListaPage> {
-  RestauranteOrdenesListaController _crolc =
+  RestauranteOrdenesListaController _obj =
       new RestauranteOrdenesListaController();
 
   @override
   // ignore: must_call_super
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _crolc.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -35,9 +35,9 @@ class _RestauranteOrdenesListaPageState
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: DefaultTabController(
-        length: _crolc.status?.length,
+        length: _obj.status?.length,
         child: Scaffold(
-          key: _crolc.key,
+          key: _obj.key,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(100),
             child: AppBar(
@@ -56,10 +56,10 @@ class _RestauranteOrdenesListaPageState
                 unselectedLabelColor: Colors.grey[400],
                 isScrollable: true,
                 tabs: List<Widget>.generate(
-                  _crolc.status.length,
+                  _obj.status.length,
                   (index) {
                     return Tab(
-                      child: Text(_crolc.status[index] ?? ''),
+                      child: Text(_obj.status[index] ?? ''),
                     );
                   },
                 ),
@@ -68,9 +68,9 @@ class _RestauranteOrdenesListaPageState
           ),
           drawer: _drawer(),
           body: TabBarView(
-            children: _crolc.status.map((String status) {
+            children: _obj.status.map((String status) {
               return FutureBuilder(
-                  future: _crolc.obtenerOrdenes(status),
+                  future: _obj.obtenerOrdenes(status),
                   builder: (context, AsyncSnapshot<List<Orden>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
@@ -99,7 +99,7 @@ class _RestauranteOrdenesListaPageState
   Widget _tarjetaOrden(Orden orden) {
     return GestureDetector(
       onTap: () {
-        _crolc.abrirSheet(orden);
+        _obj.abrirSheet(orden);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -200,7 +200,7 @@ class _RestauranteOrdenesListaPageState
 
   Widget _menuDraver() {
     return GestureDetector(
-      onTap: _crolc.openDrawer,
+      onTap: _obj.openDrawer,
       child: Container(
         margin: EdgeInsets.only(left: 20),
         alignment: Alignment.centerLeft,
@@ -226,8 +226,8 @@ class _RestauranteOrdenesListaPageState
                   height: 60,
                   margin: EdgeInsets.only(top: 10, bottom: 4),
                   child: FadeInImage(
-                    image: _crolc.user?.image != null
-                        ? NetworkImage(_crolc.user.image)
+                    image: _obj.user?.image != null
+                        ? NetworkImage(_obj.user.image)
                         : AssetImage('assets/img/no-image.png'),
                     fit: BoxFit.contain,
                     fadeInDuration: Duration(milliseconds: 50),
@@ -235,7 +235,7 @@ class _RestauranteOrdenesListaPageState
                   ),
                 ),
                 Text(
-                  '${_crolc.user?.name ?? ''} ${_crolc.user?.lastname ?? ''}',
+                  '${_obj.user?.name ?? ''} ${_obj.user?.lastname ?? ''}',
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
@@ -244,7 +244,7 @@ class _RestauranteOrdenesListaPageState
                   maxLines: 1,
                 ),
                 Text(
-                  '${_crolc.user?.email ?? ''}',
+                  '${_obj.user?.email ?? ''}',
                   style: TextStyle(
                       fontSize: 13,
                       color: Colors.white,
@@ -253,7 +253,7 @@ class _RestauranteOrdenesListaPageState
                   maxLines: 1,
                 ),
                 Text(
-                  '${_crolc.user?.phone ?? ''}',
+                  '${_obj.user?.phone ?? ''}',
                   style: TextStyle(
                       fontSize: 13,
                       color: Colors.white,
@@ -270,20 +270,20 @@ class _RestauranteOrdenesListaPageState
               height: 55.0,
               valueFontSize: 25.0,
               toggleSize: 45.0,
-              value: _crolc.abiertoOCerrado,
+              value: _obj.abiertoOCerrado,
               borderRadius: 30.0,
               padding: 8.0,
               showOnOff: true,
               onToggle: (val) {
                 setState(() {
-                  _crolc.abiertoOCerrado = val;
-                  _crolc.actualizarEstado();
+                  _obj.abiertoOCerrado = val;
+                  _obj.actualizarEstado();
                 });
               },
             ),
           ),
           ListTile(
-            onTap: _crolc.irACrearProducto,
+            onTap: _obj.irACrearProducto,
             title: Text('Crear producto'),
             trailing: Icon(
               Icons.create,
@@ -291,18 +291,18 @@ class _RestauranteOrdenesListaPageState
             ),
           ),
           ListTile(
-            onTap: _crolc.irACrearCategoria,
+            onTap: _obj.irACrearCategoria,
             title: Text('Crear categoría'),
             trailing: Icon(
               Icons.create_new_folder,
               color: Colors.black,
             ),
           ),
-          _crolc.user != null
-              ? _crolc.user.roles.length > 1
+          _obj.user != null
+              ? _obj.user.roles.length > 1
                   ? ListTile(
                       title: Text('Cambiar de rol'),
-                      onTap: _crolc.cambiarRol,
+                      onTap: _obj.cambiarRol,
                       trailing: Icon(
                         Icons.sync,
                         color: Colors.black,
@@ -311,7 +311,7 @@ class _RestauranteOrdenesListaPageState
                   : Container()
               : Container(),
           ListTile(
-            onTap: _crolc.logout,
+            onTap: _obj.logout,
             title: Text('Cerrar sesión'),
             trailing: Icon(
               Icons.login_rounded,

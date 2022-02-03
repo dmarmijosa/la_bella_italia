@@ -12,14 +12,14 @@ class RolesPage extends StatefulWidget {
 }
 
 class _RolesPageState extends State<RolesPage> {
-  RolesController _con = new RolesController();
+  RolesController _obj = new RolesController();
 
   @override
   void initState() {
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _con.init(context, refresh);
+      _obj.init(context, refresh);
     });
   }
 
@@ -32,8 +32,8 @@ class _RolesPageState extends State<RolesPage> {
       body: Container(
         margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.14),
         child: ListView(
-            children: _con.user != null
-                ? _con.user.roles.map((Rol rol) {
+            children: _obj.user != null
+                ? _obj.user.roles.map((Rol rol) {
                     return _cardRol(rol);
                   }).toList()
                 : []),
@@ -44,7 +44,7 @@ class _RolesPageState extends State<RolesPage> {
   Widget _cardRol(Rol rol) {
     return GestureDetector(
       onTap: () {
-        _con.goToPage(rol.route);
+        _obj.goToPage(rol.route);
       },
       child: Column(
         children: [

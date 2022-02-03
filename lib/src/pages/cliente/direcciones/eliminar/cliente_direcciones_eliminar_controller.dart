@@ -33,7 +33,7 @@ class ClienteDireccionesEliminarController {
     _sharedPref.save('addressDelete', direcciones[value]);
 
     refresh();
-    print('Valor seleccionado ${radioValue}');
+    print('Valor seleccionado $radioValue');
   }
 
   Future<List<Direccion>> getDirecciones() async {
