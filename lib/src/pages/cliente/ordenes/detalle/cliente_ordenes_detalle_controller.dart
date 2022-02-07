@@ -26,14 +26,19 @@ class ClienteOrdenesDetalleController {
   Orden orden;
   List<User> users = [];
   String idDelivery;
+  User restaurante;
 
   Future init(BuildContext context, Function refresh, Orden orden) async {
     this.context = context;
     this.refresh = refresh;
     this.orden = orden;
+
     user = User.fromJson(await _sharedPref.read('user'));
     _userProvider.init(context, sessionUser: user);
     _orderProvider.init(context, user);
+
+    restaurante = await _userProvider.getInfoRestaurant();
+
     obtenerTotal();
     getUsers();
     refresh();
@@ -56,7 +61,7 @@ class ClienteOrdenesDetalleController {
   void irAMapa() async {
     Navigator.pushNamed(
       context,
-      'delivery/ordenes/mapa',
+      'cliente/ordenes/mapa',
       arguments: orden.toJson(),
     );
     refresh();
@@ -76,8 +81,7 @@ class ClienteOrdenesDetalleController {
     refresh();
   }
 
-  void llamarCliente() {
-    print('${orden?.client?.phone}');
-    launch("tel:${orden?.client?.phone}");
+  void llamar(String numero) {
+    launch("tel:$numero");
   }
 }

@@ -71,7 +71,11 @@ class ClienteOrdenesCrearController {
 
   void irADirecciones() {
     if (this.estadoRestaurante) {
-      Navigator.pushNamed(context, 'cliente/direcciones/lista');
+      if (this.productosSeleccionados.length > 0) {
+        Navigator.pushNamed(context, 'cliente/direcciones/lista');
+      } else {
+        Fluttertoast.showToast(msg: 'Selecciona al menos un producto.');
+      }
     } else {
       Fluttertoast.showToast(msg: 'El restaurant se encuentra cerrado.');
       Timer(Duration(seconds: 3), () {

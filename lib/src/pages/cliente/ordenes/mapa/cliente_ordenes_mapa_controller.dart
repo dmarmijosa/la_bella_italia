@@ -7,17 +7,15 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:la_bella_italia/src/api/enviroments.dart';
-import 'package:la_bella_italia/src/models/response_api.dart';
+
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
-import 'package:la_bella_italia/src/utils/my_colors.dart';
-import 'package:la_bella_italia/src/utils/my_snackbar.dart';
+
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:location/location.dart' as location;
 import 'package:geocoding/geocoding.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:la_bella_italia/src/models/orden.dart';
 
 class ClienteOrdenesMapaController {
@@ -27,14 +25,11 @@ class ClienteOrdenesMapaController {
   User user;
   SharedPref _sharedPref = new SharedPref();
 
-  Position _posicion;
   String addressName;
   LatLng addressLatLng;
   Orden orden;
-  StreamSubscription _posicionStream;
-  double _distacia;
+  IO.Socket socket;
 
-  Set<Polyline> polylines = {};
   List<LatLng> points = [];
 
   BitmapDescriptor deliveryMarker;
@@ -59,61 +54,28 @@ class ClienteOrdenesMapaController {
     deliveryMarker = await createMarkerFromAsset('assets/img/delivery.png');
     homeMarker = await createMarkerFromAsset('assets/img/home.png');
 
+    socket = IO.io(
+        'http://${Enviroments.API_DELIVERY}/orders/delivery', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false
+    });
+    socket.connect();
+    socket.on('position/${orden?.id}', (data) {
+      addMarker(
+        'delivery',
+        data['lat'],
+        data['lng'],
+        'Tu repartidor',
+        '',
+        deliveryMarker,
+      );
+      refresh();
+    });
+
     _orderProvider.init(context, user);
+
     refresh();
     checkGPS();
-  }
-
-  void launchGoogleMaps() async {
-    var url =
-        'google.navigation:q=${orden.address.lat.toString()},${orden.address.lng.toString()}';
-    var fallbackUrl =
-        'https://www.google.com/maps/search/?api=1&query=${orden.address.lat.toString()},${orden.address.lng.toString()}';
-    try {
-      bool launched =
-          await launch(url, forceSafariVC: false, forceWebView: false);
-      if (!launched) {
-        await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
-      }
-    } catch (e) {
-      await launch(fallbackUrl, forceSafariVC: false, forceWebView: false);
-    }
-  }
-
-  void cercaPosicion() {
-    _distacia = Geolocator.distanceBetween(_posicion.latitude,
-        _posicion.longitude, orden.address.lat, orden.address.lng);
-  }
-
-  Future<void> setPolylines(LatLng de, LatLng hacia) async {
-    PointLatLng pointDe = PointLatLng(de.latitude, de.longitude);
-    PointLatLng pointHacia = PointLatLng(hacia.latitude, hacia.longitude);
-    PolylineResult result = await PolylinePoints().getRouteBetweenCoordinates(
-        Enviroments.API_KEY_GOOGLE, pointDe, pointHacia);
-    for (PointLatLng point in result.points) {
-      points.add(LatLng(point.latitude, point.longitude));
-    }
-
-    Polyline polyline = Polyline(
-      polylineId: PolylineId('poly'),
-      color: MyColors.primaryColor,
-      points: points,
-      width: 6,
-    );
-    polylines.add(polyline);
-    refresh();
-  }
-
-  void updateDelivered() async {
-    if (_distacia <= 100) {
-      ResponseApi responseApi = await _orderProvider.updateToDelivered(orden);
-      if (responseApi.success) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, 'delivery/ordenes/lista', (route) => false);
-      }
-    } else {
-      MyScnackbar.show(context, 'Debe estar mas cerca del lugar de entrega');
-    }
   }
 
   void addMarker(String markerId, double lat, double lng, String title,
@@ -183,7 +145,7 @@ class ClienteOrdenesMapaController {
   }
 
   void dispose() {
-    _posicionStream?.cancel();
+    socket?.disconnect();
   }
 
   void onMapCrear(GoogleMapController controller) {
@@ -209,16 +171,10 @@ class ClienteOrdenesMapaController {
   void actualizaLocalizacion() async {
     try {
       await _determinePosition();
-      _posicion = await Geolocator.getLastKnownPosition();
-      iraPosicion(_posicion.latitude, _posicion.longitude);
-      addMarker(
-        'delivery',
-        _posicion.latitude,
-        _posicion.longitude,
-        'Tu posición',
-        '',
-        deliveryMarker,
-      );
+
+      iraPosicion(orden.lat, orden.lng);
+      addMarker('delivery', orden.lat, orden.lng, 'Tu repartidor', '',
+          deliveryMarker);
       addMarker(
         'HOME',
         orden.address.lat,
@@ -227,30 +183,10 @@ class ClienteOrdenesMapaController {
         '',
         homeMarker,
       );
+      refresh();
     } catch (e) {
       print(e);
     }
-    LatLng de = new LatLng(_posicion.latitude, _posicion.longitude);
-    LatLng hacia = new LatLng(orden.address.lat, orden.address.lng);
-    setPolylines(de, hacia);
-
-    _posicionStream = Geolocator.getPositionStream(
-            desiredAccuracy: LocationAccuracy.best, distanceFilter: 1)
-        .listen((Position position) {
-      _posicion = position;
-      addMarker(
-        'delivery',
-        _posicion.latitude,
-        _posicion.longitude,
-        'Tu posición',
-        '',
-        deliveryMarker,
-      );
-      iraPosicion(_posicion.latitude, _posicion.longitude);
-      cercaPosicion();
-
-      refresh();
-    });
   }
 
   Future iraPosicion(double lat, double log) async {

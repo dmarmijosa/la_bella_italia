@@ -40,19 +40,12 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(100),
             child: AppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
-              flexibleSpace: Column(
-                children: [
-                  SizedBox(height: 40),
-                  _menuDraver(),
-                  SizedBox(height: 20),
-                ],
-              ),
+              title: Text('Mis pedidos.'),
+              backgroundColor: MyColors.primaryColor,
               bottom: TabBar(
                 indicatorColor: Colors.black,
                 labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey[400],
+                unselectedLabelColor: Colors.white,
                 isScrollable: true,
                 tabs: List<Widget>.generate(
                   _obj.status.length,
@@ -65,7 +58,6 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
               ),
             ),
           ),
-          drawer: _drawer(),
           body: TabBarView(
             children: _obj.status.map((String status) {
               return FutureBuilder(
@@ -125,7 +117,7 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
                     width: double.infinity,
                     alignment: Alignment.center,
                     child: Text(
-                      'ORDEN ${orden.id}',
+                      'ORDEN',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -155,7 +147,7 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
                       width: double.infinity,
                       margin: EdgeInsets.symmetric(vertical: 5),
                       child: Text(
-                        'Cliente: ${orden.client.name}',
+                        'Cliente: ${orden.delivery?.name ?? 'No asignado'} ${orden.delivery?.lastname ?? ''} ',
                         style: TextStyle(
                           fontSize: 14,
                         ),
@@ -180,97 +172,6 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _menuDraver() {
-    return GestureDetector(
-      onTap: _obj.openDrawer,
-      child: Container(
-        margin: EdgeInsets.only(left: 20),
-        alignment: Alignment.centerLeft,
-        child: Icon(
-          Icons.menu,
-          color: Colors.black,
-        ),
-      ),
-    );
-  }
-
-  Widget _drawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: MyColors.primaryColor),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 60,
-                  margin: EdgeInsets.only(top: 10, bottom: 4),
-                  child: FadeInImage(
-                    image: _obj.user?.image != null
-                        ? NetworkImage(_obj.user.image)
-                        : AssetImage('assets/img/no-image.png'),
-                    fit: BoxFit.contain,
-                    fadeInDuration: Duration(milliseconds: 50),
-                    placeholder: AssetImage('assets/img/no-image.png'),
-                  ),
-                ),
-                Text(
-                  '${_obj.user?.name ?? ''} ${_obj.user?.lastname ?? ''}',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                ),
-                Text(
-                  '${_obj.user?.email ?? ''}',
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic),
-                  maxLines: 1,
-                ),
-                Text(
-                  '${_obj.user?.phone ?? ''}',
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic),
-                  maxLines: 1,
-                ),
-              ],
-            ),
-          ),
-          _obj.user != null
-              ? _obj.user.roles.length > 1
-                  ? ListTile(
-                      title: Text('Cambiar de rol'),
-                      onTap: _obj.cambiarRol,
-                      trailing: Icon(
-                        Icons.sync,
-                        color: Colors.black,
-                      ),
-                    )
-                  : Container()
-              : Container(),
-          ListTile(
-            onTap: _obj.logout,
-            title: Text('Cerrar sesión'),
-            trailing: Icon(
-              Icons.login_rounded,
-              color: Colors.black,
-            ),
-          ),
-        ],
       ),
     );
   }

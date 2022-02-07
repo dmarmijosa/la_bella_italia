@@ -38,17 +38,18 @@ class _ClienteProductoDetallePageState
           onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
           child: Container(
             height: MediaQuery.of(context).size.height * 0.9,
-            child: Column(
-              children: [
-                _carouselProduct(),
-                _txtNombre(),
-                _txtDescripcion(),
-                _edtDetalleProducto(),
-                Spacer(),
-                _cantidadPedido(),
-                _iconoDelivery(),
-                _btnAgregarABolsa()
-              ],
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _carouselProduct(),
+                  _txtNombre(),
+                  _txtDescripcion(),
+                  _edtDetalleProducto(),
+                  _cantidadPedido(),
+                  _iconoDelivery(),
+                  _btnAgregarABolsa()
+                ],
+              ),
             ),
           ),
         ),

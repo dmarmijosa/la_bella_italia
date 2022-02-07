@@ -37,6 +37,10 @@ class ClienteProductoListaController {
     );
   }
 
+  void irAMisPedidos() {
+    Navigator.pushNamed(context, 'cliente/ordenes/lista');
+  }
+
   void irACrearOrdenPage() {
     Navigator.pushNamed(context, 'cliente/ordenes/crear');
   }

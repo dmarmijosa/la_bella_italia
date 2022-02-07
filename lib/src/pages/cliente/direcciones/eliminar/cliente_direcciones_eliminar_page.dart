@@ -139,7 +139,7 @@ class _ClienteDireccionesEliminarPageState
         onPressed: () => showDialog<String>(
           context: context,
           builder: (BuildContext context) => AlertDialog(
-            title: const Text('Confirmar eliminar'),
+            title: const Text('Confirmar eliminación'),
             content: const Text('¿ Esta seguro de eliminar la dirección ?'),
             actions: <Widget>[
               TextButton(

@@ -47,6 +47,7 @@ class ClienteProductoDetalleController {
     print('Datos: ${productoSelecionado[0].detail}');
     _sharedPref.save('order', productoSelecionado);
     Fluttertoast.showToast(msg: 'Producto agregado');
+    regresarPaginaAnterior();
   }
 
   void sumarItem() {

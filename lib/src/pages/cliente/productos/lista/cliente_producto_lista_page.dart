@@ -20,7 +20,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
 
   @override
   // ignore: must_call_super
-  void initState() async {
+  void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _obj.init(context, refresh);
       refresh();
@@ -319,7 +319,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             ),
           ),
           ListTile(
-            onTap: _obj.irACrearOrdenPage,
+            onTap: _obj.irAMisPedidos,
             title: Text('Mis pedidos'),
             trailing: Icon(
               Icons.shopping_bag,

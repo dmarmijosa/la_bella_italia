@@ -137,8 +137,24 @@ class _ClienteDireccionesListaPageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
       child: ElevatedButton(
-        onPressed: _obj.crearOrden,
-        child: Text('ACEPTAR'),
+        onPressed: () => showDialog<String>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: const Text('Confirmar'),
+            content: const Text('¿ Esta seguro de crear la orden ?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Cancel'),
+                child: const Text('Cancelar'),
+              ),
+              TextButton(
+                onPressed: _obj.crearOrden,
+                child: const Text('Si'),
+              ),
+            ],
+          ),
+        ),
+        child: Text('Aceptar'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30),

@@ -230,7 +230,6 @@ class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
       myLocationButtonEnabled: true,
       myLocationEnabled: true,
       markers: Set<Marker>.of(_obj.markers.values),
-      polylines: _obj.polylines,
     );
   }
 

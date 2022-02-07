@@ -30,9 +30,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('ORDEN #${_obj.orden?.id ?? ''} '),
-      ),
+      appBar: AppBar(),
       bottomNavigationBar: Container(
           height: MediaQuery.of(context).size.height * 0.45,
           child: SingleChildScrollView(
@@ -44,15 +42,22 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
                   indent: 30,
                 ),
                 _txtNombreClienteLlamar(
-                    'Cliente : ',
-                    '${_obj.orden?.client?.name ?? ''} ${_obj.orden?.client?.lastname ?? ''}',
-                    '${_obj.orden?.client?.phone ?? ''}'),
+                    'Repartidor : ',
+                    '${_obj.orden?.delivery?.name ?? 'No asignado'} ${_obj.orden?.delivery?.lastname ?? ''}',
+                    '${_obj.orden?.delivery?.phone ?? ''}'),
+                _obj.orden?.status == 'CREADA' ||
+                        _obj.orden?.status == 'DESPACHADA'
+                    ? _txtNombreResturanteLlamar(
+                        'Restaurante : ',
+                        '${_obj.restaurante?.name ?? 'No asignado'} ${_obj.restaurante?.lastname ?? ''}',
+                        '${_obj.restaurante?.phone ?? ''}')
+                    : Container(),
                 _txtDatosCliente(
                     'Entregar en : ', '${_obj.orden?.address?.address ?? ''} '),
                 _txtDatosCliente('Creada : ',
                     '${RelativeTimeUtil.getRelativeTime(_obj.orden?.timestamp ?? 0) ?? ''} '),
                 _txtPRecioTotal(),
-                _obj.orden?.status != 'ENTREGADA'
+                _obj.orden?.status == 'EN CAMINO'
                     ? _btnDespacharOrden()
                     : Container(),
               ],
@@ -74,21 +79,54 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
 
   Widget _txtNombreClienteLlamar(
       String titulo, String contenido, String numero) {
-    return GestureDetector(
-      onTap: () {
-        if (_obj.orden.status == 'CREADA') {
-          _obj.llamarCliente();
-        }
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: ListTile(
-          title: Text(titulo),
-          subtitle: Text(
-            contenido,
-            maxLines: 2,
-          ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: ListTile(
+        title: Text(titulo),
+        subtitle: Text(
+          contenido,
+          maxLines: 2,
         ),
+        trailing:
+            _obj.orden?.status != 'CREADA' && _obj.orden?.status != 'ENTREGADA'
+                ? Wrap(
+                    spacing: 12, // space between two icons
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.call),
+                          onPressed: () {
+                            _obj.llamar(numero ?? '');
+                          })
+                    ],
+                  )
+                : null,
+      ),
+    );
+  }
+
+  Widget _txtNombreResturanteLlamar(
+      String titulo, String contenido, String numero) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: ListTile(
+        title: Text(titulo),
+        subtitle: Text(
+          contenido,
+          maxLines: 2,
+        ),
+        trailing:
+            _obj.orden?.status == 'CREADA' || _obj.orden?.status == 'DESPACHADA'
+                ? Wrap(
+                    spacing: 12, // space between two icons
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.call),
+                          onPressed: () {
+                            _obj.llamar(numero ?? '');
+                          })
+                    ],
+                  )
+                : null,
       ),
     );
   }

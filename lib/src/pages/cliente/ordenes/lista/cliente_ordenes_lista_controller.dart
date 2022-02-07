@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/orden.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
-import 'package:la_bella_italia/src/pages/delivery/ordenes/detalle/delivery_ordenes_detalle_page.dart';
+import 'package:la_bella_italia/src/pages/cliente/ordenes/detalle/cliente_ordenes_detalle_page.dart';
+
 import 'package:la_bella_italia/src/providers/order_provider.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
@@ -20,7 +21,7 @@ class ClienteOrdenesListaController {
   OrderProvider _orderProvider = new OrderProvider();
   bool estado = false;
 
-  List<String> status = ['DESPACHADA', 'EN CAMINO', 'ENTREGADA'];
+  List<String> status = ['CREADA', 'DESPACHADA', 'EN CAMINO', 'ENTREGADA'];
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -38,7 +39,7 @@ class ClienteOrdenesListaController {
   // ignore: missing_return
   Future<List<Orden>> obtenerOrdenes(String status) async {
     try {
-      return await _orderProvider.getByDeliveryAndStatus(user.id, status);
+      return await _orderProvider.getByClientAndStatus(user.id, status);
     } catch (e) {
       print(e);
     }
@@ -48,7 +49,7 @@ class ClienteOrdenesListaController {
     try {
       estado = await showMaterialModalBottomSheet(
         context: context,
-        builder: (context) => DeliveryOrdenesDetallePage(
+        builder: (context) => ClienteOrdenesDetallePage(
           orden: orden,
         ),
       );

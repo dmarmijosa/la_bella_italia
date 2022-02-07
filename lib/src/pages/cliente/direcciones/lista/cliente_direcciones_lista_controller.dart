@@ -7,6 +7,7 @@ import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/address_provider.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ClienteDireccionesListaController {
   BuildContext context;
@@ -33,18 +34,25 @@ class ClienteDireccionesListaController {
   }
 
   void crearOrden() async {
-    Direccion direccion =
-        Direccion.fromJson(await _sharedPref.read('address') ?? {});
-    List<Producto> productosSeleccionados =
-        Producto.fromJsonList(await _sharedPref.read('order')).toList;
+    if (direcciones.length < 1) {
+      Fluttertoast.showToast(msg: 'Debe tener al menos una dirección agregada');
+      Navigator.pop(context);
+    } else {
+      Direccion direccion =
+          Direccion.fromJson(await _sharedPref.read('address') ?? {});
+      List<Producto> productosSeleccionados =
+          Producto.fromJsonList(await _sharedPref.read('order')).toList;
 
-    Orden orden = new Orden(
-      idClient: user.id,
-      idAddress: direccion.id,
-      products: productosSeleccionados,
-    );
-    ResponseApi responseApi = await _orderProvider.create(orden);
-    print('Respuesta api: ${responseApi.message}');
+      Orden orden = new Orden(
+        idClient: user.id,
+        idAddress: direccion.id,
+        products: productosSeleccionados,
+      );
+      ResponseApi responseApi = await _orderProvider.create(orden);
+      print('Respuesta api: ${responseApi.message}');
+      Navigator.pushNamedAndRemoveUntil(
+          context, 'cliente/estado', (route) => false);
+    }
   }
 
   void handleRadioCambio(int value) async {

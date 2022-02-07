@@ -49,6 +49,7 @@ dev_dependencies:
   intl: ^0.17.0
   url_launcher: ^6.0.6
   flutter_polyline_points: ^1.0.0
+  socket_io_client: ^1.0.1
 
 
 
@@ -86,6 +87,9 @@ flutter:
     - family: AirAmericana
       fonts:
         - asset: assets/fonts/Air/AirAmericana.ttf
+    - family: Pacifico
+      fonts:
+        - asset: assets/fonts/Pacifico/Pacifico.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -6,7 +6,10 @@ import 'package:la_bella_italia/src/pages/cliente/direcciones/eliminar/cliente_d
 
 import 'package:la_bella_italia/src/pages/cliente/direcciones/lista/cliente_direcciones_lista_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/direcciones/mapa/cliente_direcciones_mapa_page.dart';
+import 'package:la_bella_italia/src/pages/cliente/estado/cliente_estado_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/ordenes/crear/cliente_ordenes_crear_page.dart';
+import 'package:la_bella_italia/src/pages/cliente/ordenes/lista/cliente_ordenes_lista_page.dart';
+import 'package:la_bella_italia/src/pages/cliente/ordenes/mapa/cliente_ordenes_mapa_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_page.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/lista/delivery_ordenes_lista_page.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/mapa/delivery_ordenes_mapa_page.dart';
@@ -40,6 +43,10 @@ class MyApp extends StatelessWidget {
         'cliente/actualizar': (BuildContext context) => ClienteActualizarPage(),
         'cliente/ordenes/crear': (BuildContext context) =>
             ClienteOrdenesCrearPage(),
+        'cliente/ordenes/lista': (BuildContext context) =>
+            ClienteOrdenesListaPage(),
+        'cliente/ordenes/mapa': (BuildContext context) =>
+            ClienteOrdenesMapaPage(),
         'cliente/direcciones/lista': (BuildContext context) =>
             ClienteDireccionesListaPage(),
         'cliente/direcciones/crear': (BuildContext context) =>
@@ -48,6 +55,7 @@ class MyApp extends StatelessWidget {
             ClienteDireccionesEliminarPage(),
         'cliente/direcciones/mapa': (BuildContext context) =>
             ClienteDireccionesMapaPage(),
+        'cliente/estado': (BuildContext context) => ClienteEstadoPage(),
         'delivery/ordenes/lista': (BuildContext context) =>
             DeliveryOrdenesListaPage(),
         'delivery/ordenes/mapa': (BuildContext context) =>

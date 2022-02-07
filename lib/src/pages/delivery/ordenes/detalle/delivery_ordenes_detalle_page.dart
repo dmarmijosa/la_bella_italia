@@ -77,21 +77,26 @@ class _DeliveryOrdenesDetallePageState
 
   Widget _txtNombreClienteLlamar(
       String titulo, String contenido, String numero) {
-    return GestureDetector(
-      onTap: () {
-        if (_obj.orden.status == 'CREADA') {
-          _obj.llamarCliente();
-        }
-      },
-      child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: ListTile(
-          title: Text(titulo),
-          subtitle: Text(
-            contenido,
-            maxLines: 2,
-          ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: ListTile(
+        title: Text(titulo),
+        subtitle: Text(
+          contenido,
+          maxLines: 2,
         ),
+        trailing: _obj.orden?.status != 'ENTREGADA'
+            ? Wrap(
+                spacing: 12, // space between two icons
+                children: <Widget>[
+                  IconButton(
+                      icon: Icon(Icons.call),
+                      onPressed: () {
+                        _obj.llamar(_obj.orden.client?.phone ?? '');
+                      })
+                ],
+              )
+            : null,
       ),
     );
   }

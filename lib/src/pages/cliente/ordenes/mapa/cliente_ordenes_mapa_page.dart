@@ -3,7 +3,6 @@ import 'package:flutter/scheduler.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:la_bella_italia/src/pages/cliente/ordenes/mapa/cliente_ordenes_mapa_controller.dart';
-import 'package:la_bella_italia/src/utils/my_colors.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -36,12 +35,12 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ubicación del cliente.'),
+        title: Text('Ubicación del repartidor'),
       ),
       body: Stack(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.49,
+            height: MediaQuery.of(context).size.height * 0.55,
             child: _mapaGoogle(),
           ),
           SafeArea(
@@ -52,28 +51,14 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
               ],
             ),
           ),
-          Positioned(
-            child: _iconGoogleMaps(),
-          ),
         ],
-      ),
-    );
-  }
-
-  Widget _iconGoogleMaps() {
-    return GestureDetector(
-      onTap: _obj.launchGoogleMaps,
-      child: Container(
-        child: Image.asset('assets/img/google_maps.png'),
-        width: 40,
-        height: 40,
       ),
     );
   }
 
   Widget _tarjetaOrdenInfo() {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.35,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -103,10 +88,6 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
               indent: 30,
             ),
             _clienteInfo(),
-            Container(
-              alignment: Alignment.bottomCenter,
-              child: _btnEntregar(),
-            ),
           ],
         ),
       ),
@@ -127,14 +108,14 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
               fit: BoxFit.contain,
               fadeInDuration: Duration(milliseconds: 50),
               image: _obj.orden?.client?.image != null
-                  ? NetworkImage(_obj.orden?.client?.image)
+                  ? NetworkImage(_obj.orden?.delivery?.image)
                   : AssetImage('assets/img/no-image.png'),
             ),
           ),
           Container(
             margin: EdgeInsets.only(left: 10),
             child: Text(
-              '${_obj.orden?.client?.name ?? ''} ${_obj.orden?.client?.lastname ?? ''}',
+              '${_obj.orden?.delivery?.name ?? ''} ${_obj.orden?.delivery?.lastname ?? ''}',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 16,
@@ -150,7 +131,7 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
             ),
             child: IconButton(
               onPressed: () {
-                launch("tel:${_obj.orden?.client?.phone ?? ''}");
+                launch("tel:${_obj.orden?.delivery?.phone ?? ''}");
               },
               icon: Icon(
                 Icons.phone,
@@ -179,49 +160,6 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
     );
   }
 
-  Widget _btnEntregar() {
-    return Container(
-      margin: EdgeInsets.only(
-        left: 30,
-        right: 30,
-      ),
-      child: ElevatedButton(
-        onPressed: _obj.updateDelivered,
-        style: ElevatedButton.styleFrom(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          primary: MyColors.primaryColor,
-        ),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                height: 50,
-                alignment: Alignment.center,
-                child: Text(
-                  'ENTREGAR ORDEN.',
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                margin: EdgeInsets.only(left: 20, top: 10),
-                height: 20,
-                child: Icon(Icons.check),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _mapaGoogle() {
     return GoogleMap(
       mapType: MapType.normal,
@@ -230,7 +168,6 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
       myLocationButtonEnabled: true,
       myLocationEnabled: true,
       markers: Set<Marker>.of(_obj.markers.values),
-      polylines: _obj.polylines,
     );
   }
 

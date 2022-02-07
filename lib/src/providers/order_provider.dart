@@ -69,6 +69,30 @@ class OrderProvider {
     }
   }
 
+  Future<List<Orden>> getByClientAndStatus(
+      String idClient, String status) async {
+    try {
+      print('SESION TOKEN: ${sessionUser.sessionToken}');
+      Uri url = Uri.http(_url, '$_api/findByClientAndStatus/$idClient/$status');
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.get(url, headers: headers);
+
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Sesion expirada');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+      final data = json.decode(res.body); // CATEGORIAS
+      Orden order = Orden.fromJsonList(data);
+      return order.toList;
+    } catch (e) {
+      print('Error: $e');
+      return [];
+    }
+  }
+
   Future<ResponseApi> create(Orden orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
@@ -96,6 +120,29 @@ class OrderProvider {
   Future<ResponseApi> updateToTheDispatched(Orden orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToDispathed');
+      String bodyParams = json.encode(orden);
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.put(url, headers: headers, body: bodyParams);
+
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Sesion expirada');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+  Future<ResponseApi> updatelatLng(Orden orden) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/updateLatLng');
       String bodyParams = json.encode(orden);
       Map<String, String> headers = {
         'Content-type': 'application/json',

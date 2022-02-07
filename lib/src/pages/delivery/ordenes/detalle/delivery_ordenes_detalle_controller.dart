@@ -76,8 +76,7 @@ class DeliveryOrdenesDetalleController {
     refresh();
   }
 
-  void llamarCliente() {
-    print('${orden?.client?.phone}');
-    launch("tel:${orden?.client?.phone}");
+  void llamar(String phone) {
+    launch("tel:$phone");
   }
 }
