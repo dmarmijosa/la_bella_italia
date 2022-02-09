@@ -6,6 +6,7 @@ import 'package:la_bella_italia/src/pages/cliente/ordenes/detalle/cliente_ordene
 
 import 'package:la_bella_italia/src/providers/order_provider.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -33,7 +34,10 @@ class ClienteOrdenesListaController {
 
     refresh();
 
-    //print(estado);
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
   }
 
   // ignore: missing_return

@@ -4,6 +4,7 @@ import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/pages/cliente/direcciones/mapa/cliente_direcciones_mapa_page.dart';
 import 'package:la_bella_italia/src/providers/address_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -28,7 +29,10 @@ class ClienteDireccionesCrerController {
     this.refresh = refresh;
     user = User.fromJson(await _sharedPref.read('user'));
     _addressProvider.init(context, user);
-
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
     refresh();
   }
 

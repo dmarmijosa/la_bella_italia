@@ -18,7 +18,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-class RestauranteProductoCrearController {
+class RestauranteProductoActualizarDetalleController {
   BuildContext context;
   Function refresh;
 
@@ -31,6 +31,7 @@ class RestauranteProductoCrearController {
 
   User user;
   SharedPref sharedPref = new SharedPref();
+  Producto producto;
 
   List<Categoria> categorias = [];
   String idCategory;
@@ -42,7 +43,7 @@ class RestauranteProductoCrearController {
 
   ProgressDialog _progressDialog;
 
-  Future init(BuildContext context, Function refresh) async {
+  Future init(BuildContext context, Function refresh, Producto producto) async {
     this.context = context;
     this.refresh = refresh;
     _progressDialog = new ProgressDialog(context: context);

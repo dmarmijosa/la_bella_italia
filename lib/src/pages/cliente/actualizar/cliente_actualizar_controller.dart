@@ -9,11 +9,13 @@ import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:la_bella_italia/src/utils/utilsapp.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ClienteActualizarController {
   BuildContext context;
+
   TextEditingController nombreController = new TextEditingController();
   TextEditingController apellidoController = new TextEditingController();
   TextEditingController telefonoController = new TextEditingController();
@@ -43,6 +45,10 @@ class ClienteActualizarController {
     nombreController.text = user.name;
     apellidoController.text = user.lastname;
     telefonoController.text = user.phone;
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
 
     refresh();
   }

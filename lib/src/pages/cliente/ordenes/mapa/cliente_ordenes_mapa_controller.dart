@@ -10,6 +10,7 @@ import 'package:la_bella_italia/src/api/enviroments.dart';
 
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:location/location.dart' as location;
@@ -60,7 +61,7 @@ class ClienteOrdenesMapaController {
       'autoConnect': false
     });
     socket.connect();
-    socket.on('position/${orden?.id}', (data) {
+    socket.on('position/${orden.id}', (data) {
       addMarker(
         'delivery',
         data['lat'],
@@ -69,10 +70,13 @@ class ClienteOrdenesMapaController {
         '',
         deliveryMarker,
       );
-      refresh();
     });
 
     _orderProvider.init(context, user);
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
 
     refresh();
     checkGPS();
@@ -102,6 +106,7 @@ class ClienteOrdenesMapaController {
     Navigator.pop(context, data);
   }
 
+  // ignore: missing_return
   Future<BitmapDescriptor> createMarkerFromAsset(String path) async {
     final Uint8List markerIcon = await getBytesFromAsset(path, 150);
     // ignore: await_only_futures
@@ -124,22 +129,20 @@ class ClienteOrdenesMapaController {
     if (posicionIncial != null) {
       double lat = posicionIncial.target.latitude;
       double lng = posicionIncial.target.longitude;
-      try {
-        List<Placemark> address = await placemarkFromCoordinates(lat, lng);
-        if (address != null) {
-          if (address.length > 0) {
-            String direction = address[0].thoroughfare;
-            String street = address[0].subThoroughfare;
-            String city = address[0].locality;
-            String department = address[0].administrativeArea;
-            addressName = '$direction #$street, $city, $department';
-            addressLatLng = new LatLng(lat, lng);
 
-            refresh();
-          }
+      List<Placemark> address = await placemarkFromCoordinates(lat, lng);
+
+      if (address != null) {
+        if (address.length > 0) {
+          String direction = address[0].thoroughfare;
+          String street = address[0].subThoroughfare;
+          String city = address[0].locality;
+          String department = address[0].administrativeArea;
+          addressName = '$direction #$street, $city, $department';
+          addressLatLng = new LatLng(lat, lng);
+
+          refresh();
         }
-      } catch (e) {
-        print(e);
       }
     }
   }
@@ -170,22 +173,30 @@ class ClienteOrdenesMapaController {
 
   void actualizaLocalizacion() async {
     try {
-      await _determinePosition();
+      await _determinePosition(); // OBTENER LA POSICION ACTUAL Y TAMBIEN SOLICITAR LOS PERMISOS
 
       iraPosicion(orden.lat, orden.lng);
-      addMarker('delivery', orden.lat, orden.lng, 'Tu repartidor', '',
-          deliveryMarker);
       addMarker(
-        'HOME',
+        'delivery',
+        orden.lat,
+        orden.lng,
+        'Tu repartidor',
+        '',
+        deliveryMarker,
+      );
+
+      addMarker(
+        'home',
         orden.address.lat,
         orden.address.lng,
         'Lugar de entrega',
         '',
         homeMarker,
       );
+
       refresh();
     } catch (e) {
-      print(e);
+      print('Error: $e');
     }
   }
 

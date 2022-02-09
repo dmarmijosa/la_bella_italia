@@ -3,6 +3,7 @@ import 'package:la_bella_italia/src/models/direccion.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/address_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -24,6 +25,11 @@ class ClienteDireccionesEliminarController {
     user = User.fromJson(await _sharedPref.read('user'));
 
     _addressProvider.init(context, user);
+
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
 
     refresh();
   }

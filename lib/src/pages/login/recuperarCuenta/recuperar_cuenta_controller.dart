@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 
 import 'package:la_bella_italia/src/providers/user_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 
 class RecuperarCuentaController {
@@ -14,6 +15,10 @@ class RecuperarCuentaController {
     this.context = context;
 
     userProvider.init(context);
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
   }
 
   Future<void> recuperar() async {

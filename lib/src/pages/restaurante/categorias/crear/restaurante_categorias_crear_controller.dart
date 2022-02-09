@@ -4,6 +4,7 @@ import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 
 import 'package:la_bella_italia/src/providers/category_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
@@ -27,6 +28,11 @@ class RestauranteCategoriasCrearController {
     user = User.fromJson(await sharedPref.read('user'));
     _categoryProvider.init(context, user);
     getCategorias();
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
+    refresh();
   }
 
   void getCategorias() async {

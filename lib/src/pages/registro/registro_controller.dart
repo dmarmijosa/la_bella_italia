@@ -8,6 +8,7 @@ import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:la_bella_italia/src/utils/utilsapp.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class RegistroController {
@@ -34,11 +35,9 @@ class RegistroController {
     userProvider.init(context);
     _progressDialog = ProgressDialog(context: context);
 
-    try {
-      final result = await InternetAddress.lookup('www34.google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {}
-    } catch (_) {
-      MyScnackbar.show(context, "SIN CONEXION AL SERVIDOR");
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
     }
   }
 

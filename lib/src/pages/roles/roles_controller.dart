@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:la_bella_italia/src/models/user.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
 class RolesController {
@@ -14,10 +15,12 @@ class RolesController {
     this.context = context;
     this.refresh = refresh;
 
-    // OBTENER EL USUARIO DE SESION
-    user = User.fromJson(
-        await sharedPref.read('user')); // PODRIA TARDAR UN TIEMPO EN OBTENERSE
+    user = User.fromJson(await sharedPref.read('user'));
     refresh();
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
   }
 
   void goToPage(String route) {

@@ -5,6 +5,7 @@ import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/detalle/restaurante_ordenes_detalle_page.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -32,15 +33,16 @@ class RestauranteOrdenesListaController {
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    //this.abiertoOCerrado = abiertoOCerrado;
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
 
     user = User.fromJson(await _sharedPref.read('user') ?? {});
     _orderProvider.init(context, user);
     abiertoOCerrado = await _userProvider.restaurantIsAvaiable();
 
     refresh();
-
-    //print(estado);
   }
 
   Future<List<Orden>> obtenerOrdenes(String status) async {
@@ -84,7 +86,8 @@ class RestauranteOrdenesListaController {
   }
 
   void irACrearProducto() {
-    Navigator.pushNamed(context, 'restaurante/producto/crear');
+    //Navigator.pushNamed(context, 'restaurante/producto/crear');
+    Navigator.pushNamed(context, 'restaurante/productos/opciones');
   }
 
   void cambiarRol() {

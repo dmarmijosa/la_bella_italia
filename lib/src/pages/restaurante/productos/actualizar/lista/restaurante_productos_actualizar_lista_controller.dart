@@ -12,7 +12,7 @@ import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class ClienteProductoListaController {
+class RestauranteProductosActualizarListaController {
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
@@ -64,18 +64,6 @@ class ClienteProductoListaController {
     );
   }
 
-  void irAMisPedidos() {
-    Navigator.pushNamed(context, 'cliente/ordenes/lista');
-  }
-
-  void irACrearOrdenPage() {
-    Navigator.pushNamed(context, 'cliente/ordenes/crear');
-  }
-
-  void irAEliminarDirecciones() {
-    Navigator.pushNamed(context, 'cliente/direcciones/eliminar');
-  }
-
   // ignore: non_constant_identifier_names
   Future<List<Producto>> obtenerProductos(
       String idCategory, String productName) async {
@@ -92,19 +80,7 @@ class ClienteProductoListaController {
     refresh();
   }
 
-  void logout() {
-    _sharedPref.logout(context, user.id);
-  }
-
-  void openDrawer() {
-    key.currentState.openDrawer();
-  }
-
-  void cambiarROl() {
-    Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
-  }
-
-  void editarPerfil() {
-    Navigator.pushNamed(context, 'cliente/actualizar');
+  void regresar() {
+    Navigator.pop(context);
   }
 }

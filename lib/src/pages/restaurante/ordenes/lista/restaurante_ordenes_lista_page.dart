@@ -298,6 +298,22 @@ class _RestauranteOrdenesListaPageState
               color: Colors.black,
             ),
           ),
+          ListTile(
+            onTap: _obj.irACrearCategoria,
+            title: Text('Eliminar categoría'),
+            trailing: Icon(
+              Icons.create_new_folder,
+              color: Colors.black,
+            ),
+          ),
+          ListTile(
+            onTap: _obj.irACrearCategoria,
+            title: Text('Actualizar categoría'),
+            trailing: Icon(
+              Icons.create_new_folder,
+              color: Colors.black,
+            ),
+          ),
           _obj.user != null
               ? _obj.user.roles.length > 1
                   ? ListTile(

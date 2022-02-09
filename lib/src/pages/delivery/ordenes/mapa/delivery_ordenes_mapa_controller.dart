@@ -10,6 +10,8 @@ import 'package:la_bella_italia/src/api/enviroments.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
+import 'package:la_bella_italia/src/providers/pushNotification_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -17,6 +19,7 @@ import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:location/location.dart' as location;
 import 'package:geocoding/geocoding.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
@@ -49,7 +52,8 @@ class DeliveryOrdenesMapaController {
       CameraPosition(target: LatLng(40.0025746, 3.8412286), zoom: 19.27);
 
   Completer<GoogleMapController> _mapController = Completer();
-
+  PushNotificationProvider pushNotificationsProvider =
+      new PushNotificationProvider();
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
@@ -70,7 +74,13 @@ class DeliveryOrdenesMapaController {
     socket.connect();
 
     _orderProvider.init(context, user);
+
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
     refresh();
+
     checkGPS();
   }
 
@@ -99,14 +109,21 @@ class DeliveryOrdenesMapaController {
   }
 
   void cercaPosicion() {
-    _distancia = Geolocator.distanceBetween(_posicion.latitude,
-        _posicion.longitude, orden.address.lat, orden.address.lng);
+    _distancia = Geolocator.distanceBetween(
+      _posicion.latitude,
+      _posicion.longitude,
+      orden.address.lat,
+      orden.address.lng,
+    );
+    sendNotification(orden.client.notificationToken);
   }
 
   void updateDelivered() async {
     if (_distancia <= 100) {
       ResponseApi responseApi = await _orderProvider.updateToDelivered(orden);
       if (responseApi.success) {
+        Fluttertoast.showToast(
+            msg: responseApi.message, toastLength: Toast.LENGTH_LONG);
         Navigator.pushNamedAndRemoveUntil(
             context, 'delivery/ordenes/lista', (route) => false);
       }
@@ -206,6 +223,16 @@ class DeliveryOrdenesMapaController {
     }
   }
 
+  void sendNotification(String tokenDelivery) {
+    Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
+
+    pushNotificationsProvider.sendMessage(
+        tokenDelivery,
+        data,
+        'REPARTIDOR ACERCANDOSE',
+        'Tu repartidor esta cerca al lugar de entrega');
+  }
+
   void saveLocation() async {
     orden.lat = _posicion.latitude;
     orden.lng = _posicion.longitude;
@@ -221,39 +248,27 @@ class DeliveryOrdenesMapaController {
       saveLocation();
 
       iraPosicion(_posicion.latitude, _posicion.longitude);
-      addMarker(
-        'delivery',
-        _posicion.latitude,
-        _posicion.longitude,
-        'Tu posicion',
-        '',
-        deliveryMarker,
-      );
+      addMarker('delivery', _posicion.latitude, _posicion.longitude,
+          'Tu posicion', '', deliveryMarker);
 
-      addMarker(
-        'home',
-        orden.address.lat,
-        orden.address.lng,
-        'Lugar de entrega',
-        '',
-        homeMarker,
-      );
+      addMarker('home', orden.address.lat, orden.address.lng,
+          'Lugar de entrega', '', homeMarker);
 
-      emitPosition();
+      _posicionStream = Geolocator.getPositionStream(
+              desiredAccuracy: LocationAccuracy.best, distanceFilter: 1)
+          .listen((Position position) {
+        _posicion = position;
 
-      addMarker(
-        'delivery',
-        _posicion.latitude,
-        _posicion.longitude,
-        'Tu posicion',
-        '',
-        deliveryMarker,
-      );
+        emitPosition();
 
-      iraPosicion(_posicion.latitude, _posicion.longitude);
-      cercaPosicion();
+        addMarker('delivery', _posicion.latitude, _posicion.longitude,
+            'Tu posicion', '', deliveryMarker);
 
-      refresh();
+        iraPosicion(_posicion.latitude, _posicion.longitude);
+        cercaPosicion();
+
+        refresh();
+      });
     } catch (e) {
       print('Error: $e');
     }

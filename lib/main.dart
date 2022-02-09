@@ -20,13 +20,45 @@ import 'package:la_bella_italia/src/pages/restaurante/categorias/crear/restauran
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/detalle/restaurante_ordenes_detalle_page.dart';
 
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/lista/restaurante_ordenes_lista_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/productos/actualizar/lista/restaurante_productos_actualizar_lista_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/productos/crear/restaurante_productos_crear_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/productos/opciones/restaurante_productos_opciones_page.dart';
 import 'package:la_bella_italia/src/pages/roles/roles_page.dart';
+import 'package:la_bella_italia/src/providers/pushNotification_provider.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:la_bella_italia/src/widgets/no_conection.dart';
 
-void main() => runApp(MyApp());
+PushNotificationProvider pushNotificationProvider =
+    new PushNotificationProvider();
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+  print('Handling a background message ${message.messageId}');
+}
 
-class MyApp extends StatelessWidget {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  pushNotificationProvider.initNotification();
+  runApp(MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    pushNotificationProvider.onMessageListener();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,6 +70,7 @@ class MyApp extends StatelessWidget {
         'registro': (BuildContext context) => Registro(),
         'recuperar': (BuildContext context) => RecuperarCuentaPage(),
         'roles': (BuildContext context) => RolesPage(),
+        'desconectado': (BuildContext context) => NoConecction(),
         'cliente/productos/lista': (BuildContext context) =>
             ClienteProductoListaPage(),
         'cliente/actualizar': (BuildContext context) => ClienteActualizarPage(),
@@ -66,10 +99,14 @@ class MyApp extends StatelessWidget {
             RestauranteCategoriasCrearPage(),
         'restaurante/producto/crear': (BuildContext context) =>
             RestauranteProductosCrearPage(),
+        'restaurante/producto/actualizar': (BuildContext context) =>
+            RestauranteProductosActualizarListaPage(),
         'restaurante/ordenes/detalle': (BuildContext context) =>
             RestauranteOrdenesDetallePage(
               orden: null,
             ),
+        'restaurante/productos/opciones': (BuildContext context) =>
+            RestauranteProductosOpcionesPage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,

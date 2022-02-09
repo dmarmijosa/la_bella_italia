@@ -5,7 +5,9 @@ import 'package:la_bella_italia/src/models/orden.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
+import 'package:la_bella_italia/src/providers/pushNotification_provider.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,11 +30,16 @@ class RestauranteOrdenesDetalleController {
   List<User> users = [];
   String idDelivery;
   List<String> status = ['DESPACHADA', 'EN CAMINO', 'ENTREGADA', 'CANCELADA'];
-
+  PushNotificationProvider pushNotificationProvider =
+      new PushNotificationProvider();
   Future init(BuildContext context, Function refresh, Orden orden) async {
     this.context = context;
     this.refresh = refresh;
     this.orden = orden;
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
     user = User.fromJson(await _sharedPref.read('user'));
     _userProvider.init(context, sessionUser: user);
     _orderProvider.init(context, user);
@@ -41,11 +48,26 @@ class RestauranteOrdenesDetalleController {
     refresh();
   }
 
+  void enviarNotificacion(String tokenDelivery) {
+    Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
+
+    pushNotificationProvider.sendMessage(
+      tokenDelivery,
+      data,
+      'PEDIDO ASIGNADO',
+      'Te han asignado un pedido',
+    );
+  }
+
   void updateOrden() async {
     if (idDelivery != null) {
       orden.idDelivery = idDelivery;
       ResponseApi responseApi =
           await _orderProvider.updateToTheDispatched(orden);
+
+      User deliveryUser = await _userProvider.getById(orden.idDelivery);
+      enviarNotificacion(deliveryUser.notificationToken);
+      print('TOKEN: ---------${deliveryUser.notificationToken}');
 
       if (responseApi.success) {
         Fluttertoast.showToast(msg: responseApi.message);

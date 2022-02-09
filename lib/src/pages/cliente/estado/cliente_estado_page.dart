@@ -27,7 +27,7 @@ class _ClienteEstadoPageState extends State<ClienteEstadoPage> {
     return Scaffold(
       body: Column(
         children: [
-          _animacionLogin(),
+          _animacion(),
           _txtFinalizar(),
           Spacer(),
           _btnFinalizar(),
@@ -62,7 +62,7 @@ class _ClienteEstadoPageState extends State<ClienteEstadoPage> {
     );
   }
 
-  Widget _animacionLogin() {
+  Widget _animacion() {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(

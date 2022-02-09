@@ -32,6 +32,7 @@ class User {
     this.sessionToken,
     this.image,
     this.roles,
+    this.notificationToken,
     // ignore: non_constant_identifier_names
     this.is_avaiable,
     this.toList,
@@ -45,6 +46,7 @@ class User {
         phone: json["phone"],
         password: json["password"],
         sessionToken: json["session_token"],
+        notificationToken: json["notification_token"],
         image: json["image"],
         is_avaiable: json["is_avaiable"],
         roles: json["roles"] == null
@@ -71,6 +73,7 @@ class User {
         "phone": phone,
         "password": password,
         "session_token": sessionToken,
+        "notification_token": notificationToken,
         "image": image,
         "is_avaiable": is_avaiable,
         "roles": roles

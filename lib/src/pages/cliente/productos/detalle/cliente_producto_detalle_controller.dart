@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -28,6 +29,10 @@ class ClienteProductoDetalleController {
     productoSelecionado.forEach((element) {
       print('producto seleccionado: ${element.toJson()}');
     });
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
     refresh();
   }
 

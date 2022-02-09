@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:location/location.dart' as location;
 import 'package:geocoding/geocoding.dart';
 
@@ -21,7 +22,10 @@ class ClienteDireccionesMapaController {
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
     refresh();
     checkGPS();
   }

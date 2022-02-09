@@ -40,7 +40,7 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(100),
             child: AppBar(
-              title: Text('Mis pedidos.'),
+              title: Text('Mis pedidos'),
               backgroundColor: MyColors.primaryColor,
               bottom: TabBar(
                 indicatorColor: Colors.black,
@@ -147,7 +147,7 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
                       width: double.infinity,
                       margin: EdgeInsets.symmetric(vertical: 5),
                       child: Text(
-                        'Cliente: ${orden.delivery?.name ?? 'No asignado'} ${orden.delivery?.lastname ?? ''} ',
+                        'Repartidor: ${orden.delivery?.name ?? 'No asignado'} ${orden.delivery?.lastname ?? ''} ',
                         style: TextStyle(
                           fontSize: 14,
                         ),

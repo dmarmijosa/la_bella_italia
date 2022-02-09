@@ -3,20 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:la_bella_italia/src/models/categoria.dart';
 import 'package:la_bella_italia/src/models/producto.dart';
-import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_controller.dart';
+
+import 'package:la_bella_italia/src/pages/restaurante/productos/actualizar/lista/restaurante_productos_actualizar_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
 
-class ClienteProductoListaPage extends StatefulWidget {
-  const ClienteProductoListaPage({key}) : super(key: key);
+class RestauranteProductosActualizarListaPage extends StatefulWidget {
+  const RestauranteProductosActualizarListaPage({key}) : super(key: key);
 
   @override
-  _ClienteProductoListaPageState createState() =>
-      _ClienteProductoListaPageState();
+  _RestauranteProductosActualizarListaPageState createState() =>
+      _RestauranteProductosActualizarListaPageState();
 }
 
-class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
-  ClienteProductoListaController _obj = new ClienteProductoListaController();
+class _RestauranteProductosActualizarListaPageState
+    extends State<RestauranteProductosActualizarListaPage> {
+  RestauranteProductosActualizarListaController _obj =
+      new RestauranteProductosActualizarListaController();
 
   @override
   // ignore: must_call_super
@@ -40,9 +43,6 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             child: AppBar(
               automaticallyImplyLeading: false,
               backgroundColor: Colors.white,
-              actions: [
-                _menuShopping(),
-              ],
               flexibleSpace: Column(
                 children: [
                   SizedBox(height: 40),
@@ -67,7 +67,6 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
               ),
             ),
           ),
-          drawer: _drawer(),
           body: TabBarView(
             children: _obj.categorias.map(
               (Categoria categoria) {
@@ -110,6 +109,30 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     );
   }
 
+  Widget _menuDraver() {
+    return GestureDetector(
+      onTap: _obj.regresar,
+      child: Container(
+          margin: EdgeInsets.only(left: 20),
+          alignment: Alignment.centerLeft,
+          child: Row(
+            children: [
+              Icon(
+                Icons.arrow_back_sharp,
+                color: Colors.black,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Text(
+                'REGRESAR',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+            ],
+          )),
+    );
+  }
+
   Widget _tarjetaProducto(Producto producto) {
     return GestureDetector(
       onTap: () {
@@ -138,7 +161,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                     ),
                   ),
                   child: Icon(
-                    Icons.add,
+                    Icons.edit,
                     color: Colors.white,
                   ),
                 ),
@@ -190,33 +213,6 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     );
   }
 
-  Widget _menuShopping() {
-    return Stack(
-      children: [
-        Container(
-            margin: EdgeInsets.only(right: 5, top: 5),
-            child: IconButton(
-              onPressed: _obj.irACrearOrdenPage,
-              icon: Icon(
-                Icons.shopping_bag_outlined,
-                color: Colors.black,
-              ),
-            )),
-        Positioned(
-          right: 16,
-          bottom: 30,
-          child: Container(
-            width: 9,
-            height: 9,
-            decoration: BoxDecoration(
-                color: Colors.green,
-                borderRadius: BorderRadius.all(Radius.circular(30))),
-          ),
-        )
-      ],
-    );
-  }
-
   Widget _edtBuscar() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -242,121 +238,6 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
           ),
           contentPadding: EdgeInsets.all(15),
         ),
-      ),
-    );
-  }
-
-  Widget _menuDraver() {
-    return GestureDetector(
-      onTap: _obj.openDrawer,
-      child: Container(
-        margin: EdgeInsets.only(left: 20),
-        alignment: Alignment.centerLeft,
-        child: Icon(
-          Icons.menu,
-          color: Colors.black,
-        ),
-      ),
-    );
-  }
-
-  Widget _drawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: BoxDecoration(color: MyColors.primaryColor),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 60,
-                  margin: EdgeInsets.only(top: 10, bottom: 4),
-                  child: FadeInImage(
-                    image: _obj.user?.image != null
-                        ? NetworkImage(_obj.user.image)
-                        : AssetImage('assets/img/no-image.png'),
-                    fit: BoxFit.contain,
-                    fadeInDuration: Duration(milliseconds: 50),
-                    placeholder: AssetImage('assets/img/no-image.png'),
-                  ),
-                ),
-                Text(
-                  '${_obj.user?.name ?? ' '} ${_obj.user?.lastname ?? ' '} ',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  maxLines: 1,
-                ),
-                Text(
-                  '${_obj.user?.email ?? ''}',
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic),
-                  maxLines: 1,
-                ),
-                Text(
-                  '${_obj.user?.phone ?? ''}',
-                  style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic),
-                  maxLines: 1,
-                ),
-              ],
-            ),
-          ),
-          ListTile(
-            onTap: _obj.editarPerfil,
-            title: Text('Editar perfil'),
-            trailing: Icon(
-              Icons.edit,
-              color: Colors.black,
-            ),
-          ),
-          ListTile(
-            onTap: _obj.irAMisPedidos,
-            title: Text('Mis pedidos'),
-            trailing: Icon(
-              Icons.shopping_bag,
-              color: Colors.black,
-            ),
-          ),
-          ListTile(
-            onTap: _obj.irAEliminarDirecciones,
-            title: Text('Mis direcciones'),
-            trailing: Icon(
-              Icons.my_location_sharp,
-              color: Colors.black,
-            ),
-          ),
-          _obj.user != null
-              ? _obj.user.roles.length > 1
-                  ? ListTile(
-                      title: Text('Cambiar de rol'),
-                      onTap: _obj.cambiarROl,
-                      trailing: Icon(
-                        Icons.sync,
-                        color: Colors.black,
-                      ),
-                    )
-                  : Container()
-              : Container(),
-          ListTile(
-            onTap: _obj.logout,
-            title: Text('Cerrar sesión'),
-            trailing: Icon(
-              Icons.login_rounded,
-              color: Colors.black,
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/producto.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
+import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -30,6 +31,11 @@ class ClienteOrdenesCrearController {
         Producto.fromJsonList(await _sharedPref.read('order')).toList;
     print(estadoRestaurante);
     obtenerTotal();
+
+    UtilsApp utilsApp = new UtilsApp();
+    if (await utilsApp.internetConnectivity() == false) {
+      Navigator.pushNamed(context, 'desconectado');
+    }
     refresh();
   }
 
