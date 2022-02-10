@@ -283,32 +283,24 @@ class _RestauranteOrdenesListaPageState
             ),
           ),
           ListTile(
-            onTap: _obj.irACrearProducto,
-            title: Text('Crear producto'),
+            onTap: _obj.irAAdministarProducto,
+            title: Text('Administrar productos'),
             trailing: Icon(
               Icons.create,
               color: Colors.black,
             ),
           ),
           ListTile(
-            onTap: _obj.irACrearCategoria,
-            title: Text('Crear categoría'),
+            onTap: _obj.irAAdministarCategoria,
+            title: Text('Administrar categorías'),
             trailing: Icon(
               Icons.create_new_folder,
               color: Colors.black,
             ),
           ),
           ListTile(
-            onTap: _obj.irACrearCategoria,
-            title: Text('Eliminar categoría'),
-            trailing: Icon(
-              Icons.create_new_folder,
-              color: Colors.black,
-            ),
-          ),
-          ListTile(
-            onTap: _obj.irACrearCategoria,
-            title: Text('Actualizar categoría'),
+            onTap: _obj.irAAdministarCategoria,
+            title: Text('Agregar o eliminar repartidores'),
             trailing: Icon(
               Icons.create_new_folder,
               color: Colors.black,

@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/pages/restaurante/productos/opciones/restaurante_productos_opciones_controller.dart';
+import 'package:la_bella_italia/src/pages/restaurante/categorias/opciones/restaurante_categorias_opciones_controller.dart';
+
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
-class RestauranteProductosOpcionesPage extends StatefulWidget {
-  const RestauranteProductosOpcionesPage({key}) : super(key: key);
+class RestauranteCategoriasOpcionesPage extends StatefulWidget {
+  const RestauranteCategoriasOpcionesPage({key}) : super(key: key);
 
   @override
-  _RestauranteProductosOpcionesPageState createState() =>
-      _RestauranteProductosOpcionesPageState();
+  _RestauranteCategoriasOpcionesPageState createState() =>
+      _RestauranteCategoriasOpcionesPageState();
 }
 
-class _RestauranteProductosOpcionesPageState
-    extends State<RestauranteProductosOpcionesPage> {
-  RestauranteProductosOpcionesController _obj =
-      new RestauranteProductosOpcionesController();
+class _RestauranteCategoriasOpcionesPageState
+    extends State<RestauranteCategoriasOpcionesPage> {
+  RestauranteCategoriasOpcionesController _obj =
+      new RestauranteCategoriasOpcionesController();
 
   @override
   void initState() {
@@ -35,11 +36,11 @@ class _RestauranteProductosOpcionesPageState
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _btnCrear(
-                  _obj.irACreacionProductos, "Crear producto", Icon(Icons.add)),
-              _btnCrear(_obj.irAActualizarProductos, "Modificar producto",
+              _btnCrear(_obj.irACreacionCategoria, "Crear categoria",
+                  Icon(Icons.add)),
+              _btnCrear(_obj.irAActualizarCategoria, "Modificar categoria",
                   Icon(Icons.edit)),
-              _btnCrear(_obj.irAEliminarProducto, "Eliminar producto",
+              _btnCrear(_obj.irAEliminarCategoria, "Eliminar categoria",
                   Icon(Icons.delete)),
             ],
           ),

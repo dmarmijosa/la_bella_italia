@@ -81,11 +81,11 @@ class RestauranteOrdenesListaController {
     key.currentState.openDrawer();
   }
 
-  void irACrearCategoria() {
-    Navigator.pushNamed(context, 'restaurante/categorias/crear');
+  void irAAdministarCategoria() {
+    Navigator.pushNamed(context, 'restaurante/categorias/opciones');
   }
 
-  void irACrearProducto() {
+  void irAAdministarProducto() {
     //Navigator.pushNamed(context, 'restaurante/producto/crear');
     Navigator.pushNamed(context, 'restaurante/productos/opciones');
   }

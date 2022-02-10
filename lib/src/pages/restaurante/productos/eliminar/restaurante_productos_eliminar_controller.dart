@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/categoria.dart';
 import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 
-import 'package:la_bella_italia/src/pages/restaurante/productos/actualizar/detalle/restaurante_productos_crear_page.dart';
 import 'package:la_bella_italia/src/providers/category_provider.dart';
 import 'package:la_bella_italia/src/providers/product_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class RestauranteProductosActualizarListaController {
+class RestauranteProductosEliminarListaController {
   BuildContext context;
   SharedPref _sharedPref = new SharedPref();
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
@@ -56,13 +56,11 @@ class RestauranteProductosActualizarListaController {
     });
   }
 
-  void mostrarSheet(Producto producto) {
-    showMaterialModalBottomSheet(
-      context: context,
-      builder: (context) => RestauranteProductoActualizarDetallePage(
-        producto: producto,
-      ),
-    );
+  void confirmarEliminar(Producto producto) async {
+    ResponseApi responseApi =
+        await _productoProvider.deleteProduct(producto.id);
+    Fluttertoast.showToast(msg: responseApi.message);
+    refresh();
   }
 
   // ignore: non_constant_identifier_names

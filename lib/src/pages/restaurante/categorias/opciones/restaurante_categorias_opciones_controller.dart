@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RestauranteProductosOpcionesController {
+class RestauranteCategoriasOpcionesController {
   BuildContext context;
   Function refresh;
 
@@ -9,15 +9,15 @@ class RestauranteProductosOpcionesController {
     this.refresh = refresh;
   }
 
-  void irACreacionProductos() {
-    Navigator.pushNamed(context, 'restaurante/producto/crear');
+  void irACreacionCategoria() {
+    Navigator.pushNamed(context, 'restaurante/categorias/crear');
   }
 
-  void irAActualizarProductos() {
+  void irAActualizarCategoria() {
     Navigator.pushNamed(context, 'restaurante/producto/actualizar');
   }
 
-  void irAEliminarProducto() {
+  void irAEliminarCategoria() {
     Navigator.pushNamed(context, 'restaurante/producto/eliminar');
   }
 }

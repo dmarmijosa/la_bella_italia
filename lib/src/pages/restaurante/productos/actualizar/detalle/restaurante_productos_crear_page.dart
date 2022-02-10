@@ -3,11 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/producto.dart';
 import 'package:la_bella_italia/src/pages/restaurante/productos/actualizar/detalle/restaurante_productos_actualizar_detalle_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
+// ignore: must_be_immutable
 class RestauranteProductoActualizarDetallePage extends StatefulWidget {
-  const RestauranteProductoActualizarDetallePage({key}) : super(key: key);
+  Producto producto;
+  RestauranteProductoActualizarDetallePage({key, @required this.producto})
+      : super(key: key);
 
   @override
   _RestauranteProductoActualizarDetallePageState createState() =>
@@ -23,7 +27,7 @@ class _RestauranteProductoActualizarDetallePageState
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _obj.init(context, refresh, null);
+      _obj.init(context, refresh, widget.producto);
     });
   }
 
@@ -31,7 +35,7 @@ class _RestauranteProductoActualizarDetallePageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nueva producto'),
+        title: Text('Editar producto'),
       ),
       body: ListView(
         children: [
@@ -45,9 +49,9 @@ class _RestauranteProductoActualizarDetallePageState
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _tarjetaImagen(_obj.imageFile1, 1),
-                _tarjetaImagen(_obj.imageFile2, 2),
-                _tarjetaImagen(_obj.imageFile3, 3),
+                _tarjetaImagen(_obj?.imageFile1, 1),
+                _tarjetaImagen(_obj?.imageFile2, 2),
+                _tarjetaImagen(_obj?.imageFile3, 3),
               ],
             ),
           ),
@@ -70,7 +74,7 @@ class _RestauranteProductoActualizarDetallePageState
         maxLines: 1,
         maxLength: 180,
         decoration: InputDecoration(
-            hintText: 'Nombre de la producto',
+            hintText: 'editar de la producto',
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(color: MyColors.primaryColorDark),
@@ -125,7 +129,7 @@ class _RestauranteProductoActualizarDetallePageState
                   ),
                   SizedBox(width: 15),
                   Text(
-                    'Categorias',
+                    "Categoria",
                     style: TextStyle(color: Colors.grey, fontSize: 16),
                   )
                 ],
@@ -221,12 +225,21 @@ class _RestauranteProductoActualizarDetallePageState
           : Card(
               elevation: 3.0,
               child: Container(
-                height: 140,
-                width: MediaQuery.of(context).size.width * 0.26,
-                child: Image(
-                  image: AssetImage('assets/img/add_image.png'),
-                ),
-              ),
+                  height: 140,
+                  width: MediaQuery.of(context).size.width * 0.26,
+                  child: numberFile == 1
+                      ? _obj?.producto?.image1 == null
+                          ? Image.asset('assets/img/no-image.png')
+                          : Image?.network(_obj?.producto?.image1)
+                      : numberFile == 2
+                          ? _obj?.producto?.image2 == null
+                              ? Image.asset('assets/img/no-image.png')
+                              : Image.network(_obj?.producto?.image2)
+                          : numberFile == 3
+                              ? _obj?.producto?.image3 == null
+                                  ? Image.asset('assets/img/no-image.png')
+                                  : Image?.network(_obj?.producto?.image3)
+                              : Image.asset('assets/img/no-image.png')),
             ),
     );
   }
@@ -237,8 +250,8 @@ class _RestauranteProductoActualizarDetallePageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: _obj.createProduct,
-        child: Text('Crear producto'),
+        onPressed: _obj.updateProduct,
+        child: Text('Editar producto'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
             shape:

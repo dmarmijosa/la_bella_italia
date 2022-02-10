@@ -17,11 +17,14 @@ import 'package:la_bella_italia/src/pages/login/login_page.dart';
 import 'package:la_bella_italia/src/pages/login/recuperarCuenta/recuperar_cuenta_page.dart';
 import 'package:la_bella_italia/src/pages/registro/registro_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/crear/restaurante_categorias_crear_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/categorias/opciones/restaurante_categorias_opciones_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/detalle/restaurante_ordenes_detalle_page.dart';
 
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/lista/restaurante_ordenes_lista_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/productos/actualizar/detalle/restaurante_productos_crear_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/productos/actualizar/lista/restaurante_productos_actualizar_lista_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/productos/crear/restaurante_productos_crear_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/productos/eliminar/restaurante_productos_eliminar_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/productos/opciones/restaurante_productos_opciones_page.dart';
 import 'package:la_bella_italia/src/pages/roles/roles_page.dart';
 import 'package:la_bella_italia/src/providers/pushNotification_provider.dart';
@@ -95,18 +98,26 @@ class _MyAppState extends State<MyApp> {
             DeliveryOrdenesMapaPage(),
         'restaurante/ordenes/lista': (BuildContext context) =>
             RestauranteOrdenesListaPage(),
+        'restaurante/categorias/opciones': (BuildContext context) =>
+            RestauranteCategoriasOpcionesPage(),
         'restaurante/categorias/crear': (BuildContext context) =>
             RestauranteCategoriasCrearPage(),
+        'restaurante/productos/opciones': (BuildContext context) =>
+            RestauranteProductosOpcionesPage(),
         'restaurante/producto/crear': (BuildContext context) =>
             RestauranteProductosCrearPage(),
         'restaurante/producto/actualizar': (BuildContext context) =>
             RestauranteProductosActualizarListaPage(),
+        'restaurante/producto/eliminar': (BuildContext context) =>
+            RestauranteProductosEliminarListaPage(),
+        'restaurante/producto/actualizar/detalle': (BuildContext context) =>
+            RestauranteProductoActualizarDetallePage(
+              producto: null,
+            ),
         'restaurante/ordenes/detalle': (BuildContext context) =>
             RestauranteOrdenesDetallePage(
               orden: null,
             ),
-        'restaurante/productos/opciones': (BuildContext context) =>
-            RestauranteProductosOpcionesPage(),
       },
       theme: ThemeData(
         primaryColor: MyColors.primaryColor,
