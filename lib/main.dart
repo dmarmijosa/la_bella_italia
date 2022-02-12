@@ -16,8 +16,14 @@ import 'package:la_bella_italia/src/pages/delivery/ordenes/mapa/delivery_ordenes
 import 'package:la_bella_italia/src/pages/login/login_page.dart';
 import 'package:la_bella_italia/src/pages/login/recuperarCuenta/recuperar_cuenta_page.dart';
 import 'package:la_bella_italia/src/pages/registro/registro_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/categorias/actualizar/detalle/restaurante_categorias_actualizar_detalle_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/categorias/actualizar/listar/restaurante_categorias_listar_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/crear/restaurante_categorias_crear_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/categorias/eliminar/restaurante_categorias_eliminar_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/opciones/restaurante_categorias_opciones_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/mensajeros/agregar/restaurante_mensajeros_agregar_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/mensajeros/eliminar/restaurante_mensajeros_eliminar_page.dart';
+import 'package:la_bella_italia/src/pages/restaurante/mensajeros/opciones/restaurante_mensajeros_opciones_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/detalle/restaurante_ordenes_detalle_page.dart';
 
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/lista/restaurante_ordenes_lista_page.dart';
@@ -96,12 +102,26 @@ class _MyAppState extends State<MyApp> {
             DeliveryOrdenesListaPage(),
         'delivery/ordenes/mapa': (BuildContext context) =>
             DeliveryOrdenesMapaPage(),
+        'restaurante/mensajeros/agregar': (BuildContext context) =>
+            RestauranteMensajerosAgregarPage(),
+        'restaurante/mensajeros/eliminar': (BuildContext context) =>
+            RestauranteMensajerosEliminarPage(),
+        'restaurante/mensajeros/opciones': (BuildContext context) =>
+            RestauranteMensajerosOpcionesPage(),
         'restaurante/ordenes/lista': (BuildContext context) =>
             RestauranteOrdenesListaPage(),
         'restaurante/categorias/opciones': (BuildContext context) =>
             RestauranteCategoriasOpcionesPage(),
         'restaurante/categorias/crear': (BuildContext context) =>
             RestauranteCategoriasCrearPage(),
+        'restaurante/categorias/actualizar': (BuildContext context) =>
+            RestauranteCategoriasListarPage(),
+        'restaurante/categorias/eliminar': (BuildContext context) =>
+            RestauranteCategoriasEliminarPage(),
+        'restaurante/categorias/actualizar/detalle': (BuildContext context) =>
+            RestauranteCategoriasActualizarDetallePage(
+              categoria: null,
+            ),
         'restaurante/productos/opciones': (BuildContext context) =>
             RestauranteProductosOpcionesPage(),
         'restaurante/producto/crear': (BuildContext context) =>

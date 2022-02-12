@@ -210,6 +210,50 @@ class UserProvider {
     }
   }
 
+  Future<ResponseApi> addDelivery(String id) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/addDelivery/$id');
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.post(url, headers: headers);
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Tu sessión expiro');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
+  Future<ResponseApi> deleteDelivery(String id) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/deleteDelivery/$id');
+      Map<String, String> headers = {
+        'Content-type': 'application/json',
+        'Authorization': sessionUser.sessionToken
+      };
+      final res = await http.delete(url, headers: headers);
+
+      if (res.statusCode == 401) {
+        Fluttertoast.showToast(msg: 'Sesion expirada');
+        new SharedPref().logout(context, sessionUser.id);
+      }
+
+      final data = json.decode(res.body);
+      ResponseApi responseApi = ResponseApi.fromJson(data);
+      return responseApi;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+  }
+
   Future<ResponseApi> updateNotificationToken(
       String idUser, String token) async {
     try {

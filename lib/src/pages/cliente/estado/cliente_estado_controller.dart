@@ -1,18 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:la_bella_italia/src/models/user.dart';
+import 'package:la_bella_italia/src/providers/pushNotification_provider.dart';
+import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
+import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
 class ClienteEstadoController {
   BuildContext context;
   Function refresh;
-
+  List<String> tokens = [];
+  User user;
+  PushNotificationProvider pushNotificationProvider =
+      new PushNotificationProvider();
+  UserProvider _userProvider = new UserProvider();
+  SharedPref _sharedPref = new SharedPref();
   void init(context, refresh) async {
     this.context = context;
     this.refresh = refresh;
+    user = User.fromJson(await _sharedPref.read('user'));
+    _userProvider.init(context, sessionUser: user);
+    tokens = await _userProvider.getAdminsNotificationTokens();
+    enviarNotificacion();
+
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
     refresh();
+  }
+
+  void enviarNotificacion() {
+    List<String> registrationIds = [];
+    tokens.forEach((element) {
+      if (element != null) {
+        registrationIds.add(element);
+      }
+    });
+
+    Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
+
+    pushNotificationProvider.sendMessageMultiple(
+      registrationIds,
+      data,
+      'ORDEN CREADA',
+      'Cliente ha realizado una compra',
+    );
   }
 
   void finalizarCompra() {

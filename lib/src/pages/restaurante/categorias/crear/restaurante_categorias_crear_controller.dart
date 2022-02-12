@@ -25,13 +25,13 @@ class RestauranteCategoriasCrearController {
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    user = User.fromJson(await sharedPref.read('user'));
-    _categoryProvider.init(context, user);
-    getCategorias();
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
+    user = User.fromJson(await sharedPref.read('user'));
+    _categoryProvider.init(context, user);
+    getCategorias();
     refresh();
   }
 

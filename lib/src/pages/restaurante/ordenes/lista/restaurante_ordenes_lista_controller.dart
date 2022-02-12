@@ -33,11 +33,11 @@ class RestauranteOrdenesListaController {
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
+
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
-
     user = User.fromJson(await _sharedPref.read('user') ?? {});
     _orderProvider.init(context, user);
     abiertoOCerrado = await _userProvider.restaurantIsAvaiable();
@@ -83,6 +83,10 @@ class RestauranteOrdenesListaController {
 
   void irAAdministarCategoria() {
     Navigator.pushNamed(context, 'restaurante/categorias/opciones');
+  }
+
+  void irAAdministrarMensajeros() {
+    Navigator.pushNamed(context, 'restaurante/mensajeros/opciones');
   }
 
   void irAAdministarProducto() {

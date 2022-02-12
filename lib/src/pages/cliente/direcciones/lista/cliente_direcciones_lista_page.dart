@@ -17,6 +17,7 @@ class _ClienteDireccionesListaPageState
     extends State<ClienteDireccionesListaPage> {
   ClienteDireccionesListaController _obj =
       new ClienteDireccionesListaController();
+
   @override
   void initState() {
     super.initState();
@@ -70,6 +71,8 @@ class _ClienteDireccionesListaPageState
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (_, index) {
+                    print(
+                        '${snapshot.data[index].id} +++++++++++++++++++++++++++++++++');
                     return _radioDireccion(snapshot.data[index], index);
                   });
             } else {

@@ -46,26 +46,36 @@ class _RolesPageState extends State<RolesPage> {
       onTap: () {
         _obj.goToPage(rol.route);
       },
-      child: Column(
-        children: [
-          Container(
-            height: 100,
-            child: FadeInImage(
-              image: rol.image != null
-                  ? NetworkImage(rol.image)
-                  : AssetImage('assets/img/no-image.png'),
-              fit: BoxFit.contain,
-              fadeInDuration: Duration(milliseconds: 50),
-              placeholder: AssetImage('assets/img/no-image.png'),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              height: 100,
+              child: rol.id == "3"
+                  ? Icon(
+                      Icons.delivery_dining,
+                      size: 100,
+                    )
+                  : rol.id == "2"
+                      ? Icon(
+                          Icons.storefront,
+                          size: 100,
+                        )
+                      : rol.id == "1"
+                          ? Icon(
+                              Icons.account_circle,
+                              size: 100,
+                            )
+                          : Container(),
             ),
-          ),
-          SizedBox(height: 15),
-          Text(
-            rol.name ?? '',
-            style: TextStyle(fontSize: 16, color: Colors.black),
-          ),
-          SizedBox(height: 25),
-        ],
+            SizedBox(height: 15),
+            Text(
+              rol.name ?? '',
+              style: TextStyle(fontSize: 16, color: Colors.black),
+            ),
+            SizedBox(height: 25),
+          ],
+        ),
       ),
     );
   }

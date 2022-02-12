@@ -2,7 +2,7 @@
     package="com.example.la_bella_italia">
    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="la_bella_italia"
+        android:label="LA BELLA ITALIA"
         android:icon="@mipmap/ic_launcher"
         
         android:usesCleartextTraffic="true">

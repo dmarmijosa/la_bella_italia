@@ -26,6 +26,7 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
   void initState() {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _obj.init(context, refresh);
+      refresh();
     });
   }
 

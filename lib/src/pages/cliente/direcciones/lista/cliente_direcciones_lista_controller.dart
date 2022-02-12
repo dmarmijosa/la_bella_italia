@@ -6,7 +6,7 @@ import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/address_provider.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
-import 'package:la_bella_italia/src/providers/pushNotification_provider.dart';
+
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/my_snackbar.dart';
@@ -16,14 +16,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ClienteDireccionesListaController {
   BuildContext context;
   Function refresh;
-  List<String> tokens = [];
+
   List<Direccion> direcciones = [];
-  PushNotificationProvider pushNotificationProvider =
-      new PushNotificationProvider();
 
   AddressProvider _addressProvider = new AddressProvider();
   User user;
-  int radioValue = 0;
+  int radioValue = -1;
   UserProvider _userProvider = new UserProvider();
   SharedPref _sharedPref = new SharedPref();
   OrderProvider _orderProvider = new OrderProvider();
@@ -37,12 +35,11 @@ class ClienteDireccionesListaController {
 
     _addressProvider.init(context, user);
     _orderProvider.init(context, user);
-    tokens = await _userProvider.getAdminsNotificationTokens();
+
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
-    enviarNotificacion();
 
     refresh();
   }
@@ -68,24 +65,6 @@ class ClienteDireccionesListaController {
       Navigator.pushNamedAndRemoveUntil(
           context, 'cliente/estado', (route) => false);
     }
-  }
-
-  void enviarNotificacion() {
-    List<String> registrationIds = [];
-    tokens.forEach((element) {
-      if (element != null) {
-        registrationIds.add(element);
-      }
-    });
-
-    Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
-
-    pushNotificationProvider.sendMessageMultiple(
-      registrationIds,
-      data,
-      'ORDEN CREADA',
-      'Cliente ha realizado una compra',
-    );
   }
 
   void handleRadioCambio(int value) async {

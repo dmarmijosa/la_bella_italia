@@ -14,7 +14,7 @@ class ClienteDireccionesEliminarController {
 
   AddressProvider _addressProvider = new AddressProvider();
   User user;
-  int radioValue = 0;
+  int radioValue = -1;
 
   SharedPref _sharedPref = new SharedPref();
 

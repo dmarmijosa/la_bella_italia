@@ -299,10 +299,10 @@ class _RestauranteOrdenesListaPageState
             ),
           ),
           ListTile(
-            onTap: _obj.irAAdministarCategoria,
+            onTap: _obj.irAAdministrarMensajeros,
             title: Text('Agregar o eliminar repartidores'),
             trailing: Icon(
-              Icons.create_new_folder,
+              Icons.delivery_dining,
               color: Colors.black,
             ),
           ),
