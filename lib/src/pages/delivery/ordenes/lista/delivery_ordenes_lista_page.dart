@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -27,6 +28,8 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _obj.init(context, refresh);
     });
+    new Timer.periodic(
+        Duration(seconds: 5), (Timer t) => !mounted ? dispose : refresh());
   }
 
   @override

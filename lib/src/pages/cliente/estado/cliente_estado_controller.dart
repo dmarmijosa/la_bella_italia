@@ -20,31 +20,13 @@ class ClienteEstadoController {
     user = User.fromJson(await _sharedPref.read('user'));
     _userProvider.init(context, sessionUser: user);
     tokens = await _userProvider.getAdminsNotificationTokens();
-    enviarNotificacion();
 
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
+
     refresh();
-  }
-
-  void enviarNotificacion() {
-    List<String> registrationIds = [];
-    tokens.forEach((element) {
-      if (element != null) {
-        registrationIds.add(element);
-      }
-    });
-
-    Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
-
-    pushNotificationProvider.sendMessageMultiple(
-      registrationIds,
-      data,
-      'ORDEN CREADA',
-      'Cliente ha realizado una compra',
-    );
   }
 
   void finalizarCompra() {

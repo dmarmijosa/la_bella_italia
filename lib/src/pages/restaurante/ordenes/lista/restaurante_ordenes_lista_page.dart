@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -28,6 +29,9 @@ class _RestauranteOrdenesListaPageState
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
       _obj.init(context, refresh);
     });
+
+    new Timer.periodic(
+        Duration(seconds: 5), (Timer t) => !mounted ? dispose : refresh());
   }
 
   @override
@@ -80,6 +84,7 @@ class _RestauranteOrdenesListaPageState
                             itemCount: snapshot.data?.length ?? 0,
                             itemBuilder: (_, index) {
                               print(snapshot.data[index].toJson());
+
                               return _tarjetaOrden(snapshot.data[index]);
                             });
                       } else {
@@ -270,7 +275,7 @@ class _RestauranteOrdenesListaPageState
               height: 55.0,
               valueFontSize: 25.0,
               toggleSize: 45.0,
-              value: _obj.abiertoOCerrado,
+              value: _obj.abiertoOCerrado ?? false,
               borderRadius: 30.0,
               padding: 8.0,
               showOnOff: true,
@@ -335,5 +340,6 @@ class _RestauranteOrdenesListaPageState
     setState(
       () {},
     );
+    //dispose();
   }
 }

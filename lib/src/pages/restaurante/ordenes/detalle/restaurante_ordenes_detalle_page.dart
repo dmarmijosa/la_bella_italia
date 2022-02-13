@@ -54,7 +54,8 @@ class _RestauranteOrdenesDetallePageState
                     ? _dropDownStatu(_obj.status)
                     : Container(),
                 (_obj.orden?.status != 'CREADA' &&
-                        _obj.orden?.status != 'CANCELADA')
+                        _obj.orden?.status != 'CANCELADA' &&
+                        _obj.orden?.delivery?.name != null)
                     ? _deliveryData()
                     : Container(),
                 _obj.orden?.status == 'CREADA'

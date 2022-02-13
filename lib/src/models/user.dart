@@ -17,7 +17,7 @@ class User {
   String notificationToken;
   String image;
   // ignore: non_constant_identifier_names
-  bool is_avaiable;
+  bool is_available;
 
   List<Rol> roles = [];
   List<User> toList = [];
@@ -34,7 +34,7 @@ class User {
     this.roles,
     this.notificationToken,
     // ignore: non_constant_identifier_names
-    this.is_avaiable,
+    this.is_available,
     this.toList,
   });
 
@@ -48,7 +48,7 @@ class User {
         sessionToken: json["session_token"],
         notificationToken: json["notification_token"],
         image: json["image"],
-        is_avaiable: json["is_avaiable"],
+        is_available: json["is_available"],
         roles: json["roles"] == null
             ? []
             : List<Rol>.from(
@@ -75,7 +75,7 @@ class User {
         "session_token": sessionToken,
         "notification_token": notificationToken,
         "image": image,
-        "is_avaiable": is_avaiable,
+        "is_available": is_available,
         "roles": roles
       };
 }

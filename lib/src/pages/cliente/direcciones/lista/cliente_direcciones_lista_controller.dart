@@ -6,6 +6,7 @@ import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/address_provider.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
+import 'package:la_bella_italia/src/providers/pushNotification_provider.dart';
 
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
@@ -25,6 +26,9 @@ class ClienteDireccionesListaController {
   UserProvider _userProvider = new UserProvider();
   SharedPref _sharedPref = new SharedPref();
   OrderProvider _orderProvider = new OrderProvider();
+  PushNotificationProvider pushNotificationProvider =
+      new PushNotificationProvider();
+  List<String> tokens = [];
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -40,30 +44,50 @@ class ClienteDireccionesListaController {
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
+    tokens = await _userProvider.getAdminsNotificationTokens();
 
     refresh();
   }
 
+  void sendNotification() {
+    List<String> registration_id = [];
+    tokens.forEach((t) {
+      if (t != null) {
+        registration_id.add(t);
+      }
+    });
+
+    Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
+
+    pushNotificationProvider.sendMessageMultiple(registration_id, data,
+        'COMPRA EXITOSA', 'Un cliente ha realizado un pedido');
+  }
+
   void crearOrden() async {
     if (direcciones.length < 1) {
-      Fluttertoast.showToast(msg: 'Debe tener al menos una dirección agregada');
-      Navigator.pop(context);
     } else {
-      Direccion direccion =
-          Direccion.fromJson(await _sharedPref.read('address') ?? {});
-      List<Producto> productosSeleccionados =
-          Producto.fromJsonList(await _sharedPref.read('order')).toList;
+      if (radioValue == -1) {
+        Fluttertoast.showToast(
+            msg: 'Debe seleccionar al menos una dirección agregada');
+        Navigator.pop(context);
+      } else {
+        Direccion direccion =
+            Direccion.fromJson(await _sharedPref.read('address') ?? {});
+        List<Producto> productosSeleccionados =
+            Producto.fromJsonList(await _sharedPref.read('order')).toList;
 
-      Orden orden = new Orden(
-        idClient: user.id,
-        idAddress: direccion.id,
-        products: productosSeleccionados,
-      );
-      ResponseApi responseApi = await _orderProvider.create(orden);
-      MyScnackbar.show(context, responseApi.message);
+        Orden orden = new Orden(
+          idClient: user.id,
+          idAddress: direccion.id,
+          products: productosSeleccionados,
+        );
 
-      Navigator.pushNamedAndRemoveUntil(
-          context, 'cliente/estado', (route) => false);
+        ResponseApi responseApi = await _orderProvider.create(orden);
+        MyScnackbar.show(context, responseApi.message);
+        sendNotification();
+        Navigator.pushNamedAndRemoveUntil(
+            context, 'cliente/estado', (route) => false);
+      }
     }
   }
 

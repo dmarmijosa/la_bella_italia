@@ -58,8 +58,9 @@ class DeliveryOrdenesDetalleController {
     ResponseApi responseApi = await _orderProvider.updateToOntheWay(orden);
     Fluttertoast.showToast(msg: responseApi.message);
 
+    sendNotification(orden.client.notificationToken);
+
     if (responseApi.success) {
-      sendNotification(orden.client.notificationToken);
       Navigator.pushNamed(
         context,
         'delivery/ordenes/mapa',
@@ -70,6 +71,9 @@ class DeliveryOrdenesDetalleController {
   }
 
   void irAMapa() async {
+    sendNotification(orden.client.notificationToken);
+    Fluttertoast.showToast(msg: orden.client.name);
+    print("orden: $orden");
     Navigator.pushNamed(
       context,
       'delivery/ordenes/mapa',

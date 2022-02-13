@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/orden.dart';
-import 'package:la_bella_italia/src/models/response_api.dart';
+
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/detalle/delivery_ordenes_detalle_page.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class DeliveryOrdenesListaController {
@@ -17,6 +17,7 @@ class DeliveryOrdenesListaController {
   User user;
 
   Function refresh;
+  // ignore: unused_field
   UserProvider _userProvider = new UserProvider();
   OrderProvider _orderProvider = new OrderProvider();
   bool estado = false;
@@ -65,26 +66,12 @@ class DeliveryOrdenesListaController {
     }
   }
 
-  void actualizarEstado() async {
-    ResponseApi responseApi = await _userProvider.setValorRestaurant(user.id);
-    Fluttertoast.showToast(msg: responseApi.message);
-    print(responseApi.message);
-  }
-
   void logout() {
     _sharedPref.logout(context, user.id);
   }
 
   void openDrawer() {
     key.currentState.openDrawer();
-  }
-
-  void irACrearCategoria() {
-    Navigator.pushNamed(context, 'restaurante/categorias/crear');
-  }
-
-  void irACrearProducto() {
-    Navigator.pushNamed(context, 'restaurante/producto/crear');
   }
 
   void cambiarRol() {

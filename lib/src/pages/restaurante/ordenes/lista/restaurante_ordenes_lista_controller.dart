@@ -32,6 +32,7 @@ class RestauranteOrdenesListaController {
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
+
     this.refresh = refresh;
 
     UtilsApp utilsApp = new UtilsApp();
@@ -69,6 +70,7 @@ class RestauranteOrdenesListaController {
 
   void actualizarEstado() async {
     ResponseApi responseApi = await _userProvider.setValorRestaurant(user.id);
+
     Fluttertoast.showToast(msg: responseApi.message);
     print(responseApi.message);
   }
