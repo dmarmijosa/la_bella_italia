@@ -5,6 +5,7 @@ import 'package:la_bella_italia/src/models/orden.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
+import 'package:la_bella_italia/src/providers/pushNotification_provider.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
@@ -27,6 +28,8 @@ class DeliveryOrdenesDetalleController {
   Orden orden;
   List<User> users = [];
   String idDelivery;
+  PushNotificationProvider pushNotificationsProvider =
+      new PushNotificationProvider();
 
   Future init(BuildContext context, Function refresh, Orden orden) async {
     this.context = context;
@@ -44,11 +47,19 @@ class DeliveryOrdenesDetalleController {
     refresh();
   }
 
+  void sendNotification(String tokenDelivery) {
+    Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
+
+    pushNotificationsProvider.sendMessage(
+        tokenDelivery, data, 'ORDEN EN CAMINO', 'Tu repartidor esta en camino');
+  }
+
   void updateOrden() async {
     ResponseApi responseApi = await _orderProvider.updateToOntheWay(orden);
     Fluttertoast.showToast(msg: responseApi.message);
 
     if (responseApi.success) {
+      sendNotification(orden.client.notificationToken);
       Navigator.pushNamed(
         context,
         'delivery/ordenes/mapa',

@@ -32,7 +32,7 @@ class RestauranteMensajerosAgregarController {
   }
 
   void agregarMensajero() async {
-    String correo = correoController.text;
+    String correo = correoController.text.toLowerCase();
     if (correo.isEmpty) {
       MyScnackbar.show(context, 'EL correo es requerido.');
       return;

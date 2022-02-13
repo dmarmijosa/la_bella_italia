@@ -46,6 +46,7 @@ class PushNotificationProvider {
 
       RemoteNotification notification = message.notification;
       AndroidNotification android = message.notification?.android;
+      print(notification.body);
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,

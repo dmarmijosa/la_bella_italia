@@ -122,6 +122,7 @@ class DeliveryOrdenesMapaController {
     if (_distancia <= 100) {
       ResponseApi responseApi = await _orderProvider.updateToDelivered(orden);
       if (responseApi.success) {
+        sendNotificationLLegada(orden.client.notificationToken);
         Fluttertoast.showToast(
             msg: responseApi.message, toastLength: Toast.LENGTH_LONG);
         Navigator.pushNamedAndRemoveUntil(
@@ -231,6 +232,16 @@ class DeliveryOrdenesMapaController {
         data,
         'REPARTIDOR ACERCANDOSE',
         'Tu repartidor esta cerca al lugar de entrega');
+  }
+
+  void sendNotificationLLegada(String tokenDelivery) {
+    Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
+
+    pushNotificationsProvider.sendMessage(
+        tokenDelivery,
+        data,
+        'TU REPARTIDOR HA LLEGADO',
+        'Tu repartidor esta en el lugar de entrega');
   }
 
   void saveLocation() async {
