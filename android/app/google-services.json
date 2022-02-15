@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:690378175320:android:0fc142fd7972fd00a56b2d",
         "android_client_info": {
-          "package_name": "com.example.la_bella_italia"
+          "package_name": "com.la.bella.italia.com"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "690378175320-7t0rdm4rht0itjhv1p18f4ou0gvinlt1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.la_bella_italia",
+            "package_name": "com.la.bella.italia.com",
             "certificate_hash": "67866c248260426ada2d4133844d12da60bf1bf2"
           }
         },

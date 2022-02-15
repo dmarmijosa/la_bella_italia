@@ -34,6 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 _animacionLogin(),
+                _txtRestaurante(),
                 _edtCorreo(),
                 _edtPassword(),
                 _btnLogin(),
@@ -149,6 +150,41 @@ class _LoginPageState extends State<LoginPage> {
           ),
         )
       ],
+    );
+  }
+
+  Widget _txtRestaurante() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 1),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'La',
+            style: TextStyle(
+                color: Colors.green, fontFamily: 'Pacifico', fontSize: 30),
+          ),
+          SizedBox(
+            width: 7,
+          ),
+          Text(
+            'Bella',
+            style: TextStyle(
+                color: Colors.grey, fontFamily: 'Pacifico', fontSize: 30),
+          ),
+          SizedBox(
+            width: 7,
+          ),
+          Text(
+            'Italia',
+            style: TextStyle(
+                color: Colors.red, fontFamily: 'Pacifico', fontSize: 30),
+          ),
+          SizedBox(
+            width: 7,
+          ),
+        ],
+      ),
     );
   }
 

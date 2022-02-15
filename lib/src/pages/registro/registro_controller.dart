@@ -75,6 +75,11 @@ class RegistroController {
       MyScnackbar.show(context, "Selecciona una imagen");
       return;
     }
+    if (telefono.length < 9) {
+      MyScnackbar.show(
+          context, "El número de telefono debe tener 9 caracteres.");
+      return;
+    }
     _progressDialog.show(max: 100, msg: "Espere un momento");
     isEnable = false;
     User user = new User(
@@ -88,8 +93,8 @@ class RegistroController {
     stream.listen(
       (res) {
         _progressDialog.close();
-        //ResponseApi responseApi = await userProvider.create(user);
-        try {
+
+        /*try {
           ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
           print('respuesta ${responseApi.message}');
           MyScnackbar.show(context, responseApi.message);
@@ -108,7 +113,7 @@ class RegistroController {
           MyScnackbar.show(
               context, "Correo ya ha sido registrado anteriormente.");
           return;
-        }
+        }*/
       },
     );
 

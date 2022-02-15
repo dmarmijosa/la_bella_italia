@@ -1,4 +1,4 @@
-package com.example.la_bella_italia
+package com.la.bella.italia.com
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -26,7 +26,7 @@ class NoConecction extends StatelessWidget {
       child: ElevatedButton.icon(
         icon: Icon(Icons.sync),
         onPressed: () {
-          Navigator.pushNamed(context, 'login');
+          Navigator.pushNamedAndRemoveUntil(context, 'login', (route) => false);
         },
         label: Text('Voler a intentarlo'),
         style: ElevatedButton.styleFrom(

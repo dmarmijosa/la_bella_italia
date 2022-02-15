@@ -50,16 +50,16 @@ class ClienteDireccionesListaController {
   }
 
   void sendNotification() {
-    List<String> registration_id = [];
+    List<String> registrationId = [];
     tokens.forEach((t) {
       if (t != null) {
-        registration_id.add(t);
+        registrationId.add(t);
       }
     });
 
     Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
 
-    pushNotificationProvider.sendMessageMultiple(registration_id, data,
+    pushNotificationProvider.sendMessageMultiple(registrationId, data,
         'COMPRA EXITOSA', 'Un cliente ha realizado un pedido');
   }
 
