@@ -94,7 +94,7 @@ class RegistroController {
       (res) {
         _progressDialog.close();
 
-        /*try {
+        try {
           ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
           print('respuesta ${responseApi.message}');
           MyScnackbar.show(context, responseApi.message);
@@ -113,7 +113,7 @@ class RegistroController {
           MyScnackbar.show(
               context, "Correo ya ha sido registrado anteriormente.");
           return;
-        }*/
+        }
       },
     );
 
