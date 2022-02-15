@@ -29,7 +29,7 @@ class _ClienteDireccionesMapaPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Selecciona la ubicación en el mapa'),
+        title: Text('Selecciona la ubicación.'),
       ),
       body: Stack(
         children: [
