@@ -29,11 +29,13 @@ class _ClienteOrdenesListaPageState extends State<ClienteOrdenesListaPage> {
       _obj.init(context, refresh);
       refresh();
     });
+        new Timer.periodic(
+        Duration(seconds: 5), (Timer t) => !mounted ? dispose : refresh());
   }
 
   @override
   Widget build(BuildContext context) {
-    Timer.periodic(Duration(seconds: 3), (Timer t) => refresh());
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: DefaultTabController(

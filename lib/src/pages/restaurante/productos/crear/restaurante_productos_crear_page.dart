@@ -31,7 +31,7 @@ class _RestauranteProductosCrearPageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Nueva producto'),
+        title: Text('Nuevo producto'),
       ),
       body: ListView(
         children: [

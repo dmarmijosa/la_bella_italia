@@ -71,9 +71,6 @@ class DeliveryOrdenesDetalleController {
   }
 
   void irAMapa() async {
-    sendNotification(orden.client.notificationToken);
-    Fluttertoast.showToast(msg: orden.client.name);
-    print("orden: $orden");
     Navigator.pushNamed(
       context,
       'delivery/ordenes/mapa',

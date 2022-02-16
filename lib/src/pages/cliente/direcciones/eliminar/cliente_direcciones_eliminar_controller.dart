@@ -4,6 +4,7 @@ import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/address_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
+import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -57,6 +58,7 @@ class ClienteDireccionesEliminarController {
         Direccion.fromJson(await _sharedPref.read('addressDelete') ?? {});
     ResponseApi responseApi = await _addressProvider.delete(d.id);
     Fluttertoast.showToast(msg: responseApi.message);
+    MyScnackbar.show(context, radioValue.toString());
     refresh();
   }
 

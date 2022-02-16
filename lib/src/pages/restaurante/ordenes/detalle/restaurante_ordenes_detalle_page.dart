@@ -48,7 +48,9 @@ class _RestauranteOrdenesDetallePageState
                   endIndent: 30,
                   indent: 30,
                 ),
-                _txtRepartidor(),
+                _obj.orden?.status == 'CANCELADA'
+                    ? Container()
+                    : _txtRepartidor(),
                 (_obj.orden?.status == 'EN CAMINO' ||
                         _obj.orden?.status == 'DESPACHADA')
                     ? _dropDownStatu(_obj.status)

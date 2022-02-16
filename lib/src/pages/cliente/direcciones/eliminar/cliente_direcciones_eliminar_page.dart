@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:la_bella_italia/src/models/direccion.dart';
 import 'package:la_bella_italia/src/pages/cliente/direcciones/eliminar/cliente_direcciones_eliminar_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
+import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
 
 class ClienteDireccionesEliminarPage extends StatefulWidget {
@@ -136,26 +137,29 @@ class _ClienteDireccionesEliminarPageState
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
       child: ElevatedButton(
-        onPressed: () => showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: const Text('Confirmar eliminación'),
-            content: const Text('¿ Esta seguro de eliminar la dirección ?'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () => Navigator.pop(context, 'Cancel'),
-                child: const Text('Cancelar'),
-              ),
-              TextButton(
-                onPressed: () => {
-                  _obj.eliminarDireccion(),
-                  Navigator.pop(context, 'OK'),
-                },
-                child: const Text('Si'),
-              ),
-            ],
-          ),
-        ),
+        onPressed: () => _obj.radioValue > 0
+            ? showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Confirmar eliminación'),
+                  content:
+                      const Text('¿ Esta seguro de eliminar la dirección ?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, 'Cancel'),
+                      child: const Text('Cancelar'),
+                    ),
+                    TextButton(
+                      onPressed: () => {
+                        _obj.eliminarDireccion(),
+                        Navigator.pop(context, 'OK'),
+                      },
+                      child: const Text('Si'),
+                    ),
+                  ],
+                ),
+              )
+            : MyScnackbar.show(context, 'Debe seleccionar una dirección'),
         child: Text('Eliminar'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
