@@ -74,7 +74,7 @@ class _RestauranteProductoActualizarDetallePageState
         maxLines: 1,
         maxLength: 180,
         decoration: InputDecoration(
-            hintText: 'editar de la producto',
+            hintText: 'Nombre del producto',
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(color: MyColors.primaryColorDark),

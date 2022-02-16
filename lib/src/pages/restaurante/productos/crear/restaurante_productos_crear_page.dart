@@ -70,7 +70,7 @@ class _RestauranteProductosCrearPageState
         maxLines: 1,
         maxLength: 180,
         decoration: InputDecoration(
-            hintText: 'Nombre de la producto',
+            hintText: 'Nombre del producto',
             border: InputBorder.none,
             contentPadding: EdgeInsets.all(15),
             hintStyle: TextStyle(color: MyColors.primaryColorDark),

@@ -54,7 +54,7 @@ class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
         controller: _obj.correoController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-          hintText: 'Correo electronico',
+          hintText: 'Correo eléctronico',
           border: InputBorder.none,
           contentPadding: EdgeInsets.all(15),
           prefixIcon: Icon(

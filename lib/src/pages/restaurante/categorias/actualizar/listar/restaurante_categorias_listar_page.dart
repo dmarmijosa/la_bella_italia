@@ -40,7 +40,7 @@ class _RestauranteCategoriasListarPageState
     return new ListTile(
       title: new Text(categoria.name),
       subtitle: new Text(
-        'Capital: ${categoria.description}',
+        'Descripción: ${categoria.description}',
         maxLines: 2,
       ),
       leading: new Icon(Icons.edit),

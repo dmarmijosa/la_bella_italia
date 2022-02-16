@@ -69,7 +69,7 @@ class _RestauranteMensajerosAgregarPageState
         controller: _obj.correoController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
-          hintText: 'Correo electronico',
+          hintText: 'Correo electrónico',
           border: InputBorder.none,
           contentPadding: EdgeInsets.all(15),
           prefixIcon: Icon(
