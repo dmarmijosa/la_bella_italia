@@ -11,7 +11,7 @@ class RecuperarCuentaController {
 
   UserProvider userProvider = new UserProvider();
 
-  Future init(context) async {
+  Future init(BuildContext context) async {
     this.context = context;
 
     userProvider.init(context);

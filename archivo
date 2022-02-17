@@ -1,0 +1,1712 @@
+@startuml
+set namespaceSeparator ::
+
+class "la_bella_italia::main.dart::MyApp" {
+  +_MyAppState* createState()
+}
+
+class "la_bella_italia::main.dart::_MyAppState" {
+  +void initState()
+  +Widget* build()
+}
+
+class "la_bella_italia::src::api::enviroments.dart::Enviroments" {
+  {static} +String* API_DELIVERY
+  {static} +String* API_KEY_GOOGLE
+}
+
+class "la_bella_italia::src::models::categoria.dart::Categoria" {
+  +String* id
+  +String* name
+  +String* description
+  +List<Categoria*>* tolist
+  +Map<String*, dynamic>* toJson()
+}
+
+class "la_bella_italia::src::models::direccion.dart::Direccion" {
+  +String* id
+  +String* idUser
+  +String* address
+  +String* town
+  +double* lat
+  +double* lng
+  +List<Direccion*>* toList
+  +Map<String*, dynamic>* toJson()
+}
+
+class "la_bella_italia::src::models::orden.dart::Orden" {
+  +String* id
+  +String* idClient
+  +String* idDelivery
+  +String* idAddress
+  +String* status
+  +double* lat
+  +double* lng
+  +int* timestamp
+  +List<Producto*>* products
+  +List<Orden*>* toList
+  +User* client
+  +User* delivery
+  +Direccion* address
+  +Map<String*, dynamic>* toJson()
+}
+
+"la_bella_italia::src::models::orden.dart::Orden" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::models::orden.dart::Orden" o-- "la_bella_italia::src::models::direccion.dart::Direccion"
+
+class "la_bella_italia::src::models::producto.dart::Producto" {
+  +String* id
+  +String* name
+  +String* description
+  +String* image1
+  +String* image2
+  +String* image3
+  +double* price
+  +int* idCategory
+  +int* quantity
+  +List<Producto*>* toList
+  +String* detail
+  +Map<String*, dynamic>* toJson()
+  {static} +bool* isInteger()
+}
+
+class "la_bella_italia::src::models::response_api.dart::ResponseApi" {
+  +String* message
+  +String* error
+  +bool* success
+  +dynamic data
+  +Map<String*, dynamic>* toJson()
+}
+
+class "la_bella_italia::src::models::rol.dart::Rol" {
+  +String* id
+  +String* name
+  +String* image
+  +String* route
+  +Map<String*, dynamic>* toJson()
+}
+
+class "la_bella_italia::src::models::user.dart::User" {
+  +String* id
+  +String* name
+  +String* lastname
+  +String* email
+  +String* phone
+  +String* password
+  +String* sessionToken
+  +String* notificationToken
+  +String* image
+  +bool* is_available
+  +List<Rol*>* roles
+  +List<User*>* toList
+  +Map<String*, dynamic>* toJson()
+}
+
+class "la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" {
+  +BuildContext* context
+  +TextEditingController* nombreController
+  +TextEditingController* apellidoController
+  +TextEditingController* telefonoController
+  +TextEditingController* passController
+  +TextEditingController* confirPassController
+  +UserProvider* usersProvider
+  +PickedFile* pickedFile
+  +File* imageFile
+  +Function* refresh
+  -ProgressDialog* _progressDialog
+  +bool* isEnable
+  +User* user
+  -SharedPref* _sharedPref
+  +Future<dynamic>* init()
+  +void actualizar()
+  +Future<dynamic>* selectImage()
+  +void showAlertDialog()
+  +void back()
+}
+
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" o-- "image_picker_platform_interface::src::types::picked_file::unsupported.dart::PickedFile"
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" o-- "dart::io::File"
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" o-- "sn_progress_dialog::progress_dialog.dart::ProgressDialog"
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+
+class "la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_page.dart::ClienteActualizarPage" {
+  +_ClienteActualizarPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_page.dart::_ClienteActualizarPageState" {
+  +bool* is_press
+  -ClienteActualizarController* _obj
+  +void initState()
+  +void refresh()
+  +Widget* build()
+  -Widget* _imageUser()
+  -Widget* _edtNombre()
+  -Widget* _edtApellido()
+  -Widget* _edtTelefono()
+  -Widget* _edtPassword()
+  -Widget* _edtConfirmPassword()
+  -Widget* _btnActualizar()
+}
+
+"la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_page.dart::_ClienteActualizarPageState" o-- "la_bella_italia::src::pages::cliente::actualizar::cliente_actualizar_controller.dart::ClienteActualizarController"
+
+class "la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_controller.dart::ClienteDireccionesCrerController" {
+  +BuildContext* context
+  +Function* refresh
+  +TextEditingController* refPuntoController
+  +TextEditingController* direccionController
+  +TextEditingController* puebloController
+  -AddressProvider* _addressProvider
+  +User* user
+  -SharedPref* _sharedPref
+  +Map<String*, dynamic>* refPunto
+  +Future<dynamic>* init()
+  +void crearDireccion()
+  +void abrirMapa()
+}
+
+"la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_controller.dart::ClienteDireccionesCrerController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_controller.dart::ClienteDireccionesCrerController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_controller.dart::ClienteDireccionesCrerController" o-- "la_bella_italia::src::providers::address_provider.dart::AddressProvider"
+"la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_controller.dart::ClienteDireccionesCrerController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_controller.dart::ClienteDireccionesCrerController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+
+class "la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_page.dart::ClienteDireccionesCrearPage" {
+  +_ClienteDireccionesCrearPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_page.dart::_ClienteDireccionesCrearPageState" {
+  -ClienteDireccionesCrerController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _edtPuntoReferencia()
+  -Widget* _edtPueblo()
+  -Widget* _edtDireccion()
+  -Widget* _txtCompletarDatos()
+  -Widget* _btnAceptar()
+  +dynamic refresh()
+}
+
+"la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_page.dart::_ClienteDireccionesCrearPageState" o-- "la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_controller.dart::ClienteDireccionesCrerController"
+
+class "la_bella_italia::src::pages::cliente::direcciones::crear::cliente_direcciones_crear_page.dart::AlwaysDisabledFocused" {
+  +bool* hasFocus
+}
+
+class "la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_controller.dart::ClienteDireccionesEliminarController" {
+  +BuildContext* context
+  +Function* refresh
+  +List<Direccion*>* direcciones
+  -AddressProvider* _addressProvider
+  +User* user
+  +int* radioValue
+  -SharedPref* _sharedPref
+  +Future<dynamic>* init()
+  +void handleRadioCambio()
+  +Future<List<Direccion*>*>* getDirecciones()
+  +void eliminarDireccion()
+  +void irACrearDireccion()
+}
+
+"la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_controller.dart::ClienteDireccionesEliminarController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_controller.dart::ClienteDireccionesEliminarController" o-- "la_bella_italia::src::providers::address_provider.dart::AddressProvider"
+"la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_controller.dart::ClienteDireccionesEliminarController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_controller.dart::ClienteDireccionesEliminarController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+
+class "la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_page.dart::ClienteDireccionesEliminarPage" {
+  +_ClienteDireccionesEliminarPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_page.dart::_ClienteDireccionesEliminarPageState" {
+  -ClienteDireccionesEliminarController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _noDirecciones()
+  -Widget* _listaDirecciones()
+  -Widget* _radioDireccion()
+  -Widget* _btnNuevaDireccion()
+  -Widget* _btnEliminar()
+  -Widget* _txtSelecionaritem()
+  -Widget* _agregarDireccion()
+  +dynamic refresh()
+}
+
+"la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_page.dart::_ClienteDireccionesEliminarPageState" o-- "la_bella_italia::src::pages::cliente::direcciones::eliminar::cliente_direcciones_eliminar_controller.dart::ClienteDireccionesEliminarController"
+
+class "la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController" {
+  +BuildContext* context
+  +Function* refresh
+  +List<Direccion*>* direcciones
+  -AddressProvider* _addressProvider
+  +User* user
+  +int* radioValue
+  -UserProvider* _userProvider
+  -SharedPref* _sharedPref
+  -OrderProvider* _orderProvider
+  +PushNotificationProvider* pushNotificationProvider
+  +List<String*>* tokens
+  +Future<dynamic>* init()
+  +void sendNotification()
+  +void crearOrden()
+  +void handleRadioCambio()
+  +Future<List<Direccion*>*>* getDirecciones()
+  +void irACrearDireccion()
+}
+
+"la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController" o-- "la_bella_italia::src::providers::address_provider.dart::AddressProvider"
+"la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+"la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController" o-- "la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider"
+
+class "la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_page.dart::ClienteDireccionesListaPage" {
+  +_ClienteDireccionesListaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_page.dart::_ClienteDireccionesListaPageState" {
+  -ClienteDireccionesListaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _noDirecciones()
+  -Widget* _listaDirecciones()
+  -Widget* _radioDireccion()
+  -Widget* _btnNuevaDireccion()
+  -Widget* _btnAceptar()
+  -Widget* _txtSelecionaritem()
+  -Widget* _agregarDireccion()
+  +dynamic refresh()
+}
+
+"la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_page.dart::_ClienteDireccionesListaPageState" o-- "la_bella_italia::src::pages::cliente::direcciones::lista::cliente_direcciones_lista_controller.dart::ClienteDireccionesListaController"
+
+class "la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_controller.dart::ClienteDireccionesMapaController" {
+  +BuildContext* context
+  +Function* refresh
+  -Position* _posicion
+  +String* addressName
+  +LatLng* addressLatLng
+  +CameraPosition* posicionIncial
+  -Completer<GoogleMapController*>* _mapController
+  +Future<dynamic>* init()
+  +void selectRefPunto()
+  +Future<Null*>* setLocalizacionInfo()
+  +void onMapCrear()
+  +void checkGPS()
+  +void actualizaLocalizacion()
+  +Future<dynamic>* iraPosicion()
+  -Future<Position*>* _determinePosition()
+}
+
+"la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_controller.dart::ClienteDireccionesMapaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_controller.dart::ClienteDireccionesMapaController" o-- "geolocator_platform_interface::src::models::position.dart::Position"
+"la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_controller.dart::ClienteDireccionesMapaController" o-- "google_maps_flutter_platform_interface::src::types::location.dart::LatLng"
+"la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_controller.dart::ClienteDireccionesMapaController" o-- "google_maps_flutter_platform_interface::src::types::camera.dart::CameraPosition"
+"la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_controller.dart::ClienteDireccionesMapaController" o-- "dart::async::Completer<GoogleMapController>"
+
+class "la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_page.dart::ClienteDireccionesMapaPage" {
+  +_ClienteDireccionesMapaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_page.dart::_ClienteDireccionesMapaPageState" {
+  -ClienteDireccionesMapaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _btnSeleccionar()
+  -Widget* _iconoLocalizacion()
+  -Widget* _tarjetaPosicion()
+  -Widget* _mapaGoogle()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_page.dart::_ClienteDireccionesMapaPageState" o-- "la_bella_italia::src::pages::cliente::direcciones::mapa::cliente_direcciones_mapa_controller.dart::ClienteDireccionesMapaController"
+
+class "la_bella_italia::src::pages::cliente::estado::cliente_estado_controller.dart::ClienteEstadoController" {
+  +BuildContext* context
+  +Function* refresh
+  +List<String*>* tokens
+  +User* user
+  +PushNotificationProvider* pushNotificationProvider
+  -UserProvider* _userProvider
+  -SharedPref* _sharedPref
+  +void init()
+  +void finalizarCompra()
+}
+
+"la_bella_italia::src::pages::cliente::estado::cliente_estado_controller.dart::ClienteEstadoController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::estado::cliente_estado_controller.dart::ClienteEstadoController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::estado::cliente_estado_controller.dart::ClienteEstadoController" o-- "la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider"
+"la_bella_italia::src::pages::cliente::estado::cliente_estado_controller.dart::ClienteEstadoController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::cliente::estado::cliente_estado_controller.dart::ClienteEstadoController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+
+class "la_bella_italia::src::pages::cliente::estado::cliente_estado_page.dart::ClienteEstadoPage" {
+  +_ClienteEstadoPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::estado::cliente_estado_page.dart::_ClienteEstadoPageState" {
+  -ClienteEstadoController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _txtFinalizar()
+  -Widget* _btnFinalizar()
+  -Widget* _animacion()
+  +Function* refresh()
+}
+
+"la_bella_italia::src::pages::cliente::estado::cliente_estado_page.dart::_ClienteEstadoPageState" o-- "la_bella_italia::src::pages::cliente::estado::cliente_estado_controller.dart::ClienteEstadoController"
+
+class "la_bella_italia::src::pages::cliente::ordenes::crear::cliente_ordenes_crear_controller.dart::ClienteOrdenesCrearController" {
+  +BuildContext* context
+  +Function* refresh
+  -SharedPref* _sharedPref
+  +UserProvider* userProvider
+  +List<Producto*>* productosSeleccionados
+  +double* total
+  +bool* estadoRestaurante
+  +String* mensaje
+  +Future<dynamic>* init()
+  +void obtenerTotal()
+  +void aumentarItem()
+  +void reducirItem()
+  +void eliminarItem()
+  +void irADirecciones()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::crear::cliente_ordenes_crear_controller.dart::ClienteOrdenesCrearController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::ordenes::crear::cliente_ordenes_crear_controller.dart::ClienteOrdenesCrearController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::cliente::ordenes::crear::cliente_ordenes_crear_controller.dart::ClienteOrdenesCrearController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+
+class "la_bella_italia::src::pages::cliente::ordenes::crear::cliente_ordenes_crear_page.dart::ClienteOrdenesCrearPage" {
+  +_ClienteOrdenesCrearPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::ordenes::crear::cliente_ordenes_crear_page.dart::_ClienteOrdenesCrearPageState" {
+  -ClienteOrdenesCrearController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _btnConfirmarOrden()
+  -Widget* _tarjetaProducto()
+  -Widget* _txtPRecioTotal()
+  -Widget* _btnIconBorrarProduct()
+  -Widget* _txtPrecio()
+  -Widget* _imagenProducto()
+  -Widget* _agregarOEliminar()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::crear::cliente_ordenes_crear_page.dart::_ClienteOrdenesCrearPageState" o-- "la_bella_italia::src::pages::cliente::ordenes::crear::cliente_ordenes_crear_controller.dart::ClienteOrdenesCrearController"
+
+class "la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_controller.dart::ClienteOrdenesDetalleController" {
+  +BuildContext* context
+  +Function* refresh
+  -SharedPref* _sharedPref
+  -UserProvider* _userProvider
+  -OrderProvider* _orderProvider
+  +double* total
+  +User* user
+  +bool* estadoRestaurante
+  +String* mensaje
+  +Orden* orden
+  +List<User*>* users
+  +String* idDelivery
+  +User* restaurante
+  +Future<dynamic>* init()
+  +void updateOrden()
+  +void irAMapa()
+  +void getUsers()
+  +void obtenerTotal()
+  +void llamar()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_controller.dart::ClienteOrdenesDetalleController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_controller.dart::ClienteOrdenesDetalleController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_controller.dart::ClienteOrdenesDetalleController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_controller.dart::ClienteOrdenesDetalleController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+"la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_controller.dart::ClienteOrdenesDetalleController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_controller.dart::ClienteOrdenesDetalleController" o-- "la_bella_italia::src::models::orden.dart::Orden"
+
+class "la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_page.dart::ClienteOrdenesDetallePage" {
+  +Orden* orden
+  +_ClienteOrdenesDetallePageState* createState()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_page.dart::ClienteOrdenesDetallePage" o-- "la_bella_italia::src::models::orden.dart::Orden"
+
+class "la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_page.dart::_ClienteOrdenesDetallePageState" {
+  -ClienteOrdenesDetalleController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _txtNombreClienteLlamar()
+  -Widget* _txtNombreResturanteLlamar()
+  -Widget* _txtDatosCliente()
+  -Widget* _btnDespacharOrden()
+  -Widget* _tarjetaProducto()
+  -Widget* _txtPRecioTotal()
+  -Widget* _txtPrecio()
+  -Widget* _imagenProducto()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_page.dart::_ClienteOrdenesDetallePageState" o-- "la_bella_italia::src::pages::cliente::ordenes::detalle::cliente_ordenes_detalle_controller.dart::ClienteOrdenesDetalleController"
+
+class "la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_controller.dart::ClienteOrdenesListaController" {
+  +BuildContext* context
+  -SharedPref* _sharedPref
+  +GlobalKey<ScaffoldState*>* key
+  +User* user
+  +Function* refresh
+  -UserProvider* _userProvider
+  -OrderProvider* _orderProvider
+  +bool* estado
+  +List<String*>* status
+  +Future<dynamic>* init()
+  +Future<List<Orden*>*>* obtenerOrdenes()
+  +void abrirSheet()
+  +void actualizarEstado()
+  +void logout()
+  +void openDrawer()
+  +void irACrearCategoria()
+  +void irACrearProducto()
+  +void cambiarRol()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_controller.dart::ClienteOrdenesListaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_controller.dart::ClienteOrdenesListaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_controller.dart::ClienteOrdenesListaController" o-- "flutter::src::widgets::framework.dart::GlobalKey<ScaffoldState>"
+"la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_controller.dart::ClienteOrdenesListaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_controller.dart::ClienteOrdenesListaController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_controller.dart::ClienteOrdenesListaController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+
+class "la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_page.dart::ClienteOrdenesListaPage" {
+  +_ClienteOrdenesListaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_page.dart::_ClienteOrdenesListaPageState" {
+  -ClienteOrdenesListaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _tarjetaOrden()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_page.dart::_ClienteOrdenesListaPageState" o-- "la_bella_italia::src::pages::cliente::ordenes::lista::cliente_ordenes_lista_controller.dart::ClienteOrdenesListaController"
+
+class "la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" {
+  +BuildContext* context
+  +Function* refresh
+  -OrderProvider* _orderProvider
+  +User* user
+  -SharedPref* _sharedPref
+  +String* addressName
+  +LatLng* addressLatLng
+  +Orden* orden
+  +Socket* socket
+  +List<LatLng*>* points
+  +BitmapDescriptor* deliveryMarker
+  +BitmapDescriptor* homeMarker
+  +Map<MarkerId*, Marker*>* markers
+  +CameraPosition* posicionIncial
+  -Completer<GoogleMapController*>* _mapController
+  +Future<dynamic>* init()
+  +void addMarker()
+  +void selectRefPunto()
+  +Future<BitmapDescriptor*>* createMarkerFromAsset()
+  +Future<Uint8List*>* getBytesFromAsset()
+  +Future<Null*>* setLocalizacionInfo()
+  +void dispose()
+  +void onMapCrear()
+  +void checkGPS()
+  +void actualizaLocalizacion()
+  +Future<dynamic>* iraPosicion()
+  -Future<Position*>* _determinePosition()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "google_maps_flutter_platform_interface::src::types::location.dart::LatLng"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "la_bella_italia::src::models::orden.dart::Orden"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "socket_io_client::src::socket.dart::Socket"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "google_maps_flutter_platform_interface::src::types::bitmap.dart::BitmapDescriptor"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "google_maps_flutter_platform_interface::src::types::camera.dart::CameraPosition"
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController" o-- "dart::async::Completer<GoogleMapController>"
+
+class "la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_page.dart::ClienteOrdenesMapaPage" {
+  +_ClienteOrdenesMapaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_page.dart::_ClienteOrdenesMapaPageState" {
+  -ClienteOrdenesMapaController* _obj
+  +void initState()
+  +void dispose()
+  +Widget* build()
+  -Widget* _tarjetaOrdenInfo()
+  -Widget* _clienteInfo()
+  -Widget* _listaTitulo()
+  -Widget* _mapaGoogle()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_page.dart::_ClienteOrdenesMapaPageState" o-- "la_bella_italia::src::pages::cliente::ordenes::mapa::cliente_ordenes_mapa_controller.dart::ClienteOrdenesMapaController"
+
+class "la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_controller.dart::ClienteProductoDetalleController" {
+  +BuildContext* context
+  +Function* refresh
+  +Producto* producto
+  +int* cantidad
+  +double* precioProductoAgregado
+  +TextEditingController* detalleController
+  -SharedPref* _sharedPref
+  +List<Producto*>* productoSelecionado
+  +Future<dynamic>* init()
+  +void productosEnBolsa()
+  +void sumarItem()
+  +void restarItem()
+  +void regresarPaginaAnterior()
+}
+
+"la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_controller.dart::ClienteProductoDetalleController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_controller.dart::ClienteProductoDetalleController" o-- "la_bella_italia::src::models::producto.dart::Producto"
+"la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_controller.dart::ClienteProductoDetalleController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_controller.dart::ClienteProductoDetalleController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+
+class "la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_page.dart::ClienteProductoDetallePage" {
+  +Producto* producto
+  +_ClienteProductoDetallePageState* createState()
+}
+
+"la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_page.dart::ClienteProductoDetallePage" o-- "la_bella_italia::src::models::producto.dart::Producto"
+
+class "la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_page.dart::_ClienteProductoDetallePageState" {
+  -ClienteProductoDetalleController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _edtDetalleProducto()
+  -Widget* _btnAgregarABolsa()
+  -Widget* _txtDescripcion()
+  -Widget* _cantidadPedido()
+  -Widget* _txtNombre()
+  -Widget* _iconoDelivery()
+  -Widget* _carouselProduct()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_page.dart::_ClienteProductoDetallePageState" o-- "la_bella_italia::src::pages::cliente::productos::detalle::cliente_producto_detalle_controller.dart::ClienteProductoDetalleController"
+
+class "la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController" {
+  +BuildContext* context
+  -SharedPref* _sharedPref
+  +GlobalKey<ScaffoldState*>* key
+  +User* user
+  +Function* refresh
+  +Timer* tiempoDeEscritura
+  +String* productoBuscar
+  +List<Categoria*>* categorias
+  -CategoryProvider* _categoryProvider
+  -ProductoProvider* _productoProvider
+  +Future<dynamic>* init()
+  +void changeText()
+  +void mostrarSheet()
+  +void irAMisPedidos()
+  +void irACrearOrdenPage()
+  +void irAEliminarDirecciones()
+  +Future<List<Producto*>*>* obtenerProductos()
+  +void obtenerCategorias()
+  +void logout()
+  +void openDrawer()
+  +void cambiarROl()
+  +void editarPerfil()
+}
+
+"la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController" o-- "flutter::src::widgets::framework.dart::GlobalKey<ScaffoldState>"
+"la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController" o-- "dart::async::Timer"
+"la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+"la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController" o-- "la_bella_italia::src::providers::product_provider.dart::ProductoProvider"
+
+class "la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_page.dart::ClienteProductoListaPage" {
+  +_ClienteProductoListaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_page.dart::_ClienteProductoListaPageState" {
+  -ClienteProductoListaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _tarjetaProducto()
+  -Widget* _menuShopping()
+  -Widget* _edtBuscar()
+  -Widget* _menuDraver()
+  -Widget* _drawer()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_page.dart::_ClienteProductoListaPageState" o-- "la_bella_italia::src::pages::cliente::productos::lista::cliente_producto_lista_controller.dart::ClienteProductoListaController"
+
+class "la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController" {
+  +BuildContext* context
+  +Function* refresh
+  -SharedPref* _sharedPref
+  -UserProvider* _userProvider
+  -OrderProvider* _orderProvider
+  +double* total
+  +User* user
+  +bool* estadoRestaurante
+  +String* mensaje
+  +Orden* orden
+  +List<User*>* users
+  +String* idDelivery
+  +PushNotificationProvider* pushNotificationsProvider
+  +Future<dynamic>* init()
+  +void sendNotification()
+  +void updateOrden()
+  +void irAMapa()
+  +void getUsers()
+  +void obtenerTotal()
+  +void llamar()
+}
+
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController" o-- "la_bella_italia::src::models::orden.dart::Orden"
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController" o-- "la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider"
+
+class "la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_page.dart::DeliveryOrdenesDetallePage" {
+  +Orden* orden
+  +_DeliveryOrdenesDetallePageState* createState()
+}
+
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_page.dart::DeliveryOrdenesDetallePage" o-- "la_bella_italia::src::models::orden.dart::Orden"
+
+class "la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_page.dart::_DeliveryOrdenesDetallePageState" {
+  -DeliveryOrdenesDetalleController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _txtNombreClienteLlamar()
+  -Widget* _txtDatosCliente()
+  -Widget* _btnDespacharOrden()
+  -Widget* _tarjetaProducto()
+  -Widget* _txtPRecioTotal()
+  -Widget* _txtPrecio()
+  -Widget* _imagenProducto()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_page.dart::_DeliveryOrdenesDetallePageState" o-- "la_bella_italia::src::pages::delivery::ordenes::detalle::delivery_ordenes_detalle_controller.dart::DeliveryOrdenesDetalleController"
+
+class "la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_controller.dart::DeliveryOrdenesListaController" {
+  +BuildContext* context
+  -SharedPref* _sharedPref
+  +GlobalKey<ScaffoldState*>* key
+  +User* user
+  +Function* refresh
+  -UserProvider* _userProvider
+  -OrderProvider* _orderProvider
+  +bool* estado
+  +List<String*>* status
+  +Future<dynamic>* init()
+  +Future<List<Orden*>*>* obtenerOrdenes()
+  +void abrirSheet()
+  +void logout()
+  +void openDrawer()
+  +void cambiarRol()
+}
+
+"la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_controller.dart::DeliveryOrdenesListaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_controller.dart::DeliveryOrdenesListaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_controller.dart::DeliveryOrdenesListaController" o-- "flutter::src::widgets::framework.dart::GlobalKey<ScaffoldState>"
+"la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_controller.dart::DeliveryOrdenesListaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_controller.dart::DeliveryOrdenesListaController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_controller.dart::DeliveryOrdenesListaController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+
+class "la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_page.dart::DeliveryOrdenesListaPage" {
+  +_DeliveryOrdenesListaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_page.dart::_DeliveryOrdenesListaPageState" {
+  -DeliveryOrdenesListaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _tarjetaOrden()
+  -Widget* _menuDraver()
+  -Widget* _drawer()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_page.dart::_DeliveryOrdenesListaPageState" o-- "la_bella_italia::src::pages::delivery::ordenes::lista::delivery_ordenes_lista_controller.dart::DeliveryOrdenesListaController"
+
+class "la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" {
+  +BuildContext* context
+  +Function* refresh
+  -OrderProvider* _orderProvider
+  +User* user
+  -SharedPref* _sharedPref
+  -Position* _posicion
+  +String* addressName
+  +LatLng* addressLatLng
+  +Orden* orden
+  -StreamSubscription<dynamic>* _posicionStream
+  -double* _distancia
+  +Socket* socket
+  +List<LatLng*>* points
+  +BitmapDescriptor* deliveryMarker
+  +BitmapDescriptor* homeMarker
+  +Map<MarkerId*, Marker*>* markers
+  +CameraPosition* posicionIncial
+  -Completer<GoogleMapController*>* _mapController
+  +PushNotificationProvider* pushNotificationsProvider
+  +Future<dynamic>* init()
+  +void emitPosition()
+  +void launchGoogleMaps()
+  +void cercaPosicion()
+  +void updateDelivered()
+  +void addMarker()
+  +void selectRefPunto()
+  +Future<BitmapDescriptor*>* createMarkerFromAsset()
+  +Future<Uint8List*>* getBytesFromAsset()
+  +Future<Null*>* setLocalizacionInfo()
+  +void dispose()
+  +void onMapCrear()
+  +void checkGPS()
+  +void sendNotification()
+  +void sendNotificationLLegada()
+  +void saveLocation()
+  +void actualizaLocalizacion()
+  +Future<dynamic>* iraPosicion()
+  -Future<Position*>* _determinePosition()
+}
+
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "geolocator_platform_interface::src::models::position.dart::Position"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "google_maps_flutter_platform_interface::src::types::location.dart::LatLng"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "la_bella_italia::src::models::orden.dart::Orden"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "dart::async::StreamSubscription<dynamic>"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "socket_io_client::src::socket.dart::Socket"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "google_maps_flutter_platform_interface::src::types::bitmap.dart::BitmapDescriptor"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "google_maps_flutter_platform_interface::src::types::camera.dart::CameraPosition"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "dart::async::Completer<GoogleMapController>"
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController" o-- "la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider"
+
+class "la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_page.dart::DeliveryOrdenesMapaPage" {
+  +_DeliveryOrdenesMapaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_page.dart::_DeliveryOrdenesMapaPageState" {
+  -DeliveryOrdenesMapaController* _obj
+  +void initState()
+  +void dispose()
+  +Widget* build()
+  -Widget* _iconGoogleMaps()
+  -Widget* _tarjetaOrdenInfo()
+  -Widget* _clienteInfo()
+  -Widget* _listaTitulo()
+  -Widget* _btnEntregar()
+  -Widget* _mapaGoogle()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_page.dart::_DeliveryOrdenesMapaPageState" o-- "la_bella_italia::src::pages::delivery::ordenes::mapa::delivery_ordenes_mapa_controller.dart::DeliveryOrdenesMapaController"
+
+class "la_bella_italia::src::pages::login::login_controller.dart::LoginController" {
+  +BuildContext* context
+  +bool* bandera
+  +UserProvider* userProvider
+  +PushNotificationProvider* pushNotificationProvider
+  +TextEditingController* correoController
+  +TextEditingController* passController
+  -SharedPref* _sharedPref
+  +Future<dynamic>* init()
+  +Future<bool*>* internetConnectivity()
+  +void irA()
+  +void recuperar()
+  +void login()
+}
+
+"la_bella_italia::src::pages::login::login_controller.dart::LoginController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::login::login_controller.dart::LoginController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::login::login_controller.dart::LoginController" o-- "la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider"
+"la_bella_italia::src::pages::login::login_controller.dart::LoginController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::login::login_controller.dart::LoginController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+
+class "la_bella_italia::src::pages::login::login_page.dart::LoginPage" {
+  +_LoginPageState* createState()
+}
+
+class "la_bella_italia::src::pages::login::login_page.dart::_LoginPageState" {
+  -LoginController* _obj
+  +bool* is_press
+  +void initState()
+  +Widget* build()
+  -Widget* _animacionLogin()
+  -Widget* _edtCorreo()
+  -Widget* _edtPassword()
+  -Widget* _btnLogin()
+  -Widget* _txtRegistrarse()
+  -Widget* _txtRestaurante()
+  -Widget* _txtRecuperar()
+}
+
+"la_bella_italia::src::pages::login::login_page.dart::_LoginPageState" o-- "la_bella_italia::src::pages::login::login_controller.dart::LoginController"
+
+class "la_bella_italia::src::pages::login::recuperarCuenta::recuperar_cuenta_controller.dart::RecuperarCuentaController" {
+  +TextEditingController* correoController
+  +BuildContext* context
+  +UserProvider* userProvider
+  +Future<dynamic>* init()
+  +Future<void>* recuperar()
+}
+
+"la_bella_italia::src::pages::login::recuperarCuenta::recuperar_cuenta_controller.dart::RecuperarCuentaController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::login::recuperarCuenta::recuperar_cuenta_controller.dart::RecuperarCuentaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::login::recuperarCuenta::recuperar_cuenta_controller.dart::RecuperarCuentaController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+
+class "la_bella_italia::src::pages::login::recuperarCuenta::recuperar_cuenta_page.dart::RecuperarCuentaPage" {
+  +_RecuperarCuentaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::login::recuperarCuenta::recuperar_cuenta_page.dart::_RecuperarCuentaPageState" {
+  -RecuperarCuentaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _edtCorreo()
+  -Widget* _txtRecordatorio()
+  -Widget* _btnRecuperar()
+}
+
+"la_bella_italia::src::pages::login::recuperarCuenta::recuperar_cuenta_page.dart::_RecuperarCuentaPageState" o-- "la_bella_italia::src::pages::login::recuperarCuenta::recuperar_cuenta_controller.dart::RecuperarCuentaController"
+
+class "la_bella_italia::src::pages::registro::registro_controller.dart::RegistroController" {
+  +BuildContext* context
+  +TextEditingController* correoController
+  +TextEditingController* nombreController
+  +TextEditingController* apellidoController
+  +TextEditingController* telefonoController
+  +TextEditingController* passController
+  +TextEditingController* confirPassController
+  +UserProvider* userProvider
+  +PickedFile* pickedFile
+  +File* imageFile
+  +Function* refresh
+  -ProgressDialog* _progressDialog
+  +bool* isEnable
+  +Future<dynamic>* init()
+  +Future<void>* registro()
+  +Future<dynamic>* selectImage()
+  +void showAlertDialog()
+  +void back()
+}
+
+"la_bella_italia::src::pages::registro::registro_controller.dart::RegistroController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::registro::registro_controller.dart::RegistroController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::registro::registro_controller.dart::RegistroController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::registro::registro_controller.dart::RegistroController" o-- "image_picker_platform_interface::src::types::picked_file::unsupported.dart::PickedFile"
+"la_bella_italia::src::pages::registro::registro_controller.dart::RegistroController" o-- "dart::io::File"
+"la_bella_italia::src::pages::registro::registro_controller.dart::RegistroController" o-- "sn_progress_dialog::progress_dialog.dart::ProgressDialog"
+
+class "la_bella_italia::src::pages::registro::registro_page.dart::Registro" {
+  +_RegistroState* createState()
+}
+
+class "la_bella_italia::src::pages::registro::registro_page.dart::_RegistroState" {
+  +bool* is_press
+  -RegistroController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _imageUser()
+  -Widget* _edtCorreo()
+  -Widget* _edtNombre()
+  -Widget* _edtApellido()
+  -Widget* _edtTelefono()
+  -Widget* _edtPassword()
+  -Widget* _edtConfirmPassword()
+  -Widget* _btnRegistrar()
+  -Widget* _circle()
+  -Widget* _iconBack()
+  -Widget* _txtRegistro()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::registro::registro_page.dart::_RegistroState" o-- "la_bella_italia::src::pages::registro::registro_controller.dart::RegistroController"
+
+class "la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_controller.dart::RestauranteCategoriasActualizarDetalleController" {
+  +BuildContext* context
+  +Function* refresh
+  +User* user
+  +Categoria* categoria
+  +SharedPref* sharedPref
+  +TextEditingController* nombreController
+  +TextEditingController* descripcionController
+  -CategoryProvider* _categoryProvider
+  +List<Categoria*>* categorias
+  +String* idCategoria
+  +Future<dynamic>* init()
+  +void getCategorias()
+  +void crearCategoria()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_controller.dart::RestauranteCategoriasActualizarDetalleController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_controller.dart::RestauranteCategoriasActualizarDetalleController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_controller.dart::RestauranteCategoriasActualizarDetalleController" o-- "la_bella_italia::src::models::categoria.dart::Categoria"
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_controller.dart::RestauranteCategoriasActualizarDetalleController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_controller.dart::RestauranteCategoriasActualizarDetalleController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_controller.dart::RestauranteCategoriasActualizarDetalleController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+
+class "la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_page.dart::RestauranteCategoriasActualizarDetallePage" {
+  +Categoria* categoria
+  +_RestauranteCategoriasActualizarDetallePageState* createState()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_page.dart::RestauranteCategoriasActualizarDetallePage" o-- "la_bella_italia::src::models::categoria.dart::Categoria"
+
+class "la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_page.dart::_RestauranteCategoriasActualizarDetallePageState" {
+  -RestauranteCategoriasActualizarDetalleController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _edtNombreCategoria()
+  -Widget* _edtDescripcionCategoria()
+  -Widget* _btnEditar()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_page.dart::_RestauranteCategoriasActualizarDetallePageState" o-- "la_bella_italia::src::pages::restaurante::categorias::actualizar::detalle::restaurante_categorias_actualizar_detalle_controller.dart::RestauranteCategoriasActualizarDetalleController"
+
+class "la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_controller.dart::ResaturanteCategoriasListarController" {
+  +BuildContext* context
+  +Function* refresh
+  +User* user
+  -SharedPref* _sharedPref
+  -CategoryProvider* _categoryProvider
+  +List<Categoria*>* categorias
+  +Future<dynamic>* init()
+  +void mostrarSheet()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_controller.dart::ResaturanteCategoriasListarController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_controller.dart::ResaturanteCategoriasListarController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_controller.dart::ResaturanteCategoriasListarController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_controller.dart::ResaturanteCategoriasListarController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+
+class "la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_page.dart::RestauranteCategoriasListarPage" {
+  +_RestauranteCategoriasListarPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_page.dart::_RestauranteCategoriasListarPageState" {
+  -ResaturanteCategoriasListarController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _buildItem()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_page.dart::_RestauranteCategoriasListarPageState" o-- "la_bella_italia::src::pages::restaurante::categorias::actualizar::listar::restaurante_categorias_listar_controller.dart::ResaturanteCategoriasListarController"
+
+class "la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_controller.dart::RestauranteCategoriasCrearController" {
+  +BuildContext* context
+  +Function* refresh
+  +User* user
+  +SharedPref* sharedPref
+  +TextEditingController* nombreController
+  +TextEditingController* descripcionController
+  -CategoryProvider* _categoryProvider
+  +List<Categoria*>* categorias
+  +String* idCategoria
+  +Future<dynamic>* init()
+  +void getCategorias()
+  +void crearCategoria()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_controller.dart::RestauranteCategoriasCrearController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_controller.dart::RestauranteCategoriasCrearController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_controller.dart::RestauranteCategoriasCrearController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_controller.dart::RestauranteCategoriasCrearController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_controller.dart::RestauranteCategoriasCrearController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+
+class "la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_page.dart::RestauranteCategoriasCrearPage" {
+  +_RestauranteCategoriasCrearPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_page.dart::_RestauranteCategoriasCrearPageState" {
+  -RestauranteCategoriasCrearController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _edtNombreCategoria()
+  -Widget* _edtDescripcionCategoria()
+  -Widget* _btnRCrear()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_page.dart::_RestauranteCategoriasCrearPageState" o-- "la_bella_italia::src::pages::restaurante::categorias::crear::restaurante_categorias_crear_controller.dart::RestauranteCategoriasCrearController"
+
+class "la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_controller.dart::ResaturanteCategoriasEliminarController" {
+  +BuildContext* context
+  +Function* refresh
+  +User* user
+  -SharedPref* _sharedPref
+  -CategoryProvider* _categoryProvider
+  +List<Categoria*>* categorias
+  +Future<dynamic>* init()
+  +void confirmarEliminar()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_controller.dart::ResaturanteCategoriasEliminarController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_controller.dart::ResaturanteCategoriasEliminarController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_controller.dart::ResaturanteCategoriasEliminarController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_controller.dart::ResaturanteCategoriasEliminarController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+
+class "la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_page.dart::RestauranteCategoriasEliminarPage" {
+  +_RestauranteCategoriasEliminarPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_page.dart::_RestauranteCategoriasEliminarPageState" {
+  -ResaturanteCategoriasEliminarController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _buildItem()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_page.dart::_RestauranteCategoriasEliminarPageState" o-- "la_bella_italia::src::pages::restaurante::categorias::eliminar::restaurante_categorias_eliminar_controller.dart::ResaturanteCategoriasEliminarController"
+
+class "la_bella_italia::src::pages::restaurante::categorias::opciones::restaurante_categorias_opciones_controller.dart::RestauranteCategoriasOpcionesController" {
+  +BuildContext* context
+  +Function* refresh
+  +Future<dynamic>* init()
+  +void irACreacionCategoria()
+  +void irAActualizarCategoria()
+  +void irAEliminarCategoria()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::opciones::restaurante_categorias_opciones_controller.dart::RestauranteCategoriasOpcionesController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+
+class "la_bella_italia::src::pages::restaurante::categorias::opciones::restaurante_categorias_opciones_page.dart::RestauranteCategoriasOpcionesPage" {
+  +_RestauranteCategoriasOpcionesPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::categorias::opciones::restaurante_categorias_opciones_page.dart::_RestauranteCategoriasOpcionesPageState" {
+  -RestauranteCategoriasOpcionesController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _btnCrear()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::categorias::opciones::restaurante_categorias_opciones_page.dart::_RestauranteCategoriasOpcionesPageState" o-- "la_bella_italia::src::pages::restaurante::categorias::opciones::restaurante_categorias_opciones_controller.dart::RestauranteCategoriasOpcionesController"
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_controller.dart::RestauranteMensajerosAgregarController" {
+  +BuildContext* context
+  +Function* refresh
+  -SharedPref* _sharedPref
+  -ProgressDialog* _progressDialog
+  +TextEditingController* correoController
+  -UserProvider* _userProvider
+  +User* user
+  +Future<dynamic>* init()
+  +void agregarMensajero()
+}
+
+"la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_controller.dart::RestauranteMensajerosAgregarController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_controller.dart::RestauranteMensajerosAgregarController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_controller.dart::RestauranteMensajerosAgregarController" o-- "sn_progress_dialog::progress_dialog.dart::ProgressDialog"
+"la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_controller.dart::RestauranteMensajerosAgregarController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_controller.dart::RestauranteMensajerosAgregarController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_controller.dart::RestauranteMensajerosAgregarController" o-- "la_bella_italia::src::models::user.dart::User"
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_page.dart::RestauranteMensajerosAgregarPage" {
+  +_RestauranteMensajerosAgregarPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_page.dart::_RestauranteMensajerosAgregarPageState" {
+  -RestauranteMensajerosAgregarController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _btnAgregar()
+  -Widget* _edtCorreo()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_page.dart::_RestauranteMensajerosAgregarPageState" o-- "la_bella_italia::src::pages::restaurante::mensajeros::agregar::restaurante_mensajeros_agregar_controller.dart::RestauranteMensajerosAgregarController"
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_controller.dart::RestauranteMensajerosEliminarController" {
+  +BuildContext* context
+  +Function* refresh
+  +User* user
+  -SharedPref* _sharedPref
+  -UserProvider* _userProvider
+  +List<User*>* deliverys
+  +Future<dynamic>* init()
+  +void confirmarEliminar()
+}
+
+"la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_controller.dart::RestauranteMensajerosEliminarController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_controller.dart::RestauranteMensajerosEliminarController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_controller.dart::RestauranteMensajerosEliminarController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_controller.dart::RestauranteMensajerosEliminarController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_page.dart::RestauranteMensajerosEliminarPage" {
+  +_RestauranteMensajerosEliminarPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_page.dart::_RestauranteMensajerosEliminarPageState" {
+  -RestauranteMensajerosEliminarController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _buildItem()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_page.dart::_RestauranteMensajerosEliminarPageState" o-- "la_bella_italia::src::pages::restaurante::mensajeros::eliminar::restaurante_mensajeros_eliminar_controller.dart::RestauranteMensajerosEliminarController"
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::opciones::restaurante_mensajeros_opciones_controller.dart::RestauranteMensajerosOpcionesController" {
+  +BuildContext* context
+  +Function* refresh
+  +Future<dynamic>* init()
+  +void irAAgregarMensajero()
+  +void irAEliminar()
+}
+
+"la_bella_italia::src::pages::restaurante::mensajeros::opciones::restaurante_mensajeros_opciones_controller.dart::RestauranteMensajerosOpcionesController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::opciones::restaurante_mensajeros_opciones_page.dart::RestauranteMensajerosOpcionesPage" {
+  +_RestauranteMensajerosOpcionesPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::mensajeros::opciones::restaurante_mensajeros_opciones_page.dart::_RestauranteMensajerosOpcionesPageState" {
+  -RestauranteMensajerosOpcionesController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _btnCrear()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::mensajeros::opciones::restaurante_mensajeros_opciones_page.dart::_RestauranteMensajerosOpcionesPageState" o-- "la_bella_italia::src::pages::restaurante::mensajeros::opciones::restaurante_mensajeros_opciones_controller.dart::RestauranteMensajerosOpcionesController"
+
+class "la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController" {
+  +BuildContext* context
+  +Function* refresh
+  -SharedPref* _sharedPref
+  -UserProvider* _userProvider
+  -OrderProvider* _orderProvider
+  +double* total
+  +String* estado
+  +User* user
+  +bool* estadoRestaurante
+  +String* mensaje
+  +Orden* orden
+  +List<User*>* users
+  +String* idDelivery
+  +List<String*>* status
+  +PushNotificationProvider* pushNotificationProvider
+  +Future<dynamic>* init()
+  +void enviarNotificacion()
+  +void updateOrden()
+  +void updateToTheDispatchedBack()
+  +void updateOrdenToOnWay()
+  +void updateOrdenToDelivered()
+  +void updateOrdenToCancel()
+  +void getUsers()
+  +void obtenerTotal()
+  +void llamarTelefono()
+}
+
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController" o-- "la_bella_italia::src::models::orden.dart::Orden"
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController" o-- "la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider"
+
+class "la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_page.dart::RestauranteOrdenesDetallePage" {
+  +Orden* orden
+  +_RestauranteOrdenesDetallePageState* createState()
+}
+
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_page.dart::RestauranteOrdenesDetallePage" o-- "la_bella_italia::src::models::orden.dart::Orden"
+
+class "la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_page.dart::_RestauranteOrdenesDetallePageState" {
+  -RestauranteOrdenesDetalleController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _txtRepartidor()
+  -Widget* _dropDownStatu()
+  -Widget* _dropDown()
+  -Widget* _deliveryData()
+  -List<DropdownMenuItem<String*>*>* _dropDownStatus()
+  -List<DropdownMenuItem<String*>*>* _dropDownItems()
+  -Widget* _txtNombreClienteLlamar()
+  -Widget* _txtDatosCliente()
+  -Widget* _btnDespacharOrden()
+  -Widget* _btnCambioDeEstado()
+  -Widget* _tarjetaProducto()
+  -Widget* _txtPRecioTotal()
+  -Widget* _txtPrecio()
+  -Widget* _imagenProducto()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_page.dart::_RestauranteOrdenesDetallePageState" o-- "la_bella_italia::src::pages::restaurante::ordenes::detalle::restaurante_ordenes_detalle_controller.dart::RestauranteOrdenesDetalleController"
+
+class "la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_controller.dart::RestauranteOrdenesListaController" {
+  +BuildContext* context
+  -SharedPref* _sharedPref
+  +GlobalKey<ScaffoldState*>* key
+  +User* user
+  +Function* refresh
+  -UserProvider* _userProvider
+  -OrderProvider* _orderProvider
+  +bool* estado
+  +bool* abiertoOCerrado
+  +List<String*>* status
+  +Future<dynamic>* init()
+  +Future<List<Orden*>*>* obtenerOrdenes()
+  +void abrirSheet()
+  +void actualizarEstado()
+  +void logout()
+  +void openDrawer()
+  +void irAAdministarCategoria()
+  +void irAAdministrarMensajeros()
+  +void irAAdministarProducto()
+  +void cambiarRol()
+}
+
+"la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_controller.dart::RestauranteOrdenesListaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_controller.dart::RestauranteOrdenesListaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_controller.dart::RestauranteOrdenesListaController" o-- "flutter::src::widgets::framework.dart::GlobalKey<ScaffoldState>"
+"la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_controller.dart::RestauranteOrdenesListaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_controller.dart::RestauranteOrdenesListaController" o-- "la_bella_italia::src::providers::user_provider.dart::UserProvider"
+"la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_controller.dart::RestauranteOrdenesListaController" o-- "la_bella_italia::src::providers::order_provider.dart::OrderProvider"
+
+class "la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_page.dart::RestauranteOrdenesListaPage" {
+  +_RestauranteOrdenesListaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_page.dart::_RestauranteOrdenesListaPageState" {
+  -RestauranteOrdenesListaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _tarjetaOrden()
+  -Widget* _menuDraver()
+  -Widget* _drawer()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_page.dart::_RestauranteOrdenesListaPageState" o-- "la_bella_italia::src::pages::restaurante::ordenes::lista::restaurante_ordenes_lista_controller.dart::RestauranteOrdenesListaController"
+
+class "la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" {
+  +BuildContext* context
+  +Function* refresh
+  +TextEditingController* nombreController
+  +TextEditingController* descripcionController
+  +MoneyMaskedTextController* precioController
+  -CategoryProvider* _categoriesProvider
+  -ProductoProvider* _productsProvider
+  +User* user
+  +SharedPref* sharedPref
+  +Producto* producto
+  +List<Categoria*>* categorias
+  +String* idCategory
+  +PickedFile* pickedFile
+  +File* imageFile1
+  +File* imageFile2
+  +File* imageFile3
+  -ProgressDialog* _progressDialog
+  +Future<dynamic>* init()
+  +void getCategories()
+  +void updateProduct()
+  +void resetValues()
+  +Future<dynamic>* selectImage()
+  +void showAlertDialog()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "flutter_masked_text::flutter_masked_text.dart::MoneyMaskedTextController"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "la_bella_italia::src::providers::product_provider.dart::ProductoProvider"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "la_bella_italia::src::models::producto.dart::Producto"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "image_picker_platform_interface::src::types::picked_file::unsupported.dart::PickedFile"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "dart::io::File"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController" o-- "sn_progress_dialog::progress_dialog.dart::ProgressDialog"
+
+class "la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_crear_page.dart::RestauranteProductoActualizarDetallePage" {
+  +Producto* producto
+  +_RestauranteProductoActualizarDetallePageState* createState()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_crear_page.dart::RestauranteProductoActualizarDetallePage" o-- "la_bella_italia::src::models::producto.dart::Producto"
+
+class "la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_crear_page.dart::_RestauranteProductoActualizarDetallePageState" {
+  -RestauranteProductoActualizarDetalleController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _edtNombre()
+  -Widget* _edtPrecio()
+  -Widget* _dropDownCategories()
+  -List<DropdownMenuItem<String*>*>* _dropDownItems()
+  -Widget* _edtDescripcion()
+  -Widget* _tarjetaImagen()
+  -Widget* _btnCrear()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_crear_page.dart::_RestauranteProductoActualizarDetallePageState" o-- "la_bella_italia::src::pages::restaurante::productos::actualizar::detalle::restaurante_productos_actualizar_detalle_controller.dart::RestauranteProductoActualizarDetalleController"
+
+class "la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController" {
+  +BuildContext* context
+  -SharedPref* _sharedPref
+  +GlobalKey<ScaffoldState*>* key
+  +User* user
+  +Function* refresh
+  +Timer* tiempoDeEscritura
+  +String* productoBuscar
+  +List<Categoria*>* categorias
+  -CategoryProvider* _categoryProvider
+  -ProductoProvider* _productoProvider
+  +Future<dynamic>* init()
+  +void changeText()
+  +void mostrarSheet()
+  +Future<List<Producto*>*>* obtenerProductos()
+  +void obtenerCategorias()
+  +void regresar()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController" o-- "flutter::src::widgets::framework.dart::GlobalKey<ScaffoldState>"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController" o-- "dart::async::Timer"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+"la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController" o-- "la_bella_italia::src::providers::product_provider.dart::ProductoProvider"
+
+class "la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_page.dart::RestauranteProductosActualizarListaPage" {
+  +_RestauranteProductosActualizarListaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_page.dart::_RestauranteProductosActualizarListaPageState" {
+  -RestauranteProductosActualizarListaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _menuDraver()
+  -Widget* _tarjetaProducto()
+  -Widget* _edtBuscar()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_page.dart::_RestauranteProductosActualizarListaPageState" o-- "la_bella_italia::src::pages::restaurante::productos::actualizar::lista::restaurante_productos_actualizar_lista_controller.dart::RestauranteProductosActualizarListaController"
+
+class "la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" {
+  +BuildContext* context
+  +Function* refresh
+  +TextEditingController* nombreController
+  +TextEditingController* descripcionController
+  +MoneyMaskedTextController* precioController
+  -CategoryProvider* _categoriesProvider
+  -ProductoProvider* _productsProvider
+  +User* user
+  +SharedPref* sharedPref
+  +List<Categoria*>* categorias
+  +String* idCategory
+  +PickedFile* pickedFile
+  +File* imageFile1
+  +File* imageFile2
+  +File* imageFile3
+  -ProgressDialog* _progressDialog
+  +Future<dynamic>* init()
+  +void getCategories()
+  +void createProduct()
+  +void resetValues()
+  +Future<dynamic>* selectImage()
+  +void showAlertDialog()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "flutter_masked_text::flutter_masked_text.dart::MoneyMaskedTextController"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "la_bella_italia::src::providers::product_provider.dart::ProductoProvider"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "image_picker_platform_interface::src::types::picked_file::unsupported.dart::PickedFile"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "dart::io::File"
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController" o-- "sn_progress_dialog::progress_dialog.dart::ProgressDialog"
+
+class "la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_page.dart::RestauranteProductosCrearPage" {
+  +_RestauranteProductosCrearPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_page.dart::_RestauranteProductosCrearPageState" {
+  -RestauranteProductoCrearController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _edtNombre()
+  -Widget* _edtPrecio()
+  -Widget* _dropDownCategories()
+  -List<DropdownMenuItem<String*>*>* _dropDownItems()
+  -Widget* _edtDescripcion()
+  -Widget* _tarjetaImagen()
+  -Widget* _btnCrear()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_page.dart::_RestauranteProductosCrearPageState" o-- "la_bella_italia::src::pages::restaurante::productos::crear::restaurante_productos_crear_Controller.dart::RestauranteProductoCrearController"
+
+class "la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController" {
+  +BuildContext* context
+  -SharedPref* _sharedPref
+  +GlobalKey<ScaffoldState*>* key
+  +User* user
+  +Function* refresh
+  +Timer* tiempoDeEscritura
+  +String* productoBuscar
+  +List<Categoria*>* categorias
+  -CategoryProvider* _categoryProvider
+  -ProductoProvider* _productoProvider
+  +Future<dynamic>* init()
+  +void changeText()
+  +void confirmarEliminar()
+  +Future<List<Producto*>*>* obtenerProductos()
+  +void obtenerCategorias()
+  +void regresar()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+"la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController" o-- "flutter::src::widgets::framework.dart::GlobalKey<ScaffoldState>"
+"la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController" o-- "dart::async::Timer"
+"la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController" o-- "la_bella_italia::src::providers::category_provider.dart::CategoryProvider"
+"la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController" o-- "la_bella_italia::src::providers::product_provider.dart::ProductoProvider"
+
+class "la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_page.dart::RestauranteProductosEliminarListaPage" {
+  +_RestauranteProductosEliminarListaPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_page.dart::_RestauranteProductosEliminarListaPageState" {
+  -RestauranteProductosEliminarListaController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _menuDraver()
+  -Widget* _tarjetaProducto()
+  -Widget* _edtBuscar()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_page.dart::_RestauranteProductosEliminarListaPageState" o-- "la_bella_italia::src::pages::restaurante::productos::eliminar::restaurante_productos_eliminar_controller.dart::RestauranteProductosEliminarListaController"
+
+class "la_bella_italia::src::pages::restaurante::productos::opciones::restaurante_productos_opciones_controller.dart::RestauranteProductosOpcionesController" {
+  +BuildContext* context
+  +Function* refresh
+  +void init()
+  +void irACreacionProductos()
+  +void irAActualizarProductos()
+  +void irAEliminarProducto()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::opciones::restaurante_productos_opciones_controller.dart::RestauranteProductosOpcionesController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+
+class "la_bella_italia::src::pages::restaurante::productos::opciones::restaurante_productos_opciones_page.dart::RestauranteProductosOpcionesPage" {
+  +_RestauranteProductosOpcionesPageState* createState()
+}
+
+class "la_bella_italia::src::pages::restaurante::productos::opciones::restaurante_productos_opciones_page.dart::_RestauranteProductosOpcionesPageState" {
+  -RestauranteProductosOpcionesController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _btnCrear()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::restaurante::productos::opciones::restaurante_productos_opciones_page.dart::_RestauranteProductosOpcionesPageState" o-- "la_bella_italia::src::pages::restaurante::productos::opciones::restaurante_productos_opciones_controller.dart::RestauranteProductosOpcionesController"
+
+class "la_bella_italia::src::pages::roles::roles_controller.dart::RolesController" {
+  +BuildContext* context
+  +Function* refresh
+  +User* user
+  +SharedPref* sharedPref
+  +Future<dynamic>* init()
+  +void goToPage()
+}
+
+"la_bella_italia::src::pages::roles::roles_controller.dart::RolesController" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::pages::roles::roles_controller.dart::RolesController" o-- "la_bella_italia::src::models::user.dart::User"
+"la_bella_italia::src::pages::roles::roles_controller.dart::RolesController" o-- "la_bella_italia::src::utils::shared_pref.dart::SharedPref"
+
+class "la_bella_italia::src::pages::roles::roles_page.dart::RolesPage" {
+  +_RolesPageState* createState()
+}
+
+class "la_bella_italia::src::pages::roles::roles_page.dart::_RolesPageState" {
+  -RolesController* _obj
+  +void initState()
+  +Widget* build()
+  -Widget* _cardRol()
+  +void refresh()
+}
+
+"la_bella_italia::src::pages::roles::roles_page.dart::_RolesPageState" o-- "la_bella_italia::src::pages::roles::roles_controller.dart::RolesController"
+
+class "la_bella_italia::src::providers::address_provider.dart::AddressProvider" {
+  -String* _url
+  -String* _api
+  +BuildContext* context
+  +User* sessionUser
+  +Future<dynamic>* init()
+  +Future<List<Direccion*>*>* getByUser()
+  +Future<ResponseApi*>* delete()
+  +Future<ResponseApi*>* create()
+}
+
+"la_bella_italia::src::providers::address_provider.dart::AddressProvider" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::providers::address_provider.dart::AddressProvider" o-- "la_bella_italia::src::models::user.dart::User"
+
+class "la_bella_italia::src::providers::category_provider.dart::CategoryProvider" {
+  -String* _url
+  -String* _api
+  +BuildContext* context
+  +User* sessionUser
+  +Future<dynamic>* init()
+  +Future<List<Categoria*>*>* getAll()
+  +Future<ResponseApi*>* create()
+  +Future<ResponseApi*>* update()
+  +Future<Categoria*>* getById()
+  +Future<ResponseApi*>* delete()
+}
+
+"la_bella_italia::src::providers::category_provider.dart::CategoryProvider" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::providers::category_provider.dart::CategoryProvider" o-- "la_bella_italia::src::models::user.dart::User"
+
+class "la_bella_italia::src::providers::order_provider.dart::OrderProvider" {
+  -String* _url
+  -String* _api
+  +BuildContext* context
+  +User* sessionUser
+  +Future<dynamic>* init()
+  +Future<List<Orden*>*>* getByStatus()
+  +Future<List<Orden*>*>* getByDeliveryAndStatus()
+  +Future<List<Orden*>*>* getByClientAndStatus()
+  +Future<ResponseApi*>* create()
+  +Future<ResponseApi*>* updateToTheDispatched()
+  +Future<ResponseApi*>* updatelatLng()
+  +Future<ResponseApi*>* updateToOntheWay()
+  +Future<ResponseApi*>* updateToDelivered()
+  +Future<ResponseApi*>* updateToCancel()
+  +Future<ResponseApi*>* updateToTheDispatchedBack()
+}
+
+"la_bella_italia::src::providers::order_provider.dart::OrderProvider" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::providers::order_provider.dart::OrderProvider" o-- "la_bella_italia::src::models::user.dart::User"
+
+class "la_bella_italia::src::providers::product_provider.dart::ProductoProvider" {
+  -String* _url
+  -String* _api
+  +BuildContext* context
+  +User* sessionUser
+  +Future<dynamic>* init()
+  +Future<List<Producto*>*>* getByCategoryAndProductName()
+  +Future<List<Producto*>*>* getByCategory()
+  +Future<Stream<dynamic>*>* create()
+  +Future<Stream<dynamic>*>* updateProduct()
+  +Future<ResponseApi*>* deleteProduct()
+}
+
+"la_bella_italia::src::providers::product_provider.dart::ProductoProvider" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::providers::product_provider.dart::ProductoProvider" o-- "la_bella_italia::src::models::user.dart::User"
+
+class "la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider" {
+  +AndroidNotificationChannel* channel
+  +FlutterLocalNotificationsPlugin* flutterLocalNotificationsPlugin
+  +void initNotification()
+  +void onMessageListener()
+  +void saveToken()
+  +Future<void>* sendMessage()
+  +Future<void>* sendMessageMultiple()
+}
+
+"la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider" o-- "flutter_local_notifications::src::platform_specifics::android::notification_channel.dart::AndroidNotificationChannel"
+"la_bella_italia::src::providers::pushNotification_provider.dart::PushNotificationProvider" o-- "flutter_local_notifications::src::flutter_local_notifications_plugin.dart::FlutterLocalNotificationsPlugin"
+
+class "la_bella_italia::src::providers::user_provider.dart::UserProvider" {
+  -String* _url
+  -String* _api
+  +BuildContext* context
+  +User* sessionUser
+  +Future<dynamic>* init()
+  +Future<User*>* getById()
+  +Future<List<User*>*>* getByDelivey()
+  +Future<bool*>* restaurantIsAvaiable()
+  +Future<ResponseApi*>* recoverAccountUser()
+  +Future<ResponseApi*>* findUserEmail()
+  +Future<User*>* getInfoRestaurant()
+  +Future<ResponseApi*>* logout()
+  +Future<ResponseApi*>* login()
+  +Future<Stream<dynamic>*>* createWithImage()
+  +Future<ResponseApi*>* setValorRestaurant()
+  +Future<ResponseApi*>* addDelivery()
+  +Future<ResponseApi*>* deleteDelivery()
+  +Future<ResponseApi*>* updateNotificationToken()
+  +Future<List<String*>*>* getAdminsNotificationTokens()
+  +Future<Stream<dynamic>*>* updateUser()
+}
+
+"la_bella_italia::src::providers::user_provider.dart::UserProvider" o-- "flutter::src::widgets::framework.dart::BuildContext"
+"la_bella_italia::src::providers::user_provider.dart::UserProvider" o-- "la_bella_italia::src::models::user.dart::User"
+
+class "la_bella_italia::src::utils::my_colors.dart::MyColors" {
+  {static} +Color* primaryColor
+  {static} +Color* primaryColorDark
+  {static} +Color* primaryOpacityColor
+}
+
+"la_bella_italia::src::utils::my_colors.dart::MyColors" o-- "dart::ui::Color"
+
+class "la_bella_italia::src::utils::my_snackbar.dart::MyScnackbar" {
+  {static} +void show()
+  {static} +void testConnection()
+  {static} +bool* emailValid()
+}
+
+class "la_bella_italia::src::utils::relative_time_util.dart::RelativeTimeUtil" {
+  {static} +String* getRelativeTime()
+}
+
+class "la_bella_italia::src::utils::shared_pref.dart::SharedPref" {
+  +void save()
+  +Future<dynamic>* read()
+  +Future<bool*>* contains()
+  +Future<bool*>* remove()
+  +void logout()
+}
+
+class "la_bella_italia::src::utils::utilsApp.dart::UtilsApp" {
+  +Future<bool*>* internetConnectivity()
+}
+
+class "la_bella_italia::src::widgets::no_conection.dart::NoConecction" {
+  +Widget* build()
+  -Widget* _btnNoContection()
+  -Widget* _txtData()
+  -Widget* _animacion()
+}
+
+class "la_bella_italia::src::widgets::no_data_widget.dart::NoDataWidget" {
+  +String* texto
+  +Widget* build()
+}
+
+
+@enduml

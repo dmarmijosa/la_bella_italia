@@ -34,12 +34,12 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               children: [
                 _animacionLogin(),
-                _txtRestaurante(),
+                _txtNombreRestaurante(),
                 _edtCorreo(),
                 _edtPassword(),
                 _btnLogin(),
                 _txtRegistrarse(),
-                _txtRecuperar()
+                _txtRecuperarCuenta()
               ],
             ),
           ),
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         GestureDetector(
           onTap: () {
-            _obj.irA();
+            _obj.irARegistro();
           },
           child: Text(
             'Registrate',
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _txtRestaurante() {
+  Widget _txtNombreRestaurante() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 1),
       child: Row(
@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _txtRecuperar() {
+  Widget _txtRecuperarCuenta() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -204,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         GestureDetector(
           onTap: () {
-            _obj.recuperar();
+            _obj.recuperarCuenta();
           },
           child: Text(
             'Recuperar cuenta',

@@ -26,7 +26,7 @@ class LoginController {
   Future init(BuildContext context) async {
     this.context = context;
     await userProvider.init(context);
-    bandera = await internetConnectivity();
+    bandera = await internetConnexion();
 
     User user = User.fromJson(await _sharedPref.read('user') ?? {});
 
@@ -52,7 +52,7 @@ class LoginController {
     }
   }
 
-  Future<bool> internetConnectivity() async {
+  Future<bool> internetConnexion() async {
     try {
       final result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -64,11 +64,11 @@ class LoginController {
     return false;
   }
 
-  void irA() {
+  void irARegistro() {
     Navigator.pushNamed(context, 'registro');
   }
 
-  void recuperar() {
+  void recuperarCuenta() {
     Navigator.pushNamed(context, 'recuperar');
   }
 
