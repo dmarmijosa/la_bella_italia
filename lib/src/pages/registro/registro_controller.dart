@@ -120,7 +120,7 @@ class RegistroController {
     //print('$correo $nombre $apellido $telefono $pass $confirPass');
   }
 
-  Future selectImage(ImageSource imageSource) async {
+  Future seleccionarImagen(ImageSource imageSource) async {
     pickedFile = await ImagePicker().getImage(source: imageSource);
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
@@ -129,16 +129,16 @@ class RegistroController {
     refresh();
   }
 
-  void showAlertDialog() {
+  void menuOpcionesEscoger() {
     Widget galleryButton = ElevatedButton(
         onPressed: () {
-          selectImage(ImageSource.gallery);
+          seleccionarImagen(ImageSource.gallery);
         },
         child: Text('GALERIA'));
 
     Widget cameraButton = ElevatedButton(
         onPressed: () {
-          selectImage(ImageSource.camera);
+          seleccionarImagen(ImageSource.camera);
         },
         child: Text('CAMARA'));
 
@@ -154,7 +154,7 @@ class RegistroController {
         });
   }
 
-  void back() {
+  void regresar() {
     Navigator.pop(context);
   }
 }

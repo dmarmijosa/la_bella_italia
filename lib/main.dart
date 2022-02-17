@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:la_bella_italia/src/pages/cliente/actualizar/cliente_actualizar_page.dart';
+import 'package:la_bella_italia/src/pages/cliente/compraFinalizada/compra_finalizada_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/direcciones/crear/cliente_direcciones_crear_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/direcciones/eliminar/cliente_direcciones_eliminar_page.dart';
 
 import 'package:la_bella_italia/src/pages/cliente/direcciones/lista/cliente_direcciones_lista_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/direcciones/mapa/cliente_direcciones_mapa_page.dart';
-import 'package:la_bella_italia/src/pages/cliente/estado/cliente_estado_page.dart';
+
 import 'package:la_bella_italia/src/pages/cliente/ordenes/crear/cliente_ordenes_crear_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/ordenes/lista/cliente_ordenes_lista_page.dart';
 import 'package:la_bella_italia/src/pages/cliente/ordenes/mapa/cliente_ordenes_mapa_page.dart';
@@ -96,7 +97,7 @@ class _MyAppState extends State<MyApp> {
             ClienteDireccionesEliminarPage(),
         'cliente/direcciones/mapa': (BuildContext context) =>
             ClienteDireccionesMapaPage(),
-        'cliente/estado': (BuildContext context) => ClienteEstadoPage(),
+        'cliente/estado': (BuildContext context) => CompraFinalizadaPage(),
         'delivery/ordenes/lista': (BuildContext context) =>
             DeliveryOrdenesListaPage(),
         'delivery/ordenes/mapa': (BuildContext context) =>

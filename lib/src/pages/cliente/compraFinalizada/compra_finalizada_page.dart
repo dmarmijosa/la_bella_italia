@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:la_bella_italia/src/pages/cliente/compraFinalizada/compra_finalizada_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 import 'package:lottie/lottie.dart';
-import 'package:la_bella_italia/src/pages/cliente/estado/cliente_estado_controller.dart';
 
-class ClienteEstadoPage extends StatefulWidget {
-  const ClienteEstadoPage({key}) : super(key: key);
+class CompraFinalizadaPage extends StatefulWidget {
+  const CompraFinalizadaPage({key}) : super(key: key);
 
   @override
-  _ClienteEstadoPageState createState() => _ClienteEstadoPageState();
+  _CompraFinalizadaPageState createState() => _CompraFinalizadaPageState();
 }
 
-class _ClienteEstadoPageState extends State<ClienteEstadoPage> {
-  ClienteEstadoController _obj = new ClienteEstadoController();
+class _CompraFinalizadaPageState extends State<CompraFinalizadaPage> {
+  CompraFinalizadaController _obj = new CompraFinalizadaController();
   @override
   void initState() {
     super.initState();

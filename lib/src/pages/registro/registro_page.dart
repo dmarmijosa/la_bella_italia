@@ -36,7 +36,7 @@ class _RegistroState extends State<Registro> {
               Positioned(
                 top: -80,
                 left: -100,
-                child: _circle(),
+                child: _avatar(),
               ),
               Positioned(
                 child: _txtRegistro(),
@@ -44,7 +44,7 @@ class _RegistroState extends State<Registro> {
                 left: 27,
               ),
               Positioned(
-                child: _iconBack(),
+                child: _iconoRegresar(),
                 top: 56,
                 left: -5,
               ),
@@ -54,7 +54,7 @@ class _RegistroState extends State<Registro> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _imageUser(),
+                      _imagenUser(),
                       SizedBox(
                         height: 30,
                       ),
@@ -76,9 +76,9 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _imageUser() {
+  Widget _imagenUser() {
     return GestureDetector(
-      onTap: _obj.showAlertDialog,
+      onTap: _obj.menuOpcionesEscoger,
       child: CircleAvatar(
         radius: 63,
         backgroundColor: Colors.red[400],
@@ -276,7 +276,7 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _circle() {
+  Widget _avatar() {
     return Container(
       width: 240,
       height: 230,
@@ -286,13 +286,13 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _iconBack() {
+  Widget _iconoRegresar() {
     return IconButton(
       icon: Icon(
         Icons.arrow_back_ios,
         color: Colors.white,
       ),
-      onPressed: _obj.back,
+      onPressed: _obj.regresar,
     );
   }
 
