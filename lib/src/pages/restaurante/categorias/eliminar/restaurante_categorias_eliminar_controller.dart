@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 
 import 'package:la_bella_italia/src/providers/category_provider.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
@@ -15,7 +15,7 @@ class ResaturanteCategoriasEliminarController {
   User user;
   SharedPref _sharedPref = new SharedPref();
   CategoryProvider _categoryProvider = new CategoryProvider();
-  List<Categoria> categorias = [];
+  List<Category> categorias = [];
 
   Future init(BuildContext context, refresh) async {
     this.context = context;

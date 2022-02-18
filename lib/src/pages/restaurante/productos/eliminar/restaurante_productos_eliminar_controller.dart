@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/category.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 
@@ -21,10 +21,10 @@ class RestauranteProductosEliminarListaController {
   Function refresh;
   Timer tiempoDeEscritura;
   String productoBuscar = '';
-  List<Categoria> categorias = [];
+  List<Category> categorias = [];
 
   CategoryProvider _categoryProvider = new CategoryProvider();
-  ProductoProvider _productoProvider = new ProductoProvider();
+  ProductProvider _productoProvider = new ProductProvider();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -56,7 +56,7 @@ class RestauranteProductosEliminarListaController {
     });
   }
 
-  void confirmarEliminar(Producto producto) async {
+  void confirmarEliminar(Product producto) async {
     ResponseApi responseApi =
         await _productoProvider.deleteProduct(producto.id);
     Fluttertoast.showToast(msg: responseApi.message);
@@ -64,7 +64,7 @@ class RestauranteProductosEliminarListaController {
   }
 
   // ignore: non_constant_identifier_names
-  Future<List<Producto>> obtenerProductos(
+  Future<List<Product>> obtenerProductos(
       String idCategory, String productName) async {
     if (productoBuscar.isEmpty) {
       return await _productoProvider.getByCategory(idCategory);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 
@@ -13,7 +13,7 @@ class RestauranteCategoriasActualizarDetalleController {
   BuildContext context;
   Function refresh;
   User user;
-  Categoria categoria;
+  Category categoria;
 
   SharedPref sharedPref = new SharedPref();
 
@@ -21,11 +21,11 @@ class RestauranteCategoriasActualizarDetalleController {
   TextEditingController descripcionController = new TextEditingController();
 
   CategoryProvider _categoryProvider = new CategoryProvider();
-  List<Categoria> categorias = [];
+  List<Category> categorias = [];
   String idCategoria;
 
   Future init(
-      BuildContext context, Function refresh, Categoria categoria) async {
+      BuildContext context, Function refresh, Category categoria) async {
     this.context = context;
     this.refresh = refresh;
     UtilsApp utilsApp = new UtilsApp();
@@ -58,7 +58,7 @@ class RestauranteCategoriasActualizarDetalleController {
       return;
     }
 
-    Categoria category = new Categoria(
+    Category category = new Category(
       id: categoria.id,
       name: name,
       description: description,

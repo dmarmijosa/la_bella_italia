@@ -23,7 +23,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:la_bella_italia/src/models/orden.dart';
+import 'package:la_bella_italia/src/models/order.dart';
 
 class DeliveryOrdenesMapaController {
   BuildContext context;
@@ -35,7 +35,7 @@ class DeliveryOrdenesMapaController {
   Position _posicion;
   String addressName;
   LatLng addressLatLng;
-  Orden orden;
+  Order orden;
   StreamSubscription _posicionStream;
   double _distancia;
 
@@ -60,7 +60,7 @@ class DeliveryOrdenesMapaController {
 
     user = User.fromJson(await _sharedPref.read('user'));
 
-    orden = Orden.fromJson(
+    orden = Order.fromJson(
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>);
 
     deliveryMarker = await createMarkerFromAsset('assets/img/delivery.png');

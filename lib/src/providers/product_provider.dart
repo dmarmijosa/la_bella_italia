@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/api/enviroments.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -11,7 +11,7 @@ import 'package:path/path.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 
-class ProductoProvider {
+class ProductProvider {
   String _url = Enviroments.API_DELIVERY;
   String _api = '/api/products';
   BuildContext context;
@@ -22,7 +22,7 @@ class ProductoProvider {
     this.sessionUser = sessionUser;
   }
 
-  Future<List<Producto>> getByCategoryAndProductName(
+  Future<List<Product>> getByCategoryAndProductName(
       String idCategory, String productName) async {
     try {
       Uri url = Uri.http(
@@ -38,7 +38,7 @@ class ProductoProvider {
         new SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body); // CATEGORIAS
-      Producto product = Producto.fromJsonList(data);
+      Product product = Product.fromJsonList(data);
       return product.toList;
     } catch (e) {
       print('Error: $e');
@@ -46,7 +46,7 @@ class ProductoProvider {
     }
   }
 
-  Future<List<Producto>> getByCategory(String idCategory) async {
+  Future<List<Product>> getByCategory(String idCategory) async {
     try {
       Uri url = Uri.http(_url, '$_api/findByCategory/$idCategory');
       Map<String, String> headers = {
@@ -60,7 +60,7 @@ class ProductoProvider {
         new SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body);
-      Producto product = Producto.fromJsonList(data);
+      Product product = Product.fromJsonList(data);
       return product.toList;
     } catch (e) {
       print('Error: $e');
@@ -68,7 +68,7 @@ class ProductoProvider {
     }
   }
 
-  Future<Stream> create(Producto product, List<File> images) async {
+  Future<Stream> create(Product product, List<File> images) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
       final request = http.MultipartRequest('POST', url);
@@ -91,7 +91,7 @@ class ProductoProvider {
     }
   }
 
-  Future<Stream> updateProduct(Producto product, List<File> images) async {
+  Future<Stream> updateProduct(Product product, List<File> images) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateProduct');
       final request = http.MultipartRequest('PUT', url);

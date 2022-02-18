@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/orden.dart';
+import 'package:la_bella_italia/src/models/order.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/pages/restaurante/ordenes/detalle/restaurante_ordenes_detalle_page.dart';
@@ -46,11 +46,11 @@ class RestauranteOrdenesListaController {
     refresh();
   }
 
-  Future<List<Orden>> obtenerOrdenes(String status) async {
+  Future<List<Order>> obtenerOrdenes(String status) async {
     return await _orderProvider.getByStatus(status);
   }
 
-  void abrirSheet(Orden orden) async {
+  void abrirSheet(Order orden) async {
     estado = await showMaterialModalBottomSheet(
       context: context,
       builder: (context) => RestauranteOrdenesDetallePage(

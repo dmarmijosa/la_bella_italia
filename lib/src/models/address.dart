@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-Direccion addressFromJson(String str) => Direccion.fromJson(json.decode(str));
+Address addressFromJson(String str) => Address.fromJson(json.decode(str));
 
-String addressToJson(Direccion data) => json.encode(data.toJson());
+String addressToJson(Address data) => json.encode(data.toJson());
 
-class Direccion {
-  Direccion({
+class Address {
+  Address({
     this.id,
     this.idUser,
     this.address,
@@ -20,9 +20,9 @@ class Direccion {
   String town;
   double lat;
   double lng;
-  List<Direccion> toList = [];
+  List<Address> toList = [];
 
-  factory Direccion.fromJson(Map<String, dynamic> json) => Direccion(
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
         id: json["id"] is int ? json['id'].toString() : json['id'],
         idUser: json["id_user"],
         address: json["address"],
@@ -31,10 +31,10 @@ class Direccion {
         lng: json["lng"] is String ? double.parse(json["lng"]) : json["lng"],
       );
 
-  Direccion.fromJsonList(List<dynamic> jsonList) {
+  Address.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
     jsonList.forEach((item) {
-      Direccion address = Direccion.fromJson(item);
+      Address address = Address.fromJson(item);
       toList.add(address);
     });
   }

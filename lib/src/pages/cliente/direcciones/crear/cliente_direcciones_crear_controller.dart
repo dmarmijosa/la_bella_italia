@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/direccion.dart';
+import 'package:la_bella_italia/src/models/address.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/pages/cliente/direcciones/mapa/cliente_direcciones_mapa_page.dart';
@@ -58,7 +58,7 @@ class ClienteDireccionesCrerController {
       return;
     }
 
-    Direccion direccion = new Direccion(
+    Address direccion = new Address(
       idUser: user.id,
       address: nombreDireccion,
       town: pueblo,

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/orden.dart';
+import 'package:la_bella_italia/src/models/order.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/order_provider.dart';
@@ -25,13 +25,13 @@ class DeliveryOrdenesDetalleController {
   User user;
   bool estadoRestaurante;
   String mensaje;
-  Orden orden;
+  Order orden;
   List<User> users = [];
   String idDelivery;
   PushNotificationProvider pushNotificationsProvider =
       new PushNotificationProvider();
 
-  Future init(BuildContext context, Function refresh, Orden orden) async {
+  Future init(BuildContext context, Function refresh, Order orden) async {
     this.context = context;
     this.refresh = refresh;
     this.orden = orden;

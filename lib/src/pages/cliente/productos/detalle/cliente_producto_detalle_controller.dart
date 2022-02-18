@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,16 +7,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ClienteProductoDetalleController {
   BuildContext context;
   Function refresh;
-  Producto producto;
+  Product producto;
   int cantidad = 1;
 
   double precioProductoAgregado;
   TextEditingController detalleController = new TextEditingController();
 
   SharedPref _sharedPref = new SharedPref();
-  List<Producto> productoSelecionado = [];
+  List<Product> productoSelecionado = [];
 
-  Future init(BuildContext context, Function refresh, Producto producto) async {
+  Future init(BuildContext context, Function refresh, Product producto) async {
     this.context = context;
     this.refresh = refresh;
     this.producto = producto;
@@ -24,7 +24,7 @@ class ClienteProductoDetalleController {
 
     //_sharedPref.remove('order');
     productoSelecionado =
-        Producto.fromJsonList(await _sharedPref.read('order')).toList;
+        Product.fromJsonList(await _sharedPref.read('order')).toList;
 
     productoSelecionado.forEach((element) {
       print('producto seleccionado: ${element.toJson()}');

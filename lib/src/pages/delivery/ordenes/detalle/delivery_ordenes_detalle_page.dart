@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import 'package:la_bella_italia/src/models/orden.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/order.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 
 import 'package:la_bella_italia/src/pages/delivery/ordenes/detalle/delivery_ordenes_detalle_controller.dart';
 import 'package:la_bella_italia/src/utils/relative_time_util.dart';
@@ -10,7 +10,7 @@ import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
 
 // ignore: must_be_immutable
 class DeliveryOrdenesDetallePage extends StatefulWidget {
-  Orden orden;
+  Order orden;
 
   DeliveryOrdenesDetallePage({key, @required this.orden}) : super(key: key);
   @override
@@ -64,13 +64,13 @@ class _DeliveryOrdenesDetallePageState
       body: (_obj.orden?.products?.length ?? 0) > 0
           ? ListView(
               children: _obj.orden?.products?.map(
-                (Producto producto) {
+                (Product producto) {
                   return _tarjetaProducto(producto);
                 },
               )?.toList(),
             )
           : NoDataWidget(
-              texto: 'Ningun producto agregado',
+              text: 'Ningun producto agregado',
             ),
     );
   }
@@ -167,7 +167,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _tarjetaProducto(Producto producto) {
+  Widget _tarjetaProducto(Product producto) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 6),
       child: Row(
@@ -244,7 +244,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _txtPrecio(Producto producto) {
+  Widget _txtPrecio(Product producto) {
     return Container(
       margin: EdgeInsets.only(top: 10, right: 10),
       child: Text(
@@ -257,7 +257,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _imagenProducto(Producto producto) {
+  Widget _imagenProducto(Product producto) {
     return Container(
       width: 90,
       height: 90,

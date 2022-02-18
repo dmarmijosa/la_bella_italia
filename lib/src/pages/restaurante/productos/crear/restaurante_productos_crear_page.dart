@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 import 'package:la_bella_italia/src/pages/restaurante/productos/crear/restaurante_productos_crear_Controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
@@ -106,7 +106,7 @@ class _RestauranteProductosCrearPageState
     );
   }
 
-  Widget _dropDownCategories(List<Categoria> categories) {
+  Widget _dropDownCategories(List<Category> categories) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 33),
       child: Material(
@@ -164,7 +164,7 @@ class _RestauranteProductosCrearPageState
     );
   }
 
-  List<DropdownMenuItem<String>> _dropDownItems(List<Categoria> categories) {
+  List<DropdownMenuItem<String>> _dropDownItems(List<Category> categories) {
     List<DropdownMenuItem<String>> list = [];
     categories.forEach((category) {
       list.add(DropdownMenuItem(

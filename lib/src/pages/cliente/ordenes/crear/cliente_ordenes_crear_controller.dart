@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
@@ -14,7 +14,7 @@ class ClienteOrdenesCrearController {
   SharedPref _sharedPref = new SharedPref();
   UserProvider userProvider = new UserProvider();
 
-  List<Producto> productosSeleccionados = [];
+  List<Product> productosSeleccionados = [];
   double total = 0;
 
   bool estadoRestaurante;
@@ -28,7 +28,7 @@ class ClienteOrdenesCrearController {
     this.estadoRestaurante = await userProvider.restaurantIsAvaiable();
 
     productosSeleccionados =
-        Producto.fromJsonList(await _sharedPref.read('order')).toList;
+        Product.fromJsonList(await _sharedPref.read('order')).toList;
     print(estadoRestaurante);
     obtenerTotal();
 
@@ -47,7 +47,7 @@ class ClienteOrdenesCrearController {
     refresh();
   }
 
-  void aumentarItem(Producto producto) {
+  void aumentarItem(Product producto) {
     int index = productosSeleccionados.indexWhere((p) => p.id == producto.id);
     productosSeleccionados[index].quantity =
         productosSeleccionados[index].quantity + 1;
@@ -57,7 +57,7 @@ class ClienteOrdenesCrearController {
     //refresh();
   }
 
-  void reducirItem(Producto producto) {
+  void reducirItem(Product producto) {
     if (producto.quantity > 1) {
       int index = productosSeleccionados.indexWhere((p) => p.id == producto.id);
       productosSeleccionados[index].quantity =
@@ -69,7 +69,7 @@ class ClienteOrdenesCrearController {
     }
   }
 
-  void eliminarItem(Producto producto) {
+  void eliminarItem(Product producto) {
     productosSeleccionados.removeWhere((p) => p.id == producto.id);
     _sharedPref.save('order', productosSeleccionados);
     obtenerTotal();

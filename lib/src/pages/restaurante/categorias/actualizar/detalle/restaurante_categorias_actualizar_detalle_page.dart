@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/actualizar/detalle/restaurante_categorias_actualizar_detalle_controller.dart';
 
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
 // ignore: must_be_immutable
 class RestauranteCategoriasActualizarDetallePage extends StatefulWidget {
-  Categoria categoria;
+  Category categoria;
   RestauranteCategoriasActualizarDetallePage({key, @required this.categoria})
       : super(key: key);
 

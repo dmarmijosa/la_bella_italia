@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/user.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/actualizar/detalle/restaurante_categorias_actualizar_detalle_page.dart';
 import 'package:la_bella_italia/src/providers/category_provider.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
@@ -13,7 +13,7 @@ class ResaturanteCategoriasListarController {
   User user;
   SharedPref _sharedPref = new SharedPref();
   CategoryProvider _categoryProvider = new CategoryProvider();
-  List<Categoria> categorias = [];
+  List<Category> categorias = [];
 
   Future init(BuildContext context, refresh) async {
     this.context = context;
@@ -29,7 +29,7 @@ class ResaturanteCategoriasListarController {
     refresh();
   }
 
-  void mostrarSheet(Categoria categoria) {
+  void mostrarSheet(Category categoria) {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => RestauranteCategoriasActualizarDetallePage(

@@ -4,8 +4,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import 'package:la_bella_italia/src/models/categoria.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/category.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 
 import 'package:la_bella_italia/src/models/user.dart';
@@ -28,13 +28,13 @@ class RestauranteProductoActualizarDetalleController {
   MoneyMaskedTextController precioController = new MoneyMaskedTextController();
 
   CategoryProvider _categoriesProvider = new CategoryProvider();
-  ProductoProvider _productsProvider = new ProductoProvider();
+  ProductProvider _productsProvider = new ProductProvider();
 
   User user;
   SharedPref sharedPref = new SharedPref();
-  Producto producto;
+  Product producto;
 
-  List<Categoria> categorias = [];
+  List<Category> categorias = [];
   String idCategory;
 
   PickedFile pickedFile;
@@ -44,7 +44,7 @@ class RestauranteProductoActualizarDetalleController {
 
   ProgressDialog _progressDialog;
 
-  Future init(BuildContext context, Function refresh, Producto producto) async {
+  Future init(BuildContext context, Function refresh, Product producto) async {
     this.context = context;
     this.refresh = refresh;
     this.producto = producto;
@@ -87,7 +87,7 @@ class RestauranteProductoActualizarDetalleController {
       return;
     }
 
-    Producto myProduct = new Producto(
+    Product myProduct = new Product(
         id: producto.id,
         name: name,
         description: description,

@@ -1,14 +1,14 @@
 import 'dart:convert';
 
-import 'package:la_bella_italia/src/models/direccion.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/address.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 
-Orden orderFromJson(String str) => Orden.fromJson(json.decode(str));
+Order orderFromJson(String str) => Order.fromJson(json.decode(str));
 
-String orderToJson(Orden data) => json.encode(data.toJson());
+String orderToJson(Order data) => json.encode(data.toJson());
 
-class Orden {
+class Order {
   String id;
   String idClient;
   String idDelivery;
@@ -17,13 +17,13 @@ class Orden {
   double lat;
   double lng;
   int timestamp;
-  List<Producto> products = [];
-  List<Orden> toList = [];
+  List<Product> products = [];
+  List<Order> toList = [];
   User client;
   User delivery;
-  Direccion address;
+  Address address;
 
-  Orden(
+  Order(
       {this.id,
       this.idClient,
       this.idDelivery,
@@ -37,7 +37,7 @@ class Orden {
       this.delivery,
       this.address});
 
-  factory Orden.fromJson(Map<String, dynamic> json) => Orden(
+  factory Order.fromJson(Map<String, dynamic> json) => Order(
       id: json["id"] is int ? json["id"].toString() : json['id'],
       idClient: json["id_client"],
       idDelivery: json["id_delivery"],
@@ -49,8 +49,8 @@ class Orden {
           ? int.parse(json["timestamp"])
           : json["timestamp"],
       products: json["products"] != null
-          ? List<Producto>.from(json["products"].map((model) =>
-                  model is Producto ? model : Producto.fromJson(model))) ??
+          ? List<Product>.from(json["products"].map((model) =>
+                  model is Product ? model : Product.fromJson(model))) ??
               []
           : [],
       client: json['client'] is String
@@ -65,14 +65,14 @@ class Orden {
               : User.fromJson(json['delivery'] ?? {}),
       address: json['address'] is String
           ? addressFromJson(json['address'])
-          : json['address'] is Direccion
+          : json['address'] is Address
               ? json['address']
-              : Direccion.fromJson(json['address'] ?? {}));
+              : Address.fromJson(json['address'] ?? {}));
 
-  Orden.fromJsonList(List<dynamic> jsonList) {
+  Order.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
     jsonList.forEach((item) {
-      Orden order = Orden.fromJson(item);
+      Order order = Order.fromJson(item);
       toList.add(order);
     });
   }

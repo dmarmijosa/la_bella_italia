@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/detalle/cliente_producto_detalle_controller.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
 // ignore: must_be_immutable
 class ClienteProductoDetallePage extends StatefulWidget {
-  Producto producto;
+  Product producto;
 
   ClienteProductoDetallePage({key, @required this.producto}) : super(key: key);
 

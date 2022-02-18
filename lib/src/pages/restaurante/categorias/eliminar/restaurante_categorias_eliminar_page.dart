@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 
 import 'package:la_bella_italia/src/pages/restaurante/categorias/eliminar/restaurante_categorias_eliminar_controller.dart';
 
@@ -37,7 +37,7 @@ class _RestauranteCategoriasEliminarPageState
     );
   }
 
-  Widget _buildItem(Categoria categoria) {
+  Widget _buildItem(Category categoria) {
     return new ListTile(
       title: new Text(categoria.name),
       subtitle: new Text(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class NoDataWidget extends StatelessWidget {
-  String texto;
-  NoDataWidget({key, this.texto}) : super(key: key);
+  String text;
+  NoDataWidget({key, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class NoDataWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset('assets/img/no_items.png'),
-          Text(texto),
+          Text(text),
         ],
       ),
     );

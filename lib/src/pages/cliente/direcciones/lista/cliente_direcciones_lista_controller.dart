@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/direccion.dart';
-import 'package:la_bella_italia/src/models/orden.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/address.dart';
+import 'package:la_bella_italia/src/models/order.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/address_provider.dart';
@@ -18,7 +18,7 @@ class ClienteDireccionesListaController {
   BuildContext context;
   Function refresh;
 
-  List<Direccion> direcciones = [];
+  List<Address> direcciones = [];
 
   AddressProvider _addressProvider = new AddressProvider();
   User user;
@@ -71,12 +71,12 @@ class ClienteDireccionesListaController {
             msg: 'Debe seleccionar al menos una dirección agregada');
         Navigator.pop(context);
       } else {
-        Direccion direccion =
-            Direccion.fromJson(await _sharedPref.read('address') ?? {});
-        List<Producto> productosSeleccionados =
-            Producto.fromJsonList(await _sharedPref.read('order')).toList;
+        Address direccion =
+            Address.fromJson(await _sharedPref.read('address') ?? {});
+        List<Product> productosSeleccionados =
+            Product.fromJsonList(await _sharedPref.read('order')).toList;
 
-        Orden orden = new Orden(
+        Order orden = new Order(
           idClient: user.id,
           idAddress: direccion.id,
           products: productosSeleccionados,
@@ -99,9 +99,9 @@ class ClienteDireccionesListaController {
     print('Valor seleccionado $radioValue');
   }
 
-  Future<List<Direccion>> getDirecciones() async {
+  Future<List<Address>> getDirecciones() async {
     direcciones = await _addressProvider.getByUser(user.id);
-    Direccion d = Direccion.fromJson(await _sharedPref.read('address') ?? {});
+    Address d = Address.fromJson(await _sharedPref.read('address') ?? {});
 
     print('Dato almacenado ${d.toJson()}');
 

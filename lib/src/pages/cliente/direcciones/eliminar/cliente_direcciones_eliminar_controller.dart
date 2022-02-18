@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/direccion.dart';
+import 'package:la_bella_italia/src/models/address.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/providers/address_provider.dart';
@@ -11,7 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ClienteDireccionesEliminarController {
   BuildContext context;
   Function refresh;
-  List<Direccion> direcciones = [];
+  List<Address> direcciones = [];
 
   AddressProvider _addressProvider = new AddressProvider();
   User user;
@@ -43,10 +43,9 @@ class ClienteDireccionesEliminarController {
     print('Valor seleccionado $radioValue');
   }
 
-  Future<List<Direccion>> getDirecciones() async {
+  Future<List<Address>> getDirecciones() async {
     direcciones = await _addressProvider.getByUser(user.id);
-    Direccion d =
-        Direccion.fromJson(await _sharedPref.read('addressDelete') ?? {});
+    Address d = Address.fromJson(await _sharedPref.read('addressDelete') ?? {});
 
     print('Dato almacenado ${d.toJson()}');
 
@@ -54,8 +53,7 @@ class ClienteDireccionesEliminarController {
   }
 
   void eliminarDireccion() async {
-    Direccion d =
-        Direccion.fromJson(await _sharedPref.read('addressDelete') ?? {});
+    Address d = Address.fromJson(await _sharedPref.read('addressDelete') ?? {});
     ResponseApi responseApi = await _addressProvider.delete(d.id);
     Fluttertoast.showToast(msg: responseApi.message);
     MyScnackbar.show(context, radioValue.toString());

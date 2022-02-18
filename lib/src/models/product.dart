@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-Producto productoFromJson(String str) => Producto.fromJson(json.decode(str));
+Product productFromJson(String str) => Product.fromJson(json.decode(str));
 
-String productoToJson(Producto data) => json.encode(data.toJson());
+String productToJson(Product data) => json.encode(data.toJson());
 
-class Producto {
+class Product {
   String id;
   String name;
   String description;
@@ -14,10 +14,10 @@ class Producto {
   double price;
   int idCategory;
   int quantity;
-  List<Producto> toList = [];
+  List<Product> toList = [];
   String detail;
 
-  Producto({
+  Product({
     this.id,
     this.name,
     this.description,
@@ -30,7 +30,7 @@ class Producto {
     this.detail,
   });
 
-  factory Producto.fromJson(Map<String, dynamic> json) => Producto(
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"] is int ? json["id"].toString() : json['id'],
         name: json["name"],
         description: json["description"],
@@ -49,10 +49,10 @@ class Producto {
         detail: json["detail"],
       );
 
-  Producto.fromJsonList(List<dynamic> jsonList) {
+  Product.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
     jsonList.forEach((item) {
-      Producto product = Producto.fromJson(item);
+      Product product = Product.fromJson(item);
       toList.add(product);
     });
   }

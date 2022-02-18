@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/api/enviroments.dart';
-import 'package:la_bella_italia/src/models/orden.dart';
+import 'package:la_bella_italia/src/models/order.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +21,7 @@ class OrderProvider {
     this.sessionUser = sessionUser;
   }
 
-  Future<List<Orden>> getByStatus(String status) async {
+  Future<List<Order>> getByStatus(String status) async {
     try {
       print('SESION TOKEN: ${sessionUser.sessionToken}');
       Uri url = Uri.http(_url, '$_api/findByStatus/$status');
@@ -36,7 +36,7 @@ class OrderProvider {
         new SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body); // CATEGORIAS
-      Orden order = Orden.fromJsonList(data);
+      Order order = Order.fromJsonList(data);
       return order.toList;
     } catch (e) {
       print('Error: $e');
@@ -44,7 +44,7 @@ class OrderProvider {
     }
   }
 
-  Future<List<Orden>> getByDeliveryAndStatus(
+  Future<List<Order>> getByDeliveryAndStatus(
       String idDelivery, String status) async {
     try {
       print('SESION TOKEN: ${sessionUser.sessionToken}');
@@ -61,7 +61,7 @@ class OrderProvider {
         new SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body); // CATEGORIAS
-      Orden order = Orden.fromJsonList(data);
+      Order order = Order.fromJsonList(data);
       return order.toList;
     } catch (e) {
       print('Error: $e');
@@ -69,7 +69,7 @@ class OrderProvider {
     }
   }
 
-  Future<List<Orden>> getByClientAndStatus(
+  Future<List<Order>> getByClientAndStatus(
       String idClient, String status) async {
     try {
       print('SESION TOKEN: ${sessionUser.sessionToken}');
@@ -85,7 +85,7 @@ class OrderProvider {
         new SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body); // CATEGORIAS
-      Orden order = Orden.fromJsonList(data);
+      Order order = Order.fromJsonList(data);
       return order.toList;
     } catch (e) {
       print('Error: $e');
@@ -93,7 +93,7 @@ class OrderProvider {
     }
   }
 
-  Future<ResponseApi> create(Orden orden) async {
+  Future<ResponseApi> create(Order orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
       String bodyParams = json.encode(orden);
@@ -117,7 +117,7 @@ class OrderProvider {
     }
   }
 
-  Future<ResponseApi> updateToTheDispatched(Orden orden) async {
+  Future<ResponseApi> updateToTheDispatched(Order orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToDispathed');
       String bodyParams = json.encode(orden);
@@ -140,7 +140,8 @@ class OrderProvider {
       return null;
     }
   }
-  Future<ResponseApi> updatelatLng(Orden orden) async {
+
+  Future<ResponseApi> updatelatLng(Order orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateLatLng');
       String bodyParams = json.encode(orden);
@@ -164,7 +165,7 @@ class OrderProvider {
     }
   }
 
-  Future<ResponseApi> updateToOntheWay(Orden orden) async {
+  Future<ResponseApi> updateToOntheWay(Order orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToOnWay');
       String bodyParams = json.encode(orden);
@@ -188,7 +189,7 @@ class OrderProvider {
     }
   }
 
-  Future<ResponseApi> updateToDelivered(Orden orden) async {
+  Future<ResponseApi> updateToDelivered(Order orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToDelivered');
       String bodyParams = json.encode(orden);
@@ -212,7 +213,7 @@ class OrderProvider {
     }
   }
 
-  Future<ResponseApi> updateToCancel(Orden orden) async {
+  Future<ResponseApi> updateToCancel(Order orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToCancel');
       String bodyParams = json.encode(orden);
@@ -236,7 +237,7 @@ class OrderProvider {
     }
   }
 
-  Future<ResponseApi> updateToTheDispatchedBack(Orden orden) async {
+  Future<ResponseApi> updateToTheDispatchedBack(Order orden) async {
     try {
       Uri url = Uri.http(_url, '$_api/updateToDispathedBack');
       String bodyParams = json.encode(orden);

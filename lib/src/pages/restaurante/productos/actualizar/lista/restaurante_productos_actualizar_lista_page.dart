@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/category.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 
 import 'package:la_bella_italia/src/pages/restaurante/productos/actualizar/lista/restaurante_productos_actualizar_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
@@ -69,11 +69,11 @@ class _RestauranteProductosActualizarListaPageState
           ),
           body: TabBarView(
             children: _obj.categorias.map(
-              (Categoria categoria) {
+              (Category categoria) {
                 return FutureBuilder(
                   future:
                       _obj.obtenerProductos(categoria.id, _obj.productoBuscar),
-                  builder: (context, AsyncSnapshot<List<Producto>> snapshot) {
+                  builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
                         return GridView.builder(
@@ -91,12 +91,12 @@ class _RestauranteProductosActualizarListaPageState
                         );
                       } else {
                         return NoDataWidget(
-                          texto: 'No hay productos',
+                          text: 'No hay productos',
                         );
                       }
                     } else {
                       return NoDataWidget(
-                        texto: 'No hay productos',
+                        text: 'No hay productos',
                       );
                     }
                   },
@@ -133,7 +133,7 @@ class _RestauranteProductosActualizarListaPageState
     );
   }
 
-  Widget _tarjetaProducto(Producto producto) {
+  Widget _tarjetaProducto(Product producto) {
     return GestureDetector(
       onTap: () {
         _obj.mostrarSheet(producto);

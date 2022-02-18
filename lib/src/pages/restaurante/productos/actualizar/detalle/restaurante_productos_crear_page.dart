@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/category.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/pages/restaurante/productos/actualizar/detalle/restaurante_productos_actualizar_detalle_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
 // ignore: must_be_immutable
 class RestauranteProductoActualizarDetallePage extends StatefulWidget {
-  Producto producto;
+  Product producto;
   RestauranteProductoActualizarDetallePage({key, @required this.producto})
       : super(key: key);
 
@@ -110,7 +110,7 @@ class _RestauranteProductoActualizarDetallePageState
     );
   }
 
-  Widget _dropDownCategories(List<Categoria> categories) {
+  Widget _dropDownCategories(List<Category> categories) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 33),
       child: Material(
@@ -168,7 +168,7 @@ class _RestauranteProductoActualizarDetallePageState
     );
   }
 
-  List<DropdownMenuItem<String>> _dropDownItems(List<Categoria> categories) {
+  List<DropdownMenuItem<String>> _dropDownItems(List<Category> categories) {
     List<DropdownMenuItem<String>> list = [];
     categories.forEach((category) {
       list.add(DropdownMenuItem(

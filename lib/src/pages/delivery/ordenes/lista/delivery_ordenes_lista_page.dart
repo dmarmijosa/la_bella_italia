@@ -3,7 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/orden.dart';
+import 'package:la_bella_italia/src/models/order.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/lista/delivery_ordenes_lista_controller.dart';
 
 import 'package:la_bella_italia/src/utils/my_colors.dart';
@@ -73,7 +73,7 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
             children: _obj.status.map((String status) {
               return FutureBuilder(
                   future: _obj.obtenerOrdenes(status),
-                  builder: (context, AsyncSnapshot<List<Orden>> snapshot) {
+                  builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
                         return ListView.builder(
@@ -85,10 +85,10 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
                               return _tarjetaOrden(snapshot.data[index]);
                             });
                       } else {
-                        return NoDataWidget(texto: 'No hay ordenes');
+                        return NoDataWidget(text: 'No hay ordenes');
                       }
                     } else {
-                      return NoDataWidget(texto: 'No hay ordenes');
+                      return NoDataWidget(text: 'No hay ordenes');
                     }
                   });
             }).toList(),
@@ -98,7 +98,7 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
     );
   }
 
-  Widget _tarjetaOrden(Orden orden) {
+  Widget _tarjetaOrden(Order orden) {
     return GestureDetector(
       onTap: () {
         _obj.abrirSheet(orden);

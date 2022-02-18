@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/category.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_producto_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
@@ -70,11 +70,11 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
           drawer: _drawer(),
           body: TabBarView(
             children: _obj.categorias.map(
-              (Categoria categoria) {
+              (Category categoria) {
                 return FutureBuilder(
                   future:
                       _obj.obtenerProductos(categoria.id, _obj.productoBuscar),
-                  builder: (context, AsyncSnapshot<List<Producto>> snapshot) {
+                  builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
                         return GridView.builder(
@@ -92,12 +92,12 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                         );
                       } else {
                         return NoDataWidget(
-                          texto: 'No hay productos',
+                          text: 'No hay productos',
                         );
                       }
                     } else {
                       return NoDataWidget(
-                        texto: 'No hay productos',
+                        text: 'No hay productos',
                       );
                     }
                   },
@@ -110,7 +110,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     );
   }
 
-  Widget _tarjetaProducto(Producto producto) {
+  Widget _tarjetaProducto(Product producto) {
     return GestureDetector(
       onTap: () {
         _obj.mostrarSheet(producto);

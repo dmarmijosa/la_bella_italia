@@ -3,8 +3,8 @@ import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/category.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 
 import 'package:la_bella_italia/src/models/user.dart';
@@ -27,12 +27,12 @@ class RestauranteProductoCrearController {
   MoneyMaskedTextController precioController = new MoneyMaskedTextController();
 
   CategoryProvider _categoriesProvider = new CategoryProvider();
-  ProductoProvider _productsProvider = new ProductoProvider();
+  ProductProvider _productsProvider = new ProductProvider();
 
   User user;
   SharedPref sharedPref = new SharedPref();
 
-  List<Categoria> categorias = [];
+  List<Category> categorias = [];
   String idCategory;
 
   PickedFile pickedFile;
@@ -82,7 +82,7 @@ class RestauranteProductoCrearController {
       return;
     }
 
-    Producto product = new Producto(
+    Product product = new Product(
         name: name,
         description: description,
         price: price,

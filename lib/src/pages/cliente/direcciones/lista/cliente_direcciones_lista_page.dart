@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/direccion.dart';
+import 'package:la_bella_italia/src/models/address.dart';
 import 'package:la_bella_italia/src/pages/cliente/direcciones/lista/cliente_direcciones_lista_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
@@ -53,7 +53,7 @@ class _ClienteDireccionesListaPageState
       children: [
         Container(
           margin: EdgeInsets.only(top: 30),
-          child: NoDataWidget(texto: 'No tienes ninguna dirección agregada.'),
+          child: NoDataWidget(text: 'No tienes ninguna dirección agregada.'),
         ),
         _btnNuevaDireccion(),
       ],
@@ -63,7 +63,7 @@ class _ClienteDireccionesListaPageState
   Widget _listaDirecciones() {
     return FutureBuilder(
         future: _obj.getDirecciones(),
-        builder: (context, AsyncSnapshot<List<Direccion>> snapshot) {
+        builder: (context, AsyncSnapshot<List<Address>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.length > 0) {
               print(snapshot.data);
@@ -84,7 +84,7 @@ class _ClienteDireccionesListaPageState
         });
   }
 
-  Widget _radioDireccion(Direccion direccion, int index) {
+  Widget _radioDireccion(Address direccion, int index) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Column(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/actualizar/listar/restaurante_categorias_listar_controller.dart';
 
 class RestauranteCategoriasListarPage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _RestauranteCategoriasListarPageState
     );
   }
 
-  Widget _buildItem(Categoria categoria) {
+  Widget _buildItem(Category categoria) {
     return new ListTile(
       title: new Text(categoria.name),
       subtitle: new Text(

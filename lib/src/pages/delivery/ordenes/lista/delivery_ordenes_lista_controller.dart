@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/orden.dart';
+import 'package:la_bella_italia/src/models/order.dart';
 
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/detalle/delivery_ordenes_detalle_page.dart';
@@ -40,7 +40,7 @@ class DeliveryOrdenesListaController {
   }
 
   // ignore: missing_return
-  Future<List<Orden>> obtenerOrdenes(String status) async {
+  Future<List<Order>> obtenerOrdenes(String status) async {
     try {
       return await _orderProvider.getByDeliveryAndStatus(user.id, status);
     } catch (e) {
@@ -48,7 +48,7 @@ class DeliveryOrdenesListaController {
     }
   }
 
-  void abrirSheet(Orden orden) async {
+  void abrirSheet(Order orden) async {
     try {
       estado = await showMaterialModalBottomSheet(
         context: context,

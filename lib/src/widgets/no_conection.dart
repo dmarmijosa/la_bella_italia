@@ -11,15 +11,15 @@ class NoConecction extends StatelessWidget {
         body: SingleChildScrollView(
       child: Column(
         children: [
-          _animacion(context),
+          _animation(context),
           _txtData(),
-          _btnNoContection(context),
+          _btnNoConection(context),
         ],
       ),
     ));
   }
 
-  Widget _btnNoContection(BuildContext context) {
+  Widget _btnNoConection(BuildContext context) {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
@@ -48,7 +48,7 @@ class NoConecction extends StatelessWidget {
     );
   }
 
-  Widget _animacion(BuildContext context) {
+  Widget _animation(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(

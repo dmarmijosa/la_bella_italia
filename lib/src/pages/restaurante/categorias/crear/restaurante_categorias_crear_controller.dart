@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 
@@ -19,7 +19,7 @@ class RestauranteCategoriasCrearController {
   TextEditingController descripcionController = new TextEditingController();
 
   CategoryProvider _categoryProvider = new CategoryProvider();
-  List<Categoria> categorias = [];
+  List<Category> categorias = [];
   String idCategoria;
 
   Future init(BuildContext context, Function refresh) async {
@@ -50,7 +50,7 @@ class RestauranteCategoriasCrearController {
       return;
     }
 
-    Categoria category = new Categoria(name: name, description: description);
+    Category category = new Category(name: name, description: description);
     ResponseApi responseApi = await _categoryProvider.create(category);
     MyScnackbar.show(context, responseApi.message);
     if (responseApi.success) {

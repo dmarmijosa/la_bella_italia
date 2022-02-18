@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/api/enviroments.dart';
-import 'package:la_bella_italia/src/models/direccion.dart';
+import 'package:la_bella_italia/src/models/address.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +21,7 @@ class AddressProvider {
     this.sessionUser = sessionUser;
   }
 
-  Future<List<Direccion>> getByUser(String idUser) async {
+  Future<List<Address>> getByUser(String idUser) async {
     try {
       Uri url = Uri.http(_url, '$_api/findByUser/$idUser');
       Map<String, String> headers = {
@@ -35,7 +35,7 @@ class AddressProvider {
         new SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body); // CATEGORIAS
-      Direccion address = Direccion.fromJsonList(data);
+      Address address = Address.fromJsonList(data);
       return address.toList;
     } catch (e) {
       print('Error: $e');
@@ -65,7 +65,7 @@ class AddressProvider {
     }
   }
 
-  Future<ResponseApi> create(Direccion address) async {
+  Future<ResponseApi> create(Address address) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
       String bodyParams = json.encode(address);

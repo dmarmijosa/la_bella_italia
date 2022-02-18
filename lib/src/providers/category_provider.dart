@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/api/enviroments.dart';
-import 'package:la_bella_italia/src/models/categoria.dart';
+import 'package:la_bella_italia/src/models/category.dart';
 import 'package:la_bella_italia/src/models/response_api.dart';
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -21,7 +21,7 @@ class CategoryProvider {
     this.sessionUser = sessionUser;
   }
 
-  Future<List<Categoria>> getAll() async {
+  Future<List<Category>> getAll() async {
     try {
       Uri url = Uri.http(_url, '$_api/getAll');
       Map<String, String> headers = {
@@ -36,7 +36,7 @@ class CategoryProvider {
       }
 
       final data = json.decode(res.body);
-      final categoria = Categoria.fromJsonList(data);
+      final categoria = Category.fromJsonList(data);
       return categoria.tolist;
     } catch (e) {
       print('Error: $e');
@@ -44,7 +44,7 @@ class CategoryProvider {
     }
   }
 
-  Future<ResponseApi> create(Categoria category) async {
+  Future<ResponseApi> create(Category category) async {
     try {
       Uri url = Uri.http(_url, '$_api/create');
       String bodyParams = json.encode(category);
@@ -68,7 +68,7 @@ class CategoryProvider {
     }
   }
 
-  Future<ResponseApi> update(Categoria category) async {
+  Future<ResponseApi> update(Category category) async {
     try {
       Uri url = Uri.http(_url, '$_api/update');
       String bodyParams = json.encode(category);
@@ -92,7 +92,7 @@ class CategoryProvider {
     }
   }
 
-  Future<Categoria> getById(String id) async {
+  Future<Category> getById(String id) async {
     try {
       Uri url = Uri.http(_url, '$_api/findByCategory/$id');
       Map<String, String> headers = {
@@ -106,7 +106,7 @@ class CategoryProvider {
         new SharedPref().logout(context, sessionUser.id);
       }
       final data = json.decode(res.body);
-      Categoria categoria = Categoria.fromJson(data);
+      Category categoria = Category.fromJson(data);
       return categoria;
     } catch (e) {
       print('Error: $e');

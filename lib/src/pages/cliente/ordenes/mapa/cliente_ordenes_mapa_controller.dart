@@ -17,7 +17,7 @@ import 'package:location/location.dart' as location;
 import 'package:geocoding/geocoding.dart';
 
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:la_bella_italia/src/models/orden.dart';
+import 'package:la_bella_italia/src/models/order.dart';
 
 class ClienteOrdenesMapaController {
   BuildContext context;
@@ -28,7 +28,7 @@ class ClienteOrdenesMapaController {
 
   String addressName;
   LatLng addressLatLng;
-  Orden orden;
+  Order orden;
   IO.Socket socket;
 
   List<LatLng> points = [];
@@ -49,7 +49,7 @@ class ClienteOrdenesMapaController {
 
     user = User.fromJson(await _sharedPref.read('user'));
 
-    orden = Orden.fromJson(
+    orden = Order.fromJson(
         ModalRoute.of(context).settings.arguments as Map<String, dynamic>);
 
     deliveryMarker = await createMarkerFromAsset('assets/img/delivery.png');

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-import 'package:la_bella_italia/src/models/producto.dart';
+import 'package:la_bella_italia/src/models/product.dart';
 import 'package:la_bella_italia/src/pages/cliente/ordenes/crear/cliente_ordenes_crear_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 import 'package:la_bella_italia/src/widgets/no_data_widget.dart';
@@ -48,13 +48,13 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
       body: _obj.productosSeleccionados.length > 0
           ? ListView(
               children: _obj.productosSeleccionados.map(
-                (Producto producto) {
+                (Product producto) {
                   return _tarjetaProducto(producto);
                 },
               ).toList(),
             )
           : NoDataWidget(
-              texto: 'Ningun producto agregado',
+              text: 'Ningun producto agregado',
             ),
     );
   }
@@ -99,7 +99,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _tarjetaProducto(Producto producto) {
+  Widget _tarjetaProducto(Product producto) {
     return Container(
       child: Row(
         children: [
@@ -166,7 +166,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _btnIconBorrarProduct(Producto producto) {
+  Widget _btnIconBorrarProduct(Product producto) {
     return IconButton(
       icon: Icon(
         Icons.delete,
@@ -178,7 +178,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _txtPrecio(Producto producto) {
+  Widget _txtPrecio(Product producto) {
     return Container(
       margin: EdgeInsets.only(top: 10, right: 10),
       child: Text(
@@ -191,7 +191,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _imagenProducto(Producto producto) {
+  Widget _imagenProducto(Product producto) {
     return Container(
       width: 90,
       height: 90,
@@ -211,7 +211,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _agregarOEliminar(Producto producto) {
+  Widget _agregarOEliminar(Product producto) {
     return Row(
       children: [
         GestureDetector(
