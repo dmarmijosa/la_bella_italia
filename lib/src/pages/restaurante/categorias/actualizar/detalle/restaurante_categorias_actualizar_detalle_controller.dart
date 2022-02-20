@@ -17,12 +17,12 @@ class RestauranteCategoriasActualizarDetalleController {
 
   SharedPref sharedPref = new SharedPref();
 
-  TextEditingController nombreController = new TextEditingController();
-  TextEditingController descripcionController = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
 
   CategoryProvider _categoryProvider = new CategoryProvider();
-  List<Category> categorias = [];
-  String idCategoria;
+  List<Category> categories = [];
+  String idCategory;
 
   Future init(
       BuildContext context, Function refresh, Category categoria) async {
@@ -34,8 +34,8 @@ class RestauranteCategoriasActualizarDetalleController {
     }
 
     this.categoria = categoria;
-    nombreController.text = categoria.name;
-    descripcionController.text = categoria.description;
+    nameController.text = categoria.name;
+    descriptionController.text = categoria.description;
 
     user = User.fromJson(await sharedPref.read('user'));
     _categoryProvider.init(context, user);
@@ -44,14 +44,14 @@ class RestauranteCategoriasActualizarDetalleController {
   }
 
   void getCategorias() async {
-    categorias = await _categoryProvider.getAll();
+    categories = await _categoryProvider.getAll();
 
     refresh();
   }
 
-  void crearCategoria() async {
-    String name = nombreController.text;
-    String description = descripcionController.text;
+  void updateCategoria() async {
+    String name = nameController.text;
+    String description = descriptionController.text;
 
     if (name.isEmpty || description.isEmpty) {
       MyScnackbar.show(context, 'Debe ingresar todos los campos');
@@ -68,8 +68,8 @@ class RestauranteCategoriasActualizarDetalleController {
 
     //MyScnackbar.show(context, responseApi.message);
     if (responseApi.success) {
-      nombreController.text = '';
-      descripcionController.text = '';
+      nameController.text = '';
+      descriptionController.text = '';
     }
     Navigator.pushNamed(context, 'restaurante/categorias/actualizar');
   }

@@ -23,18 +23,18 @@ class RestauranteProductoActualizarDetalleController {
   BuildContext context;
   Function refresh;
 
-  TextEditingController nombreController = new TextEditingController();
-  TextEditingController descripcionController = new TextEditingController();
-  MoneyMaskedTextController precioController = new MoneyMaskedTextController();
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
+  MoneyMaskedTextController priceController = new MoneyMaskedTextController();
 
   CategoryProvider _categoriesProvider = new CategoryProvider();
   ProductProvider _productsProvider = new ProductProvider();
 
   User user;
   SharedPref sharedPref = new SharedPref();
-  Product producto;
+  Product product;
 
-  List<Category> categorias = [];
+  List<Category> categories = [];
   String idCategory;
 
   PickedFile pickedFile;
@@ -44,14 +44,14 @@ class RestauranteProductoActualizarDetalleController {
 
   ProgressDialog _progressDialog;
 
-  Future init(BuildContext context, Function refresh, Product producto) async {
+  Future init(BuildContext context, Function refresh, Product product) async {
     this.context = context;
     this.refresh = refresh;
-    this.producto = producto;
+    this.product = product;
 
-    nombreController.text = producto.name;
-    descripcionController.text = producto.description;
-    precioController.text = '${producto.price * 10}';
+    nameController.text = product.name;
+    descriptionController.text = product.description;
+    priceController.text = '${product.price * 10}';
 
     _progressDialog = new ProgressDialog(context: context);
     user = User.fromJson(await sharedPref.read('user'));
@@ -68,14 +68,14 @@ class RestauranteProductoActualizarDetalleController {
   }
 
   void getCategories() async {
-    categorias = await _categoriesProvider.getAll();
+    categories = await _categoriesProvider.getAll();
     refresh();
   }
 
   void updateProduct() async {
-    String name = nombreController.text;
-    String description = descripcionController.text;
-    double price = precioController.numberValue;
+    String name = nameController.text;
+    String description = descriptionController.text;
+    double price = priceController.numberValue;
 
     if (name.isEmpty || description.isEmpty || price == 0) {
       MyScnackbar.show(context, 'Debe ingresar todos los campos');
@@ -88,13 +88,13 @@ class RestauranteProductoActualizarDetalleController {
     }
 
     Product myProduct = new Product(
-        id: producto.id,
+        id: product.id,
         name: name,
         description: description,
         price: price,
-        image1: producto.image1,
-        image2: producto.image2,
-        image3: producto.image3,
+        image1: product.image1,
+        image2: product.image2,
+        image3: product.image3,
         idCategory: int.parse(idCategory));
 
     List<File> images = [];
@@ -119,9 +119,9 @@ class RestauranteProductoActualizarDetalleController {
   }
 
   void resetValues() {
-    nombreController.text = '';
-    descripcionController.text = '';
-    precioController.text = '0.0';
+    nameController.text = '';
+    descriptionController.text = '';
+    priceController.text = '0.0';
     imageFile1 = null;
     imageFile2 = null;
     imageFile3 = null;

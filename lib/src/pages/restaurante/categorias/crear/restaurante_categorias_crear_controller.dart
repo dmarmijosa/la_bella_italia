@@ -15,8 +15,8 @@ class RestauranteCategoriasCrearController {
 
   SharedPref sharedPref = new SharedPref();
 
-  TextEditingController nombreController = new TextEditingController();
-  TextEditingController descripcionController = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController descriptionController = new TextEditingController();
 
   CategoryProvider _categoryProvider = new CategoryProvider();
   List<Category> categorias = [];
@@ -42,8 +42,8 @@ class RestauranteCategoriasCrearController {
   }
 
   void crearCategoria() async {
-    String name = nombreController.text;
-    String description = descripcionController.text;
+    String name = nameController.text;
+    String description = descriptionController.text;
 
     if (name.isEmpty || description.isEmpty) {
       MyScnackbar.show(context, 'Debe ingresar todos los campos');
@@ -54,8 +54,8 @@ class RestauranteCategoriasCrearController {
     ResponseApi responseApi = await _categoryProvider.create(category);
     MyScnackbar.show(context, responseApi.message);
     if (responseApi.success) {
-      nombreController.text = '';
-      descripcionController.text = '';
+      nameController.text = '';
+      descriptionController.text = '';
     }
   }
 }

@@ -13,59 +13,67 @@ class PushNotificationProvider {
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
   void initNotification() async {
-    channel = const AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
-      'This channel is used for important notifications.', // description
-      importance: Importance.high,
-    );
+    try {
+      channel = const AndroidNotificationChannel(
+        'high_importance_channel', // id
+        'High Importance Notifications', // title
+        'This channel is used for important notifications.', // description
+        importance: Importance.high,
+      );
 
-    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+      flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-    await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(channel);
-    await FirebaseMessaging.instance
-        .setForegroundNotificationPresentationOptions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+      await flutterLocalNotificationsPlugin
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()
+          ?.createNotificationChannel(channel);
+      await FirebaseMessaging.instance
+          .setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    } catch (e) {
+      print(e);
+    }
   }
 
   void onMessageListener() async {
-    FirebaseMessaging.instance
-        .getInitialMessage()
-        .then((RemoteMessage message) {
-      if (message != null) {}
-    });
+    try {
+      FirebaseMessaging.instance
+          .getInitialMessage()
+          .then((RemoteMessage message) {
+        if (message != null) {}
+      });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('NUEVA NOTIFICACION EN PRIMER PLANO');
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        print('NUEVA NOTIFICACION EN PRIMER PLANO');
 
-      RemoteNotification notification = message.notification;
-      AndroidNotification android = message.notification?.android;
-      print(notification.body);
-      if (notification != null && android != null) {
-        flutterLocalNotificationsPlugin.show(
-            notification.hashCode,
-            notification.title,
-            notification.body,
-            NotificationDetails(
-              android: AndroidNotificationDetails(
-                channel.id,
-                channel.name,
-                channel.description,
-                icon: 'launch_background',
-              ),
-            ));
-      }
-    });
+        RemoteNotification notification = message.notification;
+        AndroidNotification android = message.notification?.android;
+        print(notification.body);
+        if (notification != null && android != null) {
+          flutterLocalNotificationsPlugin.show(
+              notification.hashCode,
+              notification.title,
+              notification.body,
+              NotificationDetails(
+                android: AndroidNotificationDetails(
+                  channel.id,
+                  channel.name,
+                  channel.description,
+                  icon: 'launch_background',
+                ),
+              ));
+        }
+      });
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('A new onMessageOpenedApp event was published!');
-    });
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        print('A new onMessageOpenedApp event was published!');
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   void saveToken(User user, BuildContext context) async {

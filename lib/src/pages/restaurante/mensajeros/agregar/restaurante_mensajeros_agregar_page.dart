@@ -33,20 +33,20 @@ class _RestauranteMensajerosAgregarPageState
         ),
         body: Container(
           child: Column(
-            children: [_edtCorreo(), _btnAgregar()],
+            children: [_edtEmail(), _btnAdd()],
           ),
         ),
       ),
     );
   }
 
-  Widget _btnAgregar() {
+  Widget _btnAdd() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.how_to_reg),
-        onPressed: _obj.agregarMensajero,
+        onPressed: _obj.addDelivery,
         label: Text('Agregar delivery'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
@@ -58,7 +58,7 @@ class _RestauranteMensajerosAgregarPageState
     );
   }
 
-  Widget _edtCorreo() {
+  Widget _edtEmail() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 100),
       decoration: BoxDecoration(
@@ -66,7 +66,7 @@ class _RestauranteMensajerosAgregarPageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.correoController,
+        controller: _obj.emailController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Correo electrónico',

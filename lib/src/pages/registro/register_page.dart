@@ -1,20 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/pages/registro/registro_controller.dart';
+import 'package:la_bella_italia/src/pages/registro/register_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
-class Registro extends StatefulWidget {
-  Registro({key}) : super(key: key);
+class Register extends StatefulWidget {
+  Register({key}) : super(key: key);
 
   @override
-  _RegistroState createState() => _RegistroState();
+  _RegisterState createState() => _RegisterState();
 }
 
-class _RegistroState extends State<Registro> {
+class _RegisterState extends State<Register> {
   // ignore: non_constant_identifier_names
   bool is_press = true;
-  RegistroController _obj = new RegistroController();
+  RegisterController _obj = new RegisterController();
 
   @override
   void initState() {
@@ -39,12 +39,12 @@ class _RegistroState extends State<Registro> {
                 child: _avatar(),
               ),
               Positioned(
-                child: _txtRegistro(),
+                child: _txtRegister(),
                 top: 65,
                 left: 27,
               ),
               Positioned(
-                child: _iconoRegresar(),
+                child: _btnBack(),
                 top: 56,
                 left: -5,
               ),
@@ -54,17 +54,17 @@ class _RegistroState extends State<Registro> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      _imagenUser(),
+                      _imageUser(),
                       SizedBox(
                         height: 30,
                       ),
-                      _edtCorreo(),
-                      _edtNombre(),
-                      _edtApellido(),
-                      _edtTelefono(),
+                      _edtEmail(),
+                      _edtName(),
+                      _edtLastName(),
+                      _edtPhone(),
                       _edtPassword(),
                       _edtConfirmPassword(),
-                      _btnRegistrar()
+                      _btnRegister()
                     ],
                   ),
                 ),
@@ -76,9 +76,9 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _imagenUser() {
+  Widget _imageUser() {
     return GestureDetector(
-      onTap: _obj.menuOpcionesEscoger,
+      onTap: _obj.options,
       child: CircleAvatar(
         radius: 63,
         backgroundColor: Colors.red[400],
@@ -108,7 +108,7 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _edtCorreo() {
+  Widget _edtEmail() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -116,7 +116,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.correoController,
+        controller: _obj.emailController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Correo electrónico',
@@ -132,7 +132,7 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _edtNombre() {
+  Widget _edtName() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -140,7 +140,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.nombreController,
+        controller: _obj.nameController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Nombre',
@@ -156,7 +156,7 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _edtApellido() {
+  Widget _edtLastName() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -164,7 +164,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.apellidoController,
+        controller: _obj.lastNameController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Apellido',
@@ -180,7 +180,7 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _edtTelefono() {
+  Widget _edtPhone() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -188,7 +188,7 @@ class _RegistroState extends State<Registro> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.telefonoController,
+        controller: _obj.phoneController,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           hintText: 'Número de teléfono',
@@ -258,13 +258,13 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _btnRegistrar() {
+  Widget _btnRegister() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.how_to_reg),
-        onPressed: _obj.isEnable ? _obj.registro : null,
+        onPressed: _obj.isEnable ? _obj.register : null,
         label: Text('Registrarse'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
@@ -286,17 +286,17 @@ class _RegistroState extends State<Registro> {
     );
   }
 
-  Widget _iconoRegresar() {
+  Widget _btnBack() {
     return IconButton(
       icon: Icon(
         Icons.arrow_back_ios,
         color: Colors.white,
       ),
-      onPressed: _obj.regresar,
+      onPressed: _obj.goToBack,
     );
   }
 
-  Widget _txtRegistro() {
+  Widget _txtRegister() {
     return Text(
       'Registro',
       style: TextStyle(color: Colors.white, fontSize: 22),

@@ -35,7 +35,7 @@ class _RestauranteProductosActualizarListaPageState
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: DefaultTabController(
-        length: _obj.categorias?.length,
+        length: _obj.categories?.length,
         child: Scaffold(
           key: _obj.key,
           appBar: PreferredSize(
@@ -48,7 +48,7 @@ class _RestauranteProductosActualizarListaPageState
                   SizedBox(height: 40),
                   _menuDraver(),
                   SizedBox(height: 20),
-                  _edtBuscar(),
+                  _edtSearch(),
                 ],
               ),
               bottom: TabBar(
@@ -57,10 +57,10 @@ class _RestauranteProductosActualizarListaPageState
                 unselectedLabelColor: Colors.grey[400],
                 isScrollable: true,
                 tabs: List<Widget>.generate(
-                  _obj.categorias.length,
+                  _obj.categories.length,
                   (index) {
                     return Tab(
-                      child: Text(_obj.categorias[index].name ?? ''),
+                      child: Text(_obj.categories[index].name ?? ''),
                     );
                   },
                 ),
@@ -68,11 +68,10 @@ class _RestauranteProductosActualizarListaPageState
             ),
           ),
           body: TabBarView(
-            children: _obj.categorias.map(
+            children: _obj.categories.map(
               (Category categoria) {
                 return FutureBuilder(
-                  future:
-                      _obj.obtenerProductos(categoria.id, _obj.productoBuscar),
+                  future: _obj.getProducts(categoria.id, _obj.productSearch),
                   builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
@@ -86,7 +85,7 @@ class _RestauranteProductosActualizarListaPageState
                           ),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return _tarjetaProducto(snapshot.data[index]);
+                            return _targetProduct(snapshot.data[index]);
                           },
                         );
                       } else {
@@ -111,7 +110,7 @@ class _RestauranteProductosActualizarListaPageState
 
   Widget _menuDraver() {
     return GestureDetector(
-      onTap: _obj.regresar,
+      onTap: _obj.goToback,
       child: Container(
           margin: EdgeInsets.only(left: 20),
           alignment: Alignment.centerLeft,
@@ -133,10 +132,10 @@ class _RestauranteProductosActualizarListaPageState
     );
   }
 
-  Widget _tarjetaProducto(Product producto) {
+  Widget _targetProduct(Product product) {
     return GestureDetector(
       onTap: () {
-        _obj.mostrarSheet(producto);
+        _obj.mostrarSheet(product);
       },
       child: Container(
         height: 250,
@@ -178,8 +177,8 @@ class _RestauranteProductosActualizarListaPageState
                       placeholder: AssetImage('assets/img/pizza2.png'),
                       fit: BoxFit.contain,
                       fadeInDuration: Duration(milliseconds: 50),
-                      image: producto.image1 != null
-                          ? NetworkImage(producto.image1)
+                      image: product.image1 != null
+                          ? NetworkImage(product.image1)
                           : AssetImage('assets/img/pizza2.png'),
                     ),
                   ),
@@ -188,7 +187,7 @@ class _RestauranteProductosActualizarListaPageState
                     margin: EdgeInsets.symmetric(horizontal: 20),
                     height: 33,
                     child: Text(
-                      producto.name.toUpperCase() ?? 'PRODUCTO',
+                      product.name.toUpperCase() ?? 'PRODUCTO',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontSize: 15, color: Colors.black),
@@ -197,7 +196,7 @@ class _RestauranteProductosActualizarListaPageState
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                     child: Text(
-                      '${producto.price ?? 0}\€',
+                      '${product.price ?? 0}\€',
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
@@ -213,11 +212,11 @@ class _RestauranteProductosActualizarListaPageState
     );
   }
 
-  Widget _edtBuscar() {
+  Widget _edtSearch() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
-        onChanged: _obj.changeText,
+        onChanged: _obj.textSearch,
         decoration: InputDecoration(
           hintText: 'Buscar',
           suffixIcon: Icon(

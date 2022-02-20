@@ -18,7 +18,7 @@ class LoginController {
   PushNotificationProvider pushNotificationProvider =
       new PushNotificationProvider();
 
-  TextEditingController correoController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
 
   SharedPref _sharedPref = new SharedPref();
@@ -64,16 +64,16 @@ class LoginController {
     return false;
   }
 
-  void irARegistro() {
+  void goToRegister() {
     Navigator.pushNamed(context, 'registro');
   }
 
-  void recuperarCuenta() {
+  void recoverAccount() {
     Navigator.pushNamed(context, 'recuperar');
   }
 
   void login() async {
-    String correo = correoController.text.trim();
+    String correo = emailController.text.trim();
     String password = passController.text.trim();
 
     ResponseApi responseApi = await userProvider.login(correo, password);

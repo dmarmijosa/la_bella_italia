@@ -33,13 +33,13 @@ class _LoginPageState extends State<LoginPage> {
             width: double.infinity,
             child: Column(
               children: [
-                _animacionLogin(),
-                _txtNombreRestaurante(),
-                _edtCorreo(),
+                _animationLogin(),
+                _txtLabelRestaurantName(),
+                _edtEmail(),
                 _edtPassword(),
                 _btnLogin(),
-                _txtRegistrarse(),
-                _txtRecuperarCuenta()
+                _txtLinkRegister(),
+                _txtLinkRecoverAccount()
               ],
             ),
           ),
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _animacionLogin() {
+  Widget _animationLogin() {
     return Container(
       margin: EdgeInsets.only(
           top: 10, bottom: MediaQuery.of(context).size.height * 0.01),
@@ -57,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _edtCorreo() {
+  Widget _edtEmail() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.correoController,
+        controller: _obj.emailController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Correo electrónico',
@@ -126,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _txtRegistrarse() {
+  Widget _txtLinkRegister() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         GestureDetector(
           onTap: () {
-            _obj.irARegistro();
+            _obj.goToRegister();
           },
           child: Text(
             'Registrate',
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _txtNombreRestaurante() {
+  Widget _txtLabelRestaurantName() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 1),
       child: Row(
@@ -188,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _txtRecuperarCuenta() {
+  Widget _txtLinkRecoverAccount() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -204,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         GestureDetector(
           onTap: () {
-            _obj.recuperarCuenta();
+            _obj.recoverAccount();
           },
           child: Text(
             'Recuperar cuenta',

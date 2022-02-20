@@ -19,8 +19,8 @@ class RestauranteOrdenesListaController {
   Function refresh;
   UserProvider _userProvider = new UserProvider();
   OrderProvider _orderProvider = new OrderProvider();
-  bool estado = false;
-  bool abiertoOCerrado = true;
+  bool state = false;
+  bool stateRestaurant = true;
 
   List<String> status = [
     'CREADA',
@@ -41,26 +41,26 @@ class RestauranteOrdenesListaController {
     }
     user = User.fromJson(await _sharedPref.read('user') ?? {});
     _orderProvider.init(context, user);
-    abiertoOCerrado = await _userProvider.restaurantIsAvaiable();
+    stateRestaurant = await _userProvider.restaurantIsAvaiable();
 
     refresh();
   }
 
-  Future<List<Order>> obtenerOrdenes(String status) async {
+  Future<List<Order>> getOrders(String status) async {
     return await _orderProvider.getByStatus(status);
   }
 
-  void abrirSheet(Order orden) async {
-    estado = await showMaterialModalBottomSheet(
+  void openSheet(Order orden) async {
+    state = await showMaterialModalBottomSheet(
       context: context,
       builder: (context) => RestauranteOrdenesDetallePage(
-        orden: orden,
+        order: orden,
       ),
     );
     refresh();
 
     try {
-      if (estado) {
+      if (state) {
         refresh();
       }
     } catch (e) {
@@ -68,7 +68,7 @@ class RestauranteOrdenesListaController {
     }
   }
 
-  void actualizarEstado() async {
+  void updateStateRestaurant() async {
     ResponseApi responseApi = await _userProvider.setValorRestaurant(user.id);
 
     Fluttertoast.showToast(msg: responseApi.message);
@@ -83,20 +83,20 @@ class RestauranteOrdenesListaController {
     key.currentState.openDrawer();
   }
 
-  void irAAdministarCategoria() {
+  void goToAdminCategory() {
     Navigator.pushNamed(context, 'restaurante/categorias/opciones');
   }
 
-  void irAAdministrarMensajeros() {
+  void goToAdminDelivery() {
     Navigator.pushNamed(context, 'restaurante/mensajeros/opciones');
   }
 
-  void irAAdministarProducto() {
+  void goToAdminProduct() {
     //Navigator.pushNamed(context, 'restaurante/producto/crear');
     Navigator.pushNamed(context, 'restaurante/productos/opciones');
   }
 
-  void cambiarRol() {
+  void changeRol() {
     Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
   }
 }

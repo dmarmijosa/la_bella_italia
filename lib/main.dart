@@ -15,8 +15,9 @@ import 'package:la_bella_italia/src/pages/cliente/productos/lista/cliente_produc
 import 'package:la_bella_italia/src/pages/delivery/ordenes/lista/delivery_ordenes_lista_page.dart';
 import 'package:la_bella_italia/src/pages/delivery/ordenes/mapa/delivery_ordenes_mapa_page.dart';
 import 'package:la_bella_italia/src/pages/login/login_page.dart';
-import 'package:la_bella_italia/src/pages/login/recuperarCuenta/recuperar_cuenta_page.dart';
-import 'package:la_bella_italia/src/pages/registro/registro_page.dart';
+import 'package:la_bella_italia/src/pages/login/recoverAccount/recover_account_page.dart';
+
+import 'package:la_bella_italia/src/pages/registro/register_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/actualizar/detalle/restaurante_categorias_actualizar_detalle_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/actualizar/listar/restaurante_categorias_listar_page.dart';
 import 'package:la_bella_italia/src/pages/restaurante/categorias/crear/restaurante_categorias_crear_page.dart';
@@ -65,6 +66,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+
     pushNotificationProvider.onMessageListener();
   }
 
@@ -76,8 +78,8 @@ class _MyAppState extends State<MyApp> {
       initialRoute: 'login',
       routes: {
         'login': (BuildContext context) => LoginPage(),
-        'registro': (BuildContext context) => Registro(),
-        'recuperar': (BuildContext context) => RecuperarCuentaPage(),
+        'registro': (BuildContext context) => Register(),
+        'recuperar': (BuildContext context) => RecoverAccountPage(),
         'roles': (BuildContext context) => RolesPage(),
         'desconectado': (BuildContext context) => NoConecction(),
         'cliente/productos/lista': (BuildContext context) =>
@@ -132,11 +134,11 @@ class _MyAppState extends State<MyApp> {
             RestauranteProductosEliminarListaPage(),
         'restaurante/producto/actualizar/detalle': (BuildContext context) =>
             RestauranteProductoActualizarDetallePage(
-              producto: null,
+              product: null,
             ),
         'restaurante/ordenes/detalle': (BuildContext context) =>
             RestauranteOrdenesDetallePage(
-              orden: null,
+              order: null,
             ),
       },
       theme: ThemeData(

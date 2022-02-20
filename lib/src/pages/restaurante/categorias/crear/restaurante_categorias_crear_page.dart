@@ -39,9 +39,9 @@ class _RestauranteCategoriasCrearPageState
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _edtNombreCategoria(),
-                _edtDescripcionCategoria(),
-                _btnRCrear(),
+                _edtNameCategoria(),
+                _edtDescriptionCategoria(),
+                _btnCreate(),
               ],
             ),
           ),
@@ -50,7 +50,7 @@ class _RestauranteCategoriasCrearPageState
     );
   }
 
-  Widget _edtNombreCategoria() {
+  Widget _edtNameCategoria() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -58,7 +58,7 @@ class _RestauranteCategoriasCrearPageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.nombreController,
+        controller: _obj.nameController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Nombre de la categoría',
@@ -74,7 +74,7 @@ class _RestauranteCategoriasCrearPageState
     );
   }
 
-  Widget _edtDescripcionCategoria() {
+  Widget _edtDescriptionCategoria() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -82,7 +82,7 @@ class _RestauranteCategoriasCrearPageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.descripcionController,
+        controller: _obj.descriptionController,
         keyboardType: TextInputType.name,
         maxLength: 200,
         maxLines: 3,
@@ -100,7 +100,7 @@ class _RestauranteCategoriasCrearPageState
     );
   }
 
-  Widget _btnRCrear() {
+  Widget _btnCreate() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),

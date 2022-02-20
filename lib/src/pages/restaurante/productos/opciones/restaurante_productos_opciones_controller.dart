@@ -9,15 +9,15 @@ class RestauranteProductosOpcionesController {
     this.refresh = refresh;
   }
 
-  void irACreacionProductos() {
+  void goToCreateProduct() {
     Navigator.pushNamed(context, 'restaurante/producto/crear');
   }
 
-  void irAActualizarProductos() {
+  void goToUpdateProduct() {
     Navigator.pushNamed(context, 'restaurante/producto/actualizar');
   }
 
-  void irAEliminarProducto() {
+  void goToDeleteProduct() {
     Navigator.pushNamed(context, 'restaurante/producto/eliminar');
   }
 }

@@ -22,9 +22,9 @@ class RestauranteProductoCrearController {
   BuildContext context;
   Function refresh;
 
-  TextEditingController nombreController = new TextEditingController();
-  TextEditingController descripcionController = new TextEditingController();
-  MoneyMaskedTextController precioController = new MoneyMaskedTextController();
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController descripctionController = new TextEditingController();
+  MoneyMaskedTextController priceController = new MoneyMaskedTextController();
 
   CategoryProvider _categoriesProvider = new CategoryProvider();
   ProductProvider _productsProvider = new ProductProvider();
@@ -32,7 +32,7 @@ class RestauranteProductoCrearController {
   User user;
   SharedPref sharedPref = new SharedPref();
 
-  List<Category> categorias = [];
+  List<Category> categories = [];
   String idCategory;
 
   PickedFile pickedFile;
@@ -58,14 +58,14 @@ class RestauranteProductoCrearController {
   }
 
   void getCategories() async {
-    categorias = await _categoriesProvider.getAll();
+    categories = await _categoriesProvider.getAll();
     refresh();
   }
 
   void createProduct() async {
-    String name = nombreController.text;
-    String description = descripcionController.text;
-    double price = precioController.numberValue;
+    String name = nameController.text;
+    String description = descripctionController.text;
+    double price = priceController.numberValue;
 
     if (name.isEmpty || description.isEmpty || price == 0) {
       MyScnackbar.show(context, 'Debe ingresar todos los campos');
@@ -110,9 +110,9 @@ class RestauranteProductoCrearController {
   }
 
   void resetValues() {
-    nombreController.text = '';
-    descripcionController.text = '';
-    precioController.text = '0.0';
+    nameController.text = '';
+    descripctionController.text = '';
+    priceController.text = '0.0';
     imageFile1 = null;
     imageFile2 = null;
     imageFile3 = null;

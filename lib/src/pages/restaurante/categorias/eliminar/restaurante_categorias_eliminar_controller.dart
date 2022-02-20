@@ -17,7 +17,7 @@ class ResaturanteCategoriasEliminarController {
   CategoryProvider _categoryProvider = new CategoryProvider();
   List<Category> categorias = [];
 
-  Future init(BuildContext context, refresh) async {
+  Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     UtilsApp utilsApp = new UtilsApp();
@@ -30,7 +30,7 @@ class ResaturanteCategoriasEliminarController {
     refresh();
   }
 
-  void confirmarEliminar(String id) async {
+  void confirmEliminar(String id) async {
     ResponseApi responseApi = await _categoryProvider.delete(id);
     Fluttertoast.showToast(msg: responseApi.message);
     Navigator.pop(context);

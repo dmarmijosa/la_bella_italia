@@ -21,21 +21,21 @@ class RestauranteOrdenesDetalleController {
   OrderProvider _orderProvider = new OrderProvider();
 
   double total = 0;
-  String estado;
+  String state;
 
   User user;
-  bool estadoRestaurante;
-  String mensaje;
-  Order orden;
+  bool stateRestaurant;
+  String menssage;
+  Order order;
   List<User> users = [];
   String idDelivery;
   List<String> status = ['DESPACHADA', 'EN CAMINO', 'ENTREGADA', 'CANCELADA'];
   PushNotificationProvider pushNotificationProvider =
       new PushNotificationProvider();
-  Future init(BuildContext context, Function refresh, Order orden) async {
+  Future init(BuildContext context, Function refresh, Order order) async {
     this.context = context;
     this.refresh = refresh;
-    this.orden = orden;
+    this.order = order;
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
@@ -43,7 +43,7 @@ class RestauranteOrdenesDetalleController {
     user = User.fromJson(await _sharedPref.read('user'));
     _userProvider.init(context, sessionUser: user);
     _orderProvider.init(context, user);
-    obtenerTotal();
+    getTotal();
     getUsers();
     refresh();
   }
@@ -59,13 +59,13 @@ class RestauranteOrdenesDetalleController {
     );
   }
 
-  void updateOrden() async {
+  void updateOrder() async {
     if (idDelivery != null) {
-      orden.idDelivery = idDelivery;
+      order.idDelivery = idDelivery;
       ResponseApi responseApi =
-          await _orderProvider.updateToTheDispatched(orden);
+          await _orderProvider.updateToTheDispatched(order);
 
-      User deliveryUser = await _userProvider.getById(orden.idDelivery);
+      User deliveryUser = await _userProvider.getById(order.idDelivery);
       enviarNotificacion(deliveryUser.notificationToken);
       print('TOKEN: ---------${deliveryUser.notificationToken}');
 
@@ -82,7 +82,7 @@ class RestauranteOrdenesDetalleController {
 
   void updateToTheDispatchedBack() async {
     ResponseApi responseApi =
-        await _orderProvider.updateToTheDispatchedBack(orden);
+        await _orderProvider.updateToTheDispatchedBack(order);
     if (responseApi.success) {
       Fluttertoast.showToast(msg: responseApi.message);
       Navigator.pop(context, true);
@@ -90,20 +90,9 @@ class RestauranteOrdenesDetalleController {
     }
   }
 
-  void updateOrdenToOnWay() async {
-    orden.idDelivery = idDelivery;
-    ResponseApi responseApi = await _orderProvider.updateToOntheWay(orden);
-
-    if (responseApi.success) {
-      Fluttertoast.showToast(msg: responseApi.message);
-      Navigator.pop(context, true);
-      refresh();
-    }
-  }
-
-  void updateOrdenToDelivered() async {
-    orden.idDelivery = idDelivery;
-    ResponseApi responseApi = await _orderProvider.updateToDelivered(orden);
+  void updateOrderToOnWay() async {
+    order.idDelivery = idDelivery;
+    ResponseApi responseApi = await _orderProvider.updateToOntheWay(order);
 
     if (responseApi.success) {
       Fluttertoast.showToast(msg: responseApi.message);
@@ -112,9 +101,20 @@ class RestauranteOrdenesDetalleController {
     }
   }
 
-  void updateOrdenToCancel() async {
-    orden.idDelivery = idDelivery;
-    ResponseApi responseApi = await _orderProvider.updateToCancel(orden);
+  void updateOrderToDelivered() async {
+    order.idDelivery = idDelivery;
+    ResponseApi responseApi = await _orderProvider.updateToDelivered(order);
+
+    if (responseApi.success) {
+      Fluttertoast.showToast(msg: responseApi.message);
+      Navigator.pop(context, true);
+      refresh();
+    }
+  }
+
+  void updateOrderToCancel() async {
+    order.idDelivery = idDelivery;
+    ResponseApi responseApi = await _orderProvider.updateToCancel(order);
 
     if (responseApi.success) {
       Fluttertoast.showToast(msg: responseApi.message);
@@ -128,16 +128,16 @@ class RestauranteOrdenesDetalleController {
     refresh();
   }
 
-  void obtenerTotal() {
+  void getTotal() {
     total = 0;
-    orden.products.forEach((producto) {
+    order.products.forEach((producto) {
       total = total + (producto.price * producto.quantity);
     });
 
     refresh();
   }
 
-  void llamarTelefono(String telefono) {
-    launch("tel:$telefono");
+  void callPhone(String numberPhone) {
+    launch("tel:$numberPhone");
   }
 }

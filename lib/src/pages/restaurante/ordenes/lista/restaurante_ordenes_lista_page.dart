@@ -74,7 +74,7 @@ class _RestauranteOrdenesListaPageState
           body: TabBarView(
             children: _obj.status.map((String status) {
               return FutureBuilder(
-                  future: _obj.obtenerOrdenes(status),
+                  future: _obj.getOrders(status),
                   builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
@@ -85,7 +85,7 @@ class _RestauranteOrdenesListaPageState
                             itemBuilder: (_, index) {
                               print(snapshot.data[index].toJson());
 
-                              return _tarjetaOrden(snapshot.data[index]);
+                              return _targetOrden(snapshot.data[index]);
                             });
                       } else {
                         return NoDataWidget(text: 'No hay ordenes');
@@ -101,10 +101,10 @@ class _RestauranteOrdenesListaPageState
     );
   }
 
-  Widget _tarjetaOrden(Order orden) {
+  Widget _targetOrden(Order orden) {
     return GestureDetector(
       onTap: () {
-        _obj.abrirSheet(orden);
+        _obj.openSheet(orden);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -275,20 +275,20 @@ class _RestauranteOrdenesListaPageState
               height: 55.0,
               valueFontSize: 25.0,
               toggleSize: 45.0,
-              value: _obj.abiertoOCerrado ?? false,
+              value: _obj.stateRestaurant ?? false,
               borderRadius: 30.0,
               padding: 8.0,
               showOnOff: true,
               onToggle: (val) {
                 setState(() {
-                  _obj.abiertoOCerrado = val;
-                  _obj.actualizarEstado();
+                  _obj.stateRestaurant = val;
+                  _obj.updateStateRestaurant();
                 });
               },
             ),
           ),
           ListTile(
-            onTap: _obj.irAAdministarProducto,
+            onTap: _obj.goToAdminProduct,
             title: Text('Administrar productos'),
             trailing: Icon(
               Icons.create,
@@ -296,7 +296,7 @@ class _RestauranteOrdenesListaPageState
             ),
           ),
           ListTile(
-            onTap: _obj.irAAdministarCategoria,
+            onTap: _obj.goToAdminCategory,
             title: Text('Administrar categorías'),
             trailing: Icon(
               Icons.create_new_folder,
@@ -304,7 +304,7 @@ class _RestauranteOrdenesListaPageState
             ),
           ),
           ListTile(
-            onTap: _obj.irAAdministrarMensajeros,
+            onTap: _obj.goToAdminDelivery,
             title: Text('Agregar o eliminar repartidores'),
             trailing: Icon(
               Icons.delivery_dining,
@@ -315,7 +315,7 @@ class _RestauranteOrdenesListaPageState
               ? _obj.user.roles.length > 1
                   ? ListTile(
                       title: Text('Cambiar de rol'),
-                      onTap: _obj.cambiarRol,
+                      onTap: _obj.changeRol,
                       trailing: Icon(
                         Icons.sync,
                         color: Colors.black,

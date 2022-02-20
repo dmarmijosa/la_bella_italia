@@ -36,29 +36,29 @@ class _RestauranteProductosCrearPageState
       body: ListView(
         children: [
           SizedBox(height: 30),
-          _edtNombre(),
-          _edtDescripcion(),
-          _edtPrecio(),
+          _edtNameProduct(),
+          _edtDescriptionProduct(),
+          _edtPriceProduct(),
           Container(
             height: 100,
             margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _tarjetaImagen(_obj.imageFile1, 1),
-                _tarjetaImagen(_obj.imageFile2, 2),
-                _tarjetaImagen(_obj.imageFile3, 3),
+                _targetImagen(_obj.imageFile1, 1),
+                _targetImagen(_obj.imageFile2, 2),
+                _targetImagen(_obj.imageFile3, 3),
               ],
             ),
           ),
-          _dropDownCategories(_obj.categorias),
-          _btnCrear(),
+          _dropDownCategories(_obj.categories),
+          _btnCreate(),
         ],
       ),
     );
   }
 
-  Widget _edtNombre() {
+  Widget _edtNameProduct() {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -66,7 +66,7 @@ class _RestauranteProductosCrearPageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _obj.nombreController,
+        controller: _obj.nameController,
         maxLines: 1,
         maxLength: 180,
         decoration: InputDecoration(
@@ -82,7 +82,7 @@ class _RestauranteProductosCrearPageState
     );
   }
 
-  Widget _edtPrecio() {
+  Widget _edtPriceProduct() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -90,7 +90,7 @@ class _RestauranteProductosCrearPageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _obj.precioController,
+        controller: _obj.priceController,
         keyboardType: TextInputType.phone,
         maxLines: 1,
         decoration: InputDecoration(
@@ -176,7 +176,7 @@ class _RestauranteProductosCrearPageState
     return list;
   }
 
-  Widget _edtDescripcion() {
+  Widget _edtDescriptionProduct() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       padding: EdgeInsets.all(10),
@@ -184,7 +184,7 @@ class _RestauranteProductosCrearPageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _obj.descripcionController,
+        controller: _obj.descripctionController,
         maxLines: 3,
         maxLength: 255,
         decoration: InputDecoration(
@@ -201,7 +201,7 @@ class _RestauranteProductosCrearPageState
     );
   }
 
-  Widget _tarjetaImagen(File imageFile, int numberFile) {
+  Widget _targetImagen(File imageFile, int numberFile) {
     return GestureDetector(
       onTap: () {
         _obj.showAlertDialog(numberFile);
@@ -231,7 +231,7 @@ class _RestauranteProductosCrearPageState
     );
   }
 
-  Widget _btnCrear() {
+  Widget _btnCreate() {
     return Container(
       height: 50,
       width: double.infinity,

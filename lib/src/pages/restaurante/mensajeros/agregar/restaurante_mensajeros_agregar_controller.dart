@@ -13,7 +13,7 @@ class RestauranteMensajerosAgregarController {
 
   SharedPref _sharedPref = new SharedPref();
   ProgressDialog _progressDialog;
-  TextEditingController correoController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
   UserProvider _userProvider = new UserProvider();
   User user;
   Future init(BuildContext context, Function refresh) async {
@@ -31,8 +31,8 @@ class RestauranteMensajerosAgregarController {
     refresh();
   }
 
-  void agregarMensajero() async {
-    String correo = correoController.text.toLowerCase();
+  void addDelivery() async {
+    String correo = emailController.text.toLowerCase();
     if (correo.isEmpty) {
       MyScnackbar.show(context, 'EL correo es requerido.');
       return;
@@ -52,11 +52,11 @@ class RestauranteMensajerosAgregarController {
         myUser = User.fromJson(responseApi.data);
         ResponseApi _res = await _userProvider.addDelivery(myUser.id);
         MyScnackbar.show(context, _res.message);
-        correoController.text = "";
+        emailController.text = "";
       } catch (e) {
         _progressDialog.close();
         MyScnackbar.show(context, "Mensajero ya fue agregado anteriormente");
-        correoController.text = "";
+        emailController.text = "";
       }
     } else {
       MyScnackbar.show(context, responseApi.message);

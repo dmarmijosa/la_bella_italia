@@ -9,8 +9,8 @@ import 'package:la_bella_italia/src/utils/my_colors.dart';
 
 // ignore: must_be_immutable
 class RestauranteProductoActualizarDetallePage extends StatefulWidget {
-  Product producto;
-  RestauranteProductoActualizarDetallePage({key, @required this.producto})
+  Product product;
+  RestauranteProductoActualizarDetallePage({key, @required this.product})
       : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class _RestauranteProductoActualizarDetallePageState
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _obj.init(context, refresh, widget.producto);
+      _obj.init(context, refresh, widget.product);
     });
   }
 
@@ -40,9 +40,9 @@ class _RestauranteProductoActualizarDetallePageState
       body: ListView(
         children: [
           SizedBox(height: 30),
-          _edtNombre(),
-          _edtDescripcion(),
-          _edtPrecio(),
+          _edtName(),
+          _edtDescription(),
+          _edtPrice(),
           Container(
             height: 100,
             margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
@@ -55,14 +55,14 @@ class _RestauranteProductoActualizarDetallePageState
               ],
             ),
           ),
-          _dropDownCategories(_obj.categorias),
-          _btnCrear(),
+          _dropDownCategories(_obj.categories),
+          _btnCreate(),
         ],
       ),
     );
   }
 
-  Widget _edtNombre() {
+  Widget _edtName() {
     return Container(
       padding: EdgeInsets.all(10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -70,7 +70,7 @@ class _RestauranteProductoActualizarDetallePageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _obj.nombreController,
+        controller: _obj.nameController,
         maxLines: 1,
         maxLength: 180,
         decoration: InputDecoration(
@@ -86,7 +86,7 @@ class _RestauranteProductoActualizarDetallePageState
     );
   }
 
-  Widget _edtPrecio() {
+  Widget _edtPrice() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
@@ -94,7 +94,7 @@ class _RestauranteProductoActualizarDetallePageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _obj.precioController,
+        controller: _obj.priceController,
         keyboardType: TextInputType.phone,
         maxLines: 1,
         decoration: InputDecoration(
@@ -180,7 +180,7 @@ class _RestauranteProductoActualizarDetallePageState
     return list;
   }
 
-  Widget _edtDescripcion() {
+  Widget _edtDescription() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
       padding: EdgeInsets.all(10),
@@ -188,7 +188,7 @@ class _RestauranteProductoActualizarDetallePageState
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _obj.descripcionController,
+        controller: _obj.descriptionController,
         maxLines: 3,
         maxLength: 255,
         decoration: InputDecoration(
@@ -228,23 +228,23 @@ class _RestauranteProductoActualizarDetallePageState
                   height: 140,
                   width: MediaQuery.of(context).size.width * 0.26,
                   child: numberFile == 1
-                      ? _obj?.producto?.image1 == null
+                      ? _obj?.product?.image1 == null
                           ? Image.asset('assets/img/no-image.png')
-                          : Image?.network(_obj?.producto?.image1)
+                          : Image?.network(_obj?.product?.image1)
                       : numberFile == 2
-                          ? _obj?.producto?.image2 == null
+                          ? _obj?.product?.image2 == null
                               ? Image.asset('assets/img/no-image.png')
-                              : Image.network(_obj?.producto?.image2)
+                              : Image.network(_obj?.product?.image2)
                           : numberFile == 3
-                              ? _obj?.producto?.image3 == null
+                              ? _obj?.product?.image3 == null
                                   ? Image.asset('assets/img/no-image.png')
-                                  : Image?.network(_obj?.producto?.image3)
+                                  : Image?.network(_obj?.product?.image3)
                               : Image.asset('assets/img/no-image.png')),
             ),
     );
   }
 
-  Widget _btnCrear() {
+  Widget _btnCreate() {
     return Container(
       height: 50,
       width: double.infinity,

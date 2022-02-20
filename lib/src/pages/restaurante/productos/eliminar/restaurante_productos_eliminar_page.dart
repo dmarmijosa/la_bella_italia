@@ -35,7 +35,7 @@ class _RestauranteProductosEliminarListaPageState
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: DefaultTabController(
-        length: _obj.categorias?.length,
+        length: _obj.categories?.length,
         child: Scaffold(
           key: _obj.key,
           appBar: PreferredSize(
@@ -48,7 +48,7 @@ class _RestauranteProductosEliminarListaPageState
                   SizedBox(height: 40),
                   _menuDraver(),
                   SizedBox(height: 20),
-                  _edtBuscar(),
+                  _edtSearch(),
                 ],
               ),
               bottom: TabBar(
@@ -57,10 +57,10 @@ class _RestauranteProductosEliminarListaPageState
                 unselectedLabelColor: Colors.grey[400],
                 isScrollable: true,
                 tabs: List<Widget>.generate(
-                  _obj.categorias.length,
+                  _obj.categories.length,
                   (index) {
                     return Tab(
-                      child: Text(_obj.categorias[index].name ?? ''),
+                      child: Text(_obj.categories[index].name ?? ''),
                     );
                   },
                 ),
@@ -68,11 +68,10 @@ class _RestauranteProductosEliminarListaPageState
             ),
           ),
           body: TabBarView(
-            children: _obj.categorias.map(
+            children: _obj.categories.map(
               (Category categoria) {
                 return FutureBuilder(
-                  future:
-                      _obj.obtenerProductos(categoria.id, _obj.productoBuscar),
+                  future: _obj.getProduct(categoria.id, _obj.productSearch),
                   builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
@@ -86,7 +85,7 @@ class _RestauranteProductosEliminarListaPageState
                           ),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return _tarjetaProducto(snapshot.data[index]);
+                            return _targetProduct(snapshot.data[index]);
                           },
                         );
                       } else {
@@ -111,7 +110,7 @@ class _RestauranteProductosEliminarListaPageState
 
   Widget _menuDraver() {
     return GestureDetector(
-      onTap: _obj.regresar,
+      onTap: _obj.goToback,
       child: Container(
           margin: EdgeInsets.only(left: 20),
           alignment: Alignment.centerLeft,
@@ -133,7 +132,7 @@ class _RestauranteProductosEliminarListaPageState
     );
   }
 
-  Widget _tarjetaProducto(Product producto) {
+  Widget _targetProduct(Product producto) {
     return GestureDetector(
       onTap: () {
         showDialog<String>(
@@ -148,7 +147,7 @@ class _RestauranteProductosEliminarListaPageState
               ),
               TextButton(
                 onPressed: () => {
-                  _obj.confirmarEliminar(producto),
+                  _obj.confirmDelete(producto),
                   Navigator.pop(context, 'Si'),
                 },
                 child: const Text('Si'),
@@ -232,11 +231,11 @@ class _RestauranteProductosEliminarListaPageState
     );
   }
 
-  Widget _edtBuscar() {
+  Widget _edtSearch() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
-        onChanged: _obj.changeText,
+        onChanged: _obj.textSearch,
         decoration: InputDecoration(
           hintText: 'Buscar',
           suffixIcon: Icon(

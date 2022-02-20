@@ -34,10 +34,10 @@ class _RestauranteMensajerosOpcionesPageState
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _btnCrear(_obj.irAAgregarMensajero, "Agregar mensajero",
-                  Icon(Icons.add)),
-              _btnCrear(
-                  _obj.irAEliminar, "Eliminar mensajero", Icon(Icons.remove)),
+              _btnOptions(
+                  _obj.goToAddDelivery, "Agregar mensajero", Icon(Icons.add)),
+              _btnOptions(_obj.goToDeleteDelivery, "Eliminar mensajero",
+                  Icon(Icons.remove)),
             ],
           ),
         ),
@@ -45,7 +45,7 @@ class _RestauranteMensajerosOpcionesPageState
     );
   }
 
-  Widget _btnCrear(Function opcion, String texto, Icon icono) {
+  Widget _btnOptions(Function opcion, String texto, Icon icono) {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),

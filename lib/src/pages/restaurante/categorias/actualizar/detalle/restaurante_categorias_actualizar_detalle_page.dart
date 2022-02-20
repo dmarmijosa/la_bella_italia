@@ -43,9 +43,9 @@ class _RestauranteCategoriasActualizarDetallePageState
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _edtNombreCategoria(),
-                _edtDescripcionCategoria(),
-                _btnEditar(),
+                _edtNameCategory(),
+                _edtDescriptionCategory(),
+                _btnEdit(),
               ],
             ),
           ),
@@ -54,7 +54,7 @@ class _RestauranteCategoriasActualizarDetallePageState
     );
   }
 
-  Widget _edtNombreCategoria() {
+  Widget _edtNameCategory() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -62,7 +62,7 @@ class _RestauranteCategoriasActualizarDetallePageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.nombreController,
+        controller: _obj.nameController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Nombre de la categoría',
@@ -78,7 +78,7 @@ class _RestauranteCategoriasActualizarDetallePageState
     );
   }
 
-  Widget _edtDescripcionCategoria() {
+  Widget _edtDescriptionCategory() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class _RestauranteCategoriasActualizarDetallePageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.descripcionController,
+        controller: _obj.descriptionController,
         keyboardType: TextInputType.name,
         maxLength: 200,
         maxLines: 3,
@@ -104,13 +104,13 @@ class _RestauranteCategoriasActualizarDetallePageState
     );
   }
 
-  Widget _btnEditar() {
+  Widget _btnEdit() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.edit),
-        onPressed: _obj.crearCategoria,
+        onPressed: _obj.updateCategoria,
         label: Text('Editar categoría'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,

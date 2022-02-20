@@ -11,13 +11,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:la_bella_italia/src/utils/utilsapp.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-class RegistroController {
+class RegisterController {
   BuildContext context;
 
-  TextEditingController correoController = new TextEditingController();
-  TextEditingController nombreController = new TextEditingController();
-  TextEditingController apellidoController = new TextEditingController();
-  TextEditingController telefonoController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController lastNameController = new TextEditingController();
+  TextEditingController phoneController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
   TextEditingController confirPassController = new TextEditingController();
 
@@ -41,11 +41,11 @@ class RegistroController {
     }
   }
 
-  Future<void> registro() async {
-    String correo = correoController.text;
-    String nombre = nombreController.text;
-    String apellido = apellidoController.text;
-    String telefono = telefonoController.text;
+  Future<void> register() async {
+    String correo = emailController.text;
+    String nombre = nameController.text;
+    String apellido = lastNameController.text;
+    String telefono = phoneController.text;
     String pass = passController.text;
     String confirPass = confirPassController.text;
 
@@ -120,7 +120,7 @@ class RegistroController {
     //print('$correo $nombre $apellido $telefono $pass $confirPass');
   }
 
-  Future seleccionarImagen(ImageSource imageSource) async {
+  Future selectImage(ImageSource imageSource) async {
     pickedFile = await ImagePicker().getImage(source: imageSource);
     if (pickedFile != null) {
       imageFile = File(pickedFile.path);
@@ -129,16 +129,16 @@ class RegistroController {
     refresh();
   }
 
-  void menuOpcionesEscoger() {
+  void options() {
     Widget galleryButton = ElevatedButton(
         onPressed: () {
-          seleccionarImagen(ImageSource.gallery);
+          selectImage(ImageSource.gallery);
         },
         child: Text('GALERIA'));
 
     Widget cameraButton = ElevatedButton(
         onPressed: () {
-          seleccionarImagen(ImageSource.camera);
+          selectImage(ImageSource.camera);
         },
         child: Text('CAMARA'));
 
@@ -154,7 +154,7 @@ class RegistroController {
         });
   }
 
-  void regresar() {
+  void goToBack() {
     Navigator.pop(context);
   }
 }

@@ -36,11 +36,11 @@ class _RestauranteCategoriasOpcionesPageState
         child: SingleChildScrollView(
           child: Column(
             children: [
-              _btnCrear(_obj.irACreacionCategoria, "Crear categoria",
-                  Icon(Icons.add)),
-              _btnCrear(_obj.irAActualizarCategoria, "Modificar categoria",
+              _btnOptions(
+                  _obj.goToCreateCategory, "Crear categoria", Icon(Icons.add)),
+              _btnOptions(_obj.goToUpdateCategory, "Modificar categoria",
                   Icon(Icons.edit)),
-              _btnCrear(_obj.irAEliminarCategoria, "Eliminar categoria",
+              _btnOptions(_obj.goToDeleteCategory, "Eliminar categoria",
                   Icon(Icons.delete)),
             ],
           ),
@@ -49,7 +49,7 @@ class _RestauranteCategoriasOpcionesPageState
     );
   }
 
-  Widget _btnCrear(Function opcion, String texto, Icon icono) {
+  Widget _btnOptions(Function opcion, String texto, Icon icono) {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),

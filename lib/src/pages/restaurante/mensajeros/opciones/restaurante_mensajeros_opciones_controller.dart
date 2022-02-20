@@ -15,11 +15,11 @@ class RestauranteMensajerosOpcionesController {
     refresh();
   }
 
-  void irAAgregarMensajero() {
+  void goToAddDelivery() {
     Navigator.pushNamed(context, 'restaurante/mensajeros/agregar');
   }
 
-  void irAEliminar() {
+  void goToDeleteDelivery() {
     Navigator.pushNamed(context, 'restaurante/mensajeros/eliminar');
   }
 }

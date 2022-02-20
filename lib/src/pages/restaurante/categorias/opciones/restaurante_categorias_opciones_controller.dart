@@ -14,15 +14,15 @@ class RestauranteCategoriasOpcionesController {
     }
   }
 
-  void irACreacionCategoria() {
+  void goToCreateCategory() {
     Navigator.pushNamed(context, 'restaurante/categorias/crear');
   }
 
-  void irAActualizarCategoria() {
+  void goToUpdateCategory() {
     Navigator.pushNamed(context, 'restaurante/categorias/actualizar');
   }
 
-  void irAEliminarCategoria() {
+  void goToDeleteCategory() {
     Navigator.pushNamed(context, 'restaurante/categorias/eliminar');
   }
 }

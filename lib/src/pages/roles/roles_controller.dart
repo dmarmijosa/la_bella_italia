@@ -23,7 +23,7 @@ class RolesController {
     }
   }
 
-  void irAPaginaRol(String route) {
+  void goToRol(String route) {
     Navigator.pushNamedAndRemoveUntil(context, route, (route) => false);
   }
 }

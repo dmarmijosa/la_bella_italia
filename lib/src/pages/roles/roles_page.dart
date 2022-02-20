@@ -44,7 +44,7 @@ class _RolesPageState extends State<RolesPage> {
   Widget _cardRol(Rol rol) {
     return GestureDetector(
       onTap: () {
-        _obj.irAPaginaRol(rol.route);
+        _obj.goToRol(rol.route);
       },
       child: SingleChildScrollView(
         child: Column(

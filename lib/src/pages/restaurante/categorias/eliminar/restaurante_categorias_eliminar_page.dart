@@ -59,7 +59,7 @@ class _RestauranteCategoriasEliminarPageState
               ),
               TextButton(
                 onPressed: () => {
-                  _obj.confirmarEliminar(categoria.id),
+                  _obj.confirmEliminar(categoria.id),
                   Navigator.pop(context),
                   refresh()
                 },

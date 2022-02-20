@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:la_bella_italia/src/pages/login/recuperarCuenta/recuperar_cuenta_controller.dart';
+import 'package:la_bella_italia/src/pages/login/recoverAccount/recover_account_controller.dart';
 import 'package:la_bella_italia/src/utils/my_colors.dart';
 
-class RecuperarCuentaPage extends StatefulWidget {
-  RecuperarCuentaPage({key}) : super(key: key);
+class RecoverAccountPage extends StatefulWidget {
+  RecoverAccountPage({key}) : super(key: key);
 
   @override
-  _RecuperarCuentaPageState createState() => _RecuperarCuentaPageState();
+  _RecoverAccountPageState createState() => _RecoverAccountPageState();
 }
 
-class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
-  RecuperarCuentaController _obj = new RecuperarCuentaController();
+class _RecoverAccountPageState extends State<RecoverAccountPage> {
+  RecoverAccountController _obj = new RecoverAccountController();
   @override
   void initState() {
     super.initState();
@@ -30,19 +30,14 @@ class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
         onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
         child: SingleChildScrollView(
           child: Column(
-            children: [
-              SizedBox(),
-              _txtRecordatorio(),
-              _edtCorreo(),
-              _btnRecuperar()
-            ],
+            children: [SizedBox(), _txtLavelInfo(), _edtEmail(), _btnRecover()],
           ),
         ),
       ),
     );
   }
 
-  Widget _edtCorreo() {
+  Widget _edtEmail() {
     return Container(
       margin: EdgeInsets.all(50),
       alignment: AlignmentDirectional.bottomStart,
@@ -51,7 +46,7 @@ class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.correoController,
+        controller: _obj.emailController,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: 'Correo eléctronico',
@@ -67,7 +62,7 @@ class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
     );
   }
 
-  Widget _txtRecordatorio() {
+  Widget _txtLavelInfo() {
     return Container(
       margin: EdgeInsets.all(50),
       alignment: AlignmentDirectional.bottomStart,
@@ -80,13 +75,13 @@ class _RecuperarCuentaPageState extends State<RecuperarCuentaPage> {
     );
   }
 
-  Widget _btnRecuperar() {
+  Widget _btnRecover() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.build),
-        onPressed: _obj.recuperar,
+        onPressed: _obj.recoverAccount,
         label: Text('Recuperar'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,

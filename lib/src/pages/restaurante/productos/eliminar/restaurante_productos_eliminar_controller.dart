@@ -19,9 +19,9 @@ class RestauranteProductosEliminarListaController {
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   User user;
   Function refresh;
-  Timer tiempoDeEscritura;
-  String productoBuscar = '';
-  List<Category> categorias = [];
+  Timer timeWrite;
+  String productSearch = '';
+  List<Category> categories = [];
 
   CategoryProvider _categoryProvider = new CategoryProvider();
   ProductProvider _productoProvider = new ProductProvider();
@@ -37,26 +37,26 @@ class RestauranteProductosEliminarListaController {
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
-    obtenerCategorias();
+    getCategories();
     refresh();
   }
 
-  void changeText(String text) {
+  void textSearch(String text) {
     Duration duracion = Duration(milliseconds: 800);
-    if (tiempoDeEscritura != null) {
-      tiempoDeEscritura.cancel();
+    if (timeWrite != null) {
+      timeWrite.cancel();
       refresh();
     }
 
-    tiempoDeEscritura = new Timer(duracion, () {
-      productoBuscar = text;
+    timeWrite = new Timer(duracion, () {
+      productSearch = text;
 
       refresh();
-      print('Texto Completo $productoBuscar');
+      print('Texto Completo $productSearch');
     });
   }
 
-  void confirmarEliminar(Product producto) async {
+  void confirmDelete(Product producto) async {
     ResponseApi responseApi =
         await _productoProvider.deleteProduct(producto.id);
     Fluttertoast.showToast(msg: responseApi.message);
@@ -64,9 +64,9 @@ class RestauranteProductosEliminarListaController {
   }
 
   // ignore: non_constant_identifier_names
-  Future<List<Product>> obtenerProductos(
+  Future<List<Product>> getProduct(
       String idCategory, String productName) async {
-    if (productoBuscar.isEmpty) {
+    if (productSearch.isEmpty) {
       return await _productoProvider.getByCategory(idCategory);
     } else {
       return await _productoProvider.getByCategoryAndProductName(
@@ -74,12 +74,12 @@ class RestauranteProductosEliminarListaController {
     }
   }
 
-  void obtenerCategorias() async {
-    categorias = await _categoryProvider.getAll();
+  void getCategories() async {
+    categories = await _categoryProvider.getAll();
     refresh();
   }
 
-  void regresar() {
+  void goToback() {
     Navigator.pop(context);
   }
 }

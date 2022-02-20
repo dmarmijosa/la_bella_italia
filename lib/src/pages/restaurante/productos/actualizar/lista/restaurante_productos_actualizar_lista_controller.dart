@@ -19,12 +19,12 @@ class RestauranteProductosActualizarListaController {
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   User user;
   Function refresh;
-  Timer tiempoDeEscritura;
-  String productoBuscar = '';
-  List<Category> categorias = [];
+  Timer timeWrite;
+  String productSearch = '';
+  List<Category> categories = [];
 
   CategoryProvider _categoryProvider = new CategoryProvider();
-  ProductProvider _productoProvider = new ProductProvider();
+  ProductProvider _productProvider = new ProductProvider();
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -32,27 +32,27 @@ class RestauranteProductosActualizarListaController {
 
     user = User.fromJson(await _sharedPref.read('user') ?? {});
     _categoryProvider.init(context, user);
-    _productoProvider.init(context, user);
+    _productProvider.init(context, user);
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
-    obtenerCategorias();
+    getCategories();
     refresh();
   }
 
-  void changeText(String text) {
+  void textSearch(String text) {
     Duration duracion = Duration(milliseconds: 800);
-    if (tiempoDeEscritura != null) {
-      tiempoDeEscritura.cancel();
+    if (timeWrite != null) {
+      timeWrite.cancel();
       refresh();
     }
 
-    tiempoDeEscritura = new Timer(duracion, () {
-      productoBuscar = text;
+    timeWrite = new Timer(duracion, () {
+      productSearch = text;
 
       refresh();
-      print('Texto Completo $productoBuscar');
+      print('Texto Completo $productSearch');
     });
   }
 
@@ -60,28 +60,28 @@ class RestauranteProductosActualizarListaController {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => RestauranteProductoActualizarDetallePage(
-        producto: producto,
+        product: producto,
       ),
     );
   }
 
   // ignore: non_constant_identifier_names
-  Future<List<Product>> obtenerProductos(
+  Future<List<Product>> getProducts(
       String idCategory, String productName) async {
-    if (productoBuscar.isEmpty) {
-      return await _productoProvider.getByCategory(idCategory);
+    if (productSearch.isEmpty) {
+      return await _productProvider.getByCategory(idCategory);
     } else {
-      return await _productoProvider.getByCategoryAndProductName(
+      return await _productProvider.getByCategoryAndProductName(
           idCategory, productName);
     }
   }
 
-  void obtenerCategorias() async {
-    categorias = await _categoryProvider.getAll();
+  void getCategories() async {
+    categories = await _categoryProvider.getAll();
     refresh();
   }
 
-  void regresar() {
+  void goToback() {
     Navigator.pop(context);
   }
 }

@@ -5,8 +5,8 @@ import 'package:la_bella_italia/src/providers/user_provider.dart';
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/my_snackbar.dart';
 
-class RecuperarCuentaController {
-  TextEditingController correoController = new TextEditingController();
+class RecoverAccountController {
+  TextEditingController emailController = new TextEditingController();
   BuildContext context;
 
   UserProvider userProvider = new UserProvider();
@@ -21,8 +21,8 @@ class RecuperarCuentaController {
     }
   }
 
-  Future<void> recuperar() async {
-    String correo = correoController.text.trim();
+  Future<void> recoverAccount() async {
+    String correo = emailController.text.trim();
 
     ResponseApi responseApi = await userProvider.recoverAccountUser(correo);
 

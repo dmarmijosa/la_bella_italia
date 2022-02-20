@@ -57,7 +57,7 @@ class _RestauranteMensajerosEliminarPageState
               ),
               TextButton(
                 onPressed: () => {
-                  _obj.confirmarEliminar(usuario.id),
+                  _obj.confirmDelete(usuario.id),
                   Navigator.pop(context),
                   refresh()
                 },

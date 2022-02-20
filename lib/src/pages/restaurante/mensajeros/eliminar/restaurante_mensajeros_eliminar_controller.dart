@@ -30,7 +30,7 @@ class RestauranteMensajerosEliminarController {
     refresh();
   }
 
-  void confirmarEliminar(String id) async {
+  void confirmDelete(String id) async {
     ResponseApi responseApi = await _userProvider.deleteDelivery(id);
     Fluttertoast.showToast(msg: responseApi.message);
     await _userProvider.logout(id);
