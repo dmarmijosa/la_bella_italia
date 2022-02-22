@@ -10,11 +10,11 @@ import 'package:geocoding/geocoding.dart';
 class ClienteDireccionesMapaController {
   BuildContext context;
   Function refresh;
-  Position _posicion;
+  Position _position;
   String addressName;
   LatLng addressLatLng;
 
-  CameraPosition posicionIncial =
+  CameraPosition positionInit =
       CameraPosition(target: LatLng(40.0025746, 3.8412286), zoom: 19.27);
 
   Completer<GoogleMapController> _mapController = Completer();
@@ -30,7 +30,7 @@ class ClienteDireccionesMapaController {
     checkGPS();
   }
 
-  void selectRefPunto() {
+  void selectRefPoint() {
     Map<String, dynamic> data = {
       'address': addressName,
       'lat': addressLatLng.latitude,
@@ -40,9 +40,9 @@ class ClienteDireccionesMapaController {
   }
 
   Future<Null> setLocalizacionInfo() async {
-    if (posicionIncial != null) {
-      double lat = posicionIncial.target.latitude;
-      double lng = posicionIncial.target.longitude;
+    if (positionInit != null) {
+      double lat = positionInit.target.latitude;
+      double lng = positionInit.target.longitude;
       try {
         List<Placemark> address = await placemarkFromCoordinates(lat, lng);
         if (address != null) {
@@ -63,7 +63,7 @@ class ClienteDireccionesMapaController {
     }
   }
 
-  void onMapCrear(GoogleMapController controller) {
+  void onMapCreate(GoogleMapController controller) {
     try {
       _mapController.complete(controller);
     } catch (e) {
@@ -74,26 +74,26 @@ class ClienteDireccionesMapaController {
   void checkGPS() async {
     bool localizacionActivada = await Geolocator.isLocationServiceEnabled();
     if (localizacionActivada) {
-      actualizaLocalizacion();
+      updateLocations();
     } else {
       bool localizacionGps = await location.Location().requestService();
       if (localizacionGps) {
-        actualizaLocalizacion();
+        updateLocations();
       }
     }
   }
 
-  void actualizaLocalizacion() async {
+  void updateLocations() async {
     try {
       await _determinePosition();
-      _posicion = await Geolocator.getLastKnownPosition();
-      iraPosicion(_posicion.latitude, _posicion.longitude);
+      _position = await Geolocator.getLastKnownPosition();
+      goToPosition(_position.latitude, _position.longitude);
     } catch (e) {
       print(e);
     }
   }
 
-  Future iraPosicion(double lat, double log) async {
+  Future goToPosition(double lat, double log) async {
     try {
       GoogleMapController controller = await _mapController.future;
       if (controller != null) {

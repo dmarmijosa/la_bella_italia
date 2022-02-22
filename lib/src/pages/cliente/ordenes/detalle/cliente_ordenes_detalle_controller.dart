@@ -22,52 +22,52 @@ class ClienteOrdenesDetalleController {
   double total = 0;
 
   User user;
-  bool estadoRestaurante;
-  String mensaje;
-  Order orden;
+
+  String message;
+  Order order;
   List<User> users = [];
   String idDelivery;
-  User restaurante;
+  User restaurant;
 
   Future init(BuildContext context, Function refresh, Order orden) async {
     this.context = context;
     this.refresh = refresh;
-    this.orden = orden;
+    this.order = orden;
 
     user = User.fromJson(await _sharedPref.read('user'));
     _userProvider.init(context, sessionUser: user);
     _orderProvider.init(context, user);
 
-    restaurante = await _userProvider.getInfoRestaurant();
+    restaurant = await _userProvider.getInfoRestaurant();
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
 
-    obtenerTotal();
+    getTotal();
     getUsers();
     refresh();
   }
 
-  void updateOrden() async {
-    ResponseApi responseApi = await _orderProvider.updateToOntheWay(orden);
+  void updateOrder() async {
+    ResponseApi responseApi = await _orderProvider.updateToOntheWay(order);
     Fluttertoast.showToast(msg: responseApi.message);
 
     if (responseApi.success) {
       Navigator.pushNamed(
         context,
         'delivery/ordenes/mapa',
-        arguments: orden.toJson(),
+        arguments: order.toJson(),
       );
       refresh();
     }
   }
 
-  void irAMapa() async {
+  void goToMap() async {
     Navigator.pushNamed(
       context,
       'cliente/ordenes/mapa',
-      arguments: orden.toJson(),
+      arguments: order.toJson(),
     );
     refresh();
   }
@@ -77,16 +77,16 @@ class ClienteOrdenesDetalleController {
     refresh();
   }
 
-  void obtenerTotal() {
+  void getTotal() {
     total = 0;
-    orden.products.forEach((producto) {
+    order.products.forEach((producto) {
       total = total + (producto.price * producto.quantity);
     });
 
     refresh();
   }
 
-  void llamar(String numero) {
+  void callNumberPhone(String numero) {
     launch("tel:$numero");
   }
 }

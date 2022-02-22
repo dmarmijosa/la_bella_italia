@@ -16,13 +16,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ClienteActualizarController {
   BuildContext context;
 
-  TextEditingController nombreController = new TextEditingController();
-  TextEditingController apellidoController = new TextEditingController();
-  TextEditingController telefonoController = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController lastnameController = new TextEditingController();
+  TextEditingController phoneController = new TextEditingController();
   TextEditingController passController = new TextEditingController();
-  TextEditingController confirPassController = new TextEditingController();
+  TextEditingController confirmPassController = new TextEditingController();
 
-  UserProvider usersProvider = new UserProvider();
+  UserProvider _userProvider = new UserProvider();
 
   PickedFile pickedFile;
   File imageFile;
@@ -40,11 +40,11 @@ class ClienteActualizarController {
 
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read('user'));
-    usersProvider.init(context, sessionUser: user);
+    _userProvider.init(context, sessionUser: user);
 
-    nombreController.text = user.name;
-    apellidoController.text = user.lastname;
-    telefonoController.text = user.phone;
+    nameController.text = user.name;
+    lastnameController.text = user.lastname;
+    phoneController.text = user.phone;
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
@@ -53,12 +53,12 @@ class ClienteActualizarController {
     refresh();
   }
 
-  void actualizar() async {
-    String nombre = nombreController.text.toUpperCase().trim();
-    String apellido = apellidoController.text.toUpperCase().trim();
-    String telefono = telefonoController.text.trim();
+  void update() async {
+    String nombre = nameController.text.toUpperCase().trim();
+    String apellido = lastnameController.text.toUpperCase().trim();
+    String telefono = phoneController.text.trim();
     String pass = passController.text.trim();
-    String confirPass = confirPassController.text.trim();
+    String confirPass = confirmPassController.text.trim();
 
     if (nombre.isEmpty ||
         apellido.isEmpty ||
@@ -84,7 +84,7 @@ class ClienteActualizarController {
         image: user.image,
         password: pass);
 
-    Stream stream = await usersProvider.updateUser(myUser, imageFile);
+    Stream stream = await _userProvider.updateUser(myUser, imageFile);
     stream.listen(
       (res) async {
         _progressDialog.close();
@@ -93,7 +93,7 @@ class ClienteActualizarController {
         Fluttertoast.showToast(msg: responseApi.message);
 
         if (responseApi.success) {
-          user = await usersProvider.getById(myUser.id);
+          user = await _userProvider.getById(myUser.id);
           print('usuario obtenido: ${user.toJson()}');
           _sharedPref.save('user', user.toJson());
           Navigator.pushNamedAndRemoveUntil(
@@ -139,7 +139,7 @@ class ClienteActualizarController {
         });
   }
 
-  void back() {
+  void goToBack() {
     Navigator.pop(context);
   }
 }

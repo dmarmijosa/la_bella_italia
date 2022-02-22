@@ -29,7 +29,7 @@ class CompraFinalizadaController {
     refresh();
   }
 
-  void finalizarCompra() {
+  void checkout() {
     Navigator.pushNamedAndRemoveUntil(
         context, 'cliente/productos/lista', (route) => false);
     refresh();

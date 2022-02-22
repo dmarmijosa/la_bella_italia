@@ -12,25 +12,25 @@ class ClienteOrdenesCrearController {
   Function refresh;
 
   SharedPref _sharedPref = new SharedPref();
-  UserProvider userProvider = new UserProvider();
+  UserProvider _userProvider = new UserProvider();
 
-  List<Product> productosSeleccionados = [];
+  List<Product> selectProducts = [];
   double total = 0;
 
-  bool estadoRestaurante;
-  String mensaje;
+  bool stateRestaurant;
+  String message;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    userProvider.init(context);
+    _userProvider.init(context);
 
-    this.estadoRestaurante = await userProvider.restaurantIsAvaiable();
+    this.stateRestaurant = await _userProvider.restaurantIsAvaiable();
 
-    productosSeleccionados =
+    selectProducts =
         Product.fromJsonList(await _sharedPref.read('order')).toList;
-    print(estadoRestaurante);
-    obtenerTotal();
+    print(stateRestaurant);
+    getTotal();
 
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
@@ -39,45 +39,43 @@ class ClienteOrdenesCrearController {
     refresh();
   }
 
-  void obtenerTotal() {
+  void getTotal() {
     total = 0;
-    productosSeleccionados.forEach((producto) {
+    selectProducts.forEach((producto) {
       total = total + (producto.quantity * producto.price);
     });
     refresh();
   }
 
-  void aumentarItem(Product producto) {
-    int index = productosSeleccionados.indexWhere((p) => p.id == producto.id);
-    productosSeleccionados[index].quantity =
-        productosSeleccionados[index].quantity + 1;
+  void addItem(Product producto) {
+    int index = selectProducts.indexWhere((p) => p.id == producto.id);
+    selectProducts[index].quantity = selectProducts[index].quantity + 1;
 
-    _sharedPref.save('order', productosSeleccionados);
-    obtenerTotal();
+    _sharedPref.save('order', selectProducts);
+    getTotal();
     //refresh();
   }
 
-  void reducirItem(Product producto) {
+  void reduceItem(Product producto) {
     if (producto.quantity > 1) {
-      int index = productosSeleccionados.indexWhere((p) => p.id == producto.id);
-      productosSeleccionados[index].quantity =
-          productosSeleccionados[index].quantity - 1;
+      int index = selectProducts.indexWhere((p) => p.id == producto.id);
+      selectProducts[index].quantity = selectProducts[index].quantity - 1;
 
-      _sharedPref.save('order', productosSeleccionados);
-      obtenerTotal();
+      _sharedPref.save('order', selectProducts);
+      getTotal();
       //refresh();
     }
   }
 
-  void eliminarItem(Product producto) {
-    productosSeleccionados.removeWhere((p) => p.id == producto.id);
-    _sharedPref.save('order', productosSeleccionados);
-    obtenerTotal();
+  void deleteItem(Product producto) {
+    selectProducts.removeWhere((p) => p.id == producto.id);
+    _sharedPref.save('order', selectProducts);
+    getTotal();
   }
 
-  void irADirecciones() {
-    if (this.estadoRestaurante) {
-      if (this.productosSeleccionados.length > 0) {
+  void goToAddressList() {
+    if (this.stateRestaurant) {
+      if (this.selectProducts.length > 0) {
         Navigator.pushNamed(context, 'cliente/direcciones/lista');
       } else {
         Fluttertoast.showToast(msg: 'Selecciona al menos un producto.');

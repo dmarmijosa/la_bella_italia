@@ -20,7 +20,7 @@ class DeliveryOrdenesListaController {
   // ignore: unused_field
   UserProvider _userProvider = new UserProvider();
   OrderProvider _orderProvider = new OrderProvider();
-  bool estado = false;
+  bool state = false;
 
   List<String> status = ['DESPACHADA', 'EN CAMINO', 'ENTREGADA'];
 
@@ -40,7 +40,7 @@ class DeliveryOrdenesListaController {
   }
 
   // ignore: missing_return
-  Future<List<Order>> obtenerOrdenes(String status) async {
+  Future<List<Order>> getOrders(String status) async {
     try {
       return await _orderProvider.getByDeliveryAndStatus(user.id, status);
     } catch (e) {
@@ -48,9 +48,9 @@ class DeliveryOrdenesListaController {
     }
   }
 
-  void abrirSheet(Order orden) async {
+  void openSheet(Order orden) async {
     try {
-      estado = await showMaterialModalBottomSheet(
+      state = await showMaterialModalBottomSheet(
         context: context,
         builder: (context) => DeliveryOrdenesDetallePage(
           orden: orden,
@@ -58,7 +58,7 @@ class DeliveryOrdenesListaController {
       );
       refresh();
 
-      if (estado) {
+      if (state) {
         refresh();
       }
     } catch (e) {
@@ -66,7 +66,7 @@ class DeliveryOrdenesListaController {
     }
   }
 
-  void logout() {
+  void logOut() {
     _sharedPref.logout(context, user.id);
   }
 
@@ -74,7 +74,7 @@ class DeliveryOrdenesListaController {
     key.currentState.openDrawer();
   }
 
-  void cambiarRol() {
+  void changeRol() {
     Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
   }
 }

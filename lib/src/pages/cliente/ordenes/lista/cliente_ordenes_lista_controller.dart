@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:la_bella_italia/src/models/order.dart';
-import 'package:la_bella_italia/src/models/response_api.dart';
+
 import 'package:la_bella_italia/src/models/user.dart';
 import 'package:la_bella_italia/src/pages/cliente/ordenes/detalle/cliente_ordenes_detalle_page.dart';
 
 import 'package:la_bella_italia/src/providers/order_provider.dart';
-import 'package:la_bella_italia/src/providers/user_provider.dart';
+
 import 'package:la_bella_italia/src/utils/UtilsApp.dart';
 import 'package:la_bella_italia/src/utils/shared_pref.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ClienteOrdenesListaController {
@@ -18,9 +18,8 @@ class ClienteOrdenesListaController {
   User user;
 
   Function refresh;
-  UserProvider _userProvider = new UserProvider();
   OrderProvider _orderProvider = new OrderProvider();
-  bool estado = false;
+  bool state = false;
 
   List<String> status = ['CREADA', 'DESPACHADA', 'EN CAMINO', 'ENTREGADA'];
 
@@ -41,7 +40,7 @@ class ClienteOrdenesListaController {
   }
 
   // ignore: missing_return
-  Future<List<Order>> obtenerOrdenes(String status) async {
+  Future<List<Order>> getOrders(String status) async {
     try {
       return await _orderProvider.getByClientAndStatus(user.id, status);
     } catch (e) {
@@ -49,9 +48,9 @@ class ClienteOrdenesListaController {
     }
   }
 
-  void abrirSheet(Order orden) async {
+  void openSheet(Order orden) async {
     try {
-      estado = await showMaterialModalBottomSheet(
+      state = await showMaterialModalBottomSheet(
         context: context,
         builder: (context) => ClienteOrdenesDetallePage(
           orden: orden,
@@ -59,7 +58,7 @@ class ClienteOrdenesListaController {
       );
       refresh();
 
-      if (estado) {
+      if (state) {
         refresh();
       }
     } catch (e) {
@@ -67,29 +66,7 @@ class ClienteOrdenesListaController {
     }
   }
 
-  void actualizarEstado() async {
-    ResponseApi responseApi = await _userProvider.setValorRestaurant(user.id);
-    Fluttertoast.showToast(msg: responseApi.message);
-    print(responseApi.message);
-  }
-
-  void logout() {
-    _sharedPref.logout(context, user.id);
-  }
-
   void openDrawer() {
     key.currentState.openDrawer();
-  }
-
-  void irACrearCategoria() {
-    Navigator.pushNamed(context, 'restaurante/categorias/crear');
-  }
-
-  void irACrearProducto() {
-    Navigator.pushNamed(context, 'restaurante/producto/crear');
-  }
-
-  void cambiarRol() {
-    Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
   }
 }

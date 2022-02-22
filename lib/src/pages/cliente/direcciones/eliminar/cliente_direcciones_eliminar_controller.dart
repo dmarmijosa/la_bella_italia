@@ -11,7 +11,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ClienteDireccionesEliminarController {
   BuildContext context;
   Function refresh;
-  List<Address> direcciones = [];
+  List<Address> address = [];
 
   AddressProvider _addressProvider = new AddressProvider();
   User user;
@@ -37,22 +37,22 @@ class ClienteDireccionesEliminarController {
 
   void handleRadioCambio(int value) async {
     radioValue = value;
-    _sharedPref.save('addressDelete', direcciones[value]);
+    _sharedPref.save('addressDelete', address[value]);
 
     refresh();
     print('Valor seleccionado $radioValue');
   }
 
-  Future<List<Address>> getDirecciones() async {
-    direcciones = await _addressProvider.getByUser(user.id);
+  Future<List<Address>> getAddress() async {
+    address = await _addressProvider.getByUser(user.id);
     Address d = Address.fromJson(await _sharedPref.read('addressDelete') ?? {});
 
     print('Dato almacenado ${d.toJson()}');
 
-    return direcciones;
+    return address;
   }
 
-  void eliminarDireccion() async {
+  void deleteAddress() async {
     Address d = Address.fromJson(await _sharedPref.read('addressDelete') ?? {});
     ResponseApi responseApi = await _addressProvider.delete(d.id);
     Fluttertoast.showToast(msg: responseApi.message);
@@ -60,7 +60,7 @@ class ClienteDireccionesEliminarController {
     refresh();
   }
 
-  void irACrearDireccion() async {
+  void goToCreateAddress() async {
     var esCreado =
         await Navigator.pushNamed(context, 'cliente/direcciones/crear');
     if (esCreado != null) {

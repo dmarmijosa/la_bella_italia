@@ -40,16 +40,16 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
                   endIndent: 30,
                   indent: 30,
                 ),
-                _txtPRecioTotal(),
-                _btnConfirmarOrden()
+                _txtPriceTotal(),
+                _btnConfirmaOrder()
               ],
             ),
           )),
-      body: _obj.productosSeleccionados.length > 0
+      body: _obj.selectProducts.length > 0
           ? ListView(
-              children: _obj.productosSeleccionados.map(
+              children: _obj.selectProducts.map(
                 (Product producto) {
-                  return _tarjetaProducto(producto);
+                  return _targetProduct(producto);
                 },
               ).toList(),
             )
@@ -59,11 +59,11 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _btnConfirmarOrden() {
+  Widget _btnConfirmaOrder() {
     return Container(
       margin: EdgeInsets.only(left: 30, right: 30, top: 30, bottom: 40),
       child: ElevatedButton(
-        onPressed: _obj.irADirecciones,
+        onPressed: _obj.goToAddressList,
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -99,11 +99,11 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _tarjetaProducto(Product producto) {
+  Widget _targetProduct(Product producto) {
     return Container(
       child: Row(
         children: [
-          _imagenProducto(producto),
+          _imageProduct(producto),
           SizedBox(
             width: 10,
           ),
@@ -126,14 +126,14 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
               SizedBox(
                 height: 10,
               ),
-              _agregarOEliminar(producto)
+              _addOrReduce(producto)
             ],
           ),
           Spacer(),
           Column(
             children: [
-              _txtPrecio(producto),
-              _btnIconBorrarProduct(producto),
+              _txtPrice(producto),
+              _btnIconDeleteProduct(producto),
             ],
           )
         ],
@@ -141,7 +141,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _txtPRecioTotal() {
+  Widget _txtPriceTotal() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Row(
@@ -166,19 +166,19 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _btnIconBorrarProduct(Product producto) {
+  Widget _btnIconDeleteProduct(Product producto) {
     return IconButton(
       icon: Icon(
         Icons.delete,
         color: MyColors.primaryColor,
       ),
       onPressed: () {
-        _obj.eliminarItem(producto);
+        _obj.deleteItem(producto);
       },
     );
   }
 
-  Widget _txtPrecio(Product producto) {
+  Widget _txtPrice(Product producto) {
     return Container(
       margin: EdgeInsets.only(top: 10, right: 10),
       child: Text(
@@ -191,7 +191,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _imagenProducto(Product producto) {
+  Widget _imageProduct(Product producto) {
     return Container(
       width: 90,
       height: 90,
@@ -211,12 +211,12 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
     );
   }
 
-  Widget _agregarOEliminar(Product producto) {
+  Widget _addOrReduce(Product producto) {
     return Row(
       children: [
         GestureDetector(
           onTap: () {
-            _obj.reducirItem(producto);
+            _obj.reduceItem(producto);
           },
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -243,7 +243,7 @@ class _ClienteOrdenesCrearPageState extends State<ClienteOrdenesCrearPage> {
         ),
         GestureDetector(
           onTap: () {
-            _obj.aumentarItem(producto);
+            _obj.addItem(producto);
           },
           child: Container(
             padding: EdgeInsets.symmetric(

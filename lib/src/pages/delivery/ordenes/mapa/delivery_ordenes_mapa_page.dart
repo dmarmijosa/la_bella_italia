@@ -42,13 +42,13 @@ class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.49,
-            child: _mapaGoogle(),
+            child: _mapGoogle(),
           ),
           SafeArea(
             child: Column(
               children: [
                 Spacer(),
-                _tarjetaOrdenInfo(),
+                _targetOrdenInfo(),
               ],
             ),
           ),
@@ -71,7 +71,7 @@ class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
     );
   }
 
-  Widget _tarjetaOrdenInfo() {
+  Widget _targetOrdenInfo() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.4,
       width: double.infinity,
@@ -93,9 +93,8 @@ class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _listaTitulo(
-                _obj.orden?.address?.town, 'Pueblo', Icons.my_location),
-            _listaTitulo(
+            _listTitle(_obj.orden?.address?.town, 'Pueblo', Icons.my_location),
+            _listTitle(
                 _obj.orden?.address?.address, 'Dirección', Icons.location_on),
             Divider(
               color: Colors.grey[400],
@@ -105,7 +104,7 @@ class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
             _clienteInfo(),
             Container(
               alignment: Alignment.bottomCenter,
-              child: _btnEntregar(),
+              child: _btnDeliverOrder(),
             ),
           ],
         ),
@@ -163,7 +162,7 @@ class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
     );
   }
 
-  Widget _listaTitulo(String titulo, String subTitulo, IconData icon) {
+  Widget _listTitle(String titulo, String subTitulo, IconData icon) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       child: ListTile(
@@ -179,7 +178,7 @@ class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
     );
   }
 
-  Widget _btnEntregar() {
+  Widget _btnDeliverOrder() {
     return Container(
       margin: EdgeInsets.only(
         left: 30,
@@ -222,10 +221,10 @@ class _DeliveryOrdenesMapaPageState extends State<DeliveryOrdenesMapaPage> {
     );
   }
 
-  Widget _mapaGoogle() {
+  Widget _mapGoogle() {
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: _obj.posicionIncial,
+      initialCameraPosition: _obj.positionInitial,
       onMapCreated: _obj.onMapCrear,
       myLocationButtonEnabled: true,
       myLocationEnabled: true,

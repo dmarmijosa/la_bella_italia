@@ -41,13 +41,13 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.55,
-            child: _mapaGoogle(),
+            child: _mapGoogle(),
           ),
           SafeArea(
             child: Column(
               children: [
                 Spacer(),
-                _tarjetaOrdenInfo(),
+                _targetOrderInfo(),
               ],
             ),
           ),
@@ -56,7 +56,7 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
     );
   }
 
-  Widget _tarjetaOrdenInfo() {
+  Widget _targetOrderInfo() {
     return Container(
       height: MediaQuery.of(context).size.height * 0.35,
       width: double.infinity,
@@ -78,23 +78,22 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _listaTitulo(
-                _obj.orden?.address?.town, 'Pueblo', Icons.my_location),
-            _listaTitulo(
+            _listTitle(_obj.orden?.address?.town, 'Pueblo', Icons.my_location),
+            _listTitle(
                 _obj.orden?.address?.address, 'Dirección', Icons.location_on),
             Divider(
               color: Colors.grey[400],
               endIndent: 30,
               indent: 30,
             ),
-            _clienteInfo(),
+            _clientInfo(),
           ],
         ),
       ),
     );
   }
 
-  Widget _clienteInfo() {
+  Widget _clientInfo() {
     refresh();
     return Container(
       margin: EdgeInsets.symmetric(vertical: 20, horizontal: 35),
@@ -144,7 +143,7 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
     );
   }
 
-  Widget _listaTitulo(String titulo, String subTitulo, IconData icon) {
+  Widget _listTitle(String titulo, String subTitulo, IconData icon) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       child: ListTile(
@@ -160,11 +159,11 @@ class _ClienteOrdenesMapaPageState extends State<ClienteOrdenesMapaPage> {
     );
   }
 
-  Widget _mapaGoogle() {
+  Widget _mapGoogle() {
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: _obj.posicionIncial,
-      onMapCreated: _obj.onMapCrear,
+      initialCameraPosition: _obj.homePosition,
+      onMapCreated: _obj.onMapCreate,
       myLocationButtonEnabled: true,
       myLocationEnabled: true,
       markers: Set<Marker>.of(_obj.markers.values),

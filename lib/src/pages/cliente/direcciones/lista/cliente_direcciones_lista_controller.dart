@@ -18,7 +18,7 @@ class ClienteDireccionesListaController {
   BuildContext context;
   Function refresh;
 
-  List<Address> direcciones = [];
+  List<Address> address = [];
 
   AddressProvider _addressProvider = new AddressProvider();
   User user;
@@ -63,8 +63,8 @@ class ClienteDireccionesListaController {
         'COMPRA EXITOSA', 'Un cliente ha realizado un pedido');
   }
 
-  void crearOrden() async {
-    if (direcciones.length < 1) {
+  void createOrden() async {
+    if (address.length < 1) {
     } else {
       if (radioValue == -1) {
         Fluttertoast.showToast(
@@ -93,22 +93,22 @@ class ClienteDireccionesListaController {
 
   void handleRadioCambio(int value) async {
     radioValue = value;
-    _sharedPref.save('address', direcciones[value]);
+    _sharedPref.save('address', address[value]);
 
     refresh();
     print('Valor seleccionado $radioValue');
   }
 
-  Future<List<Address>> getDirecciones() async {
-    direcciones = await _addressProvider.getByUser(user.id);
+  Future<List<Address>> getAddress() async {
+    address = await _addressProvider.getByUser(user.id);
     Address d = Address.fromJson(await _sharedPref.read('address') ?? {});
 
     print('Dato almacenado ${d.toJson()}');
 
-    return direcciones;
+    return address;
   }
 
-  void irACrearDireccion() async {
+  void goToCreateAddress() async {
     var esCreado =
         await Navigator.pushNamed(context, 'cliente/direcciones/crear');
     if (esCreado != null) {

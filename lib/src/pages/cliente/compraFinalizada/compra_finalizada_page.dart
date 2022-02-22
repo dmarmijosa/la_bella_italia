@@ -27,16 +27,16 @@ class _CompraFinalizadaPageState extends State<CompraFinalizadaPage> {
     return Scaffold(
       body: Column(
         children: [
-          _animacion(),
-          _txtFinalizar(),
+          _animation(),
+          _txtFinalize(),
           Spacer(),
-          _btnFinalizar(),
+          _btnCheckOut(),
         ],
       ),
     );
   }
 
-  Widget _txtFinalizar() {
+  Widget _txtFinalize() {
     return Container(
       child: Text(
         'Gracias por tu compra',
@@ -45,13 +45,13 @@ class _CompraFinalizadaPageState extends State<CompraFinalizadaPage> {
     );
   }
 
-  Widget _btnFinalizar() {
+  Widget _btnCheckOut() {
     return Container(
       height: 50,
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
       child: ElevatedButton(
-        onPressed: _obj.finalizarCompra,
+        onPressed: _obj.checkout,
         child: Text('Finalizar compra'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -62,7 +62,7 @@ class _CompraFinalizadaPageState extends State<CompraFinalizadaPage> {
     );
   }
 
-  Widget _animacion() {
+  Widget _animation() {
     return Container(
       alignment: Alignment.center,
       margin: EdgeInsets.only(

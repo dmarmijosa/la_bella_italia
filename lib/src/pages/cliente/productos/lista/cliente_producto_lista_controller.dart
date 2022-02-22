@@ -18,9 +18,9 @@ class ClienteProductoListaController {
   GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   User user;
   Function refresh;
-  Timer tiempoDeEscritura;
-  String productoBuscar = '';
-  List<Category> categorias = [];
+  Timer timeWrite;
+  String productSearch = '';
+  List<Category> categories = [];
 
   CategoryProvider _categoryProvider = new CategoryProvider();
   ProductProvider _productoProvider = new ProductProvider();
@@ -36,50 +36,50 @@ class ClienteProductoListaController {
     if (await utilsApp.internetConnectivity() == false) {
       Navigator.pushNamed(context, 'desconectado');
     }
-    obtenerCategorias();
+    getCategories();
     refresh();
   }
 
-  void changeText(String text) {
+  void textSearch(String text) {
     Duration duracion = Duration(milliseconds: 800);
-    if (tiempoDeEscritura != null) {
-      tiempoDeEscritura.cancel();
+    if (timeWrite != null) {
+      timeWrite.cancel();
       refresh();
     }
 
-    tiempoDeEscritura = new Timer(duracion, () {
-      productoBuscar = text;
+    timeWrite = new Timer(duracion, () {
+      productSearch = text;
 
       refresh();
-      print('Texto Completo $productoBuscar');
+      print('Texto Completo $productSearch');
     });
   }
 
-  void mostrarSheet(Product producto) {
+  void viewSheet(Product producto) {
     showMaterialModalBottomSheet(
       context: context,
       builder: (context) => ClienteProductoDetallePage(
-        producto: producto,
+        product: producto,
       ),
     );
   }
 
-  void irAMisPedidos() {
+  void goToMyOrders() {
     Navigator.pushNamed(context, 'cliente/ordenes/lista');
   }
 
-  void irACrearOrdenPage() {
+  void goToCreateOrder() {
     Navigator.pushNamed(context, 'cliente/ordenes/crear');
   }
 
-  void irAEliminarDirecciones() {
+  void goToDeleteAddress() {
     Navigator.pushNamed(context, 'cliente/direcciones/eliminar');
   }
 
   // ignore: non_constant_identifier_names
-  Future<List<Product>> obtenerProductos(
+  Future<List<Product>> getProducts(
       String idCategory, String productName) async {
-    if (productoBuscar.isEmpty) {
+    if (productSearch.isEmpty) {
       return await _productoProvider.getByCategory(idCategory);
     } else {
       return await _productoProvider.getByCategoryAndProductName(
@@ -87,12 +87,12 @@ class ClienteProductoListaController {
     }
   }
 
-  void obtenerCategorias() async {
-    categorias = await _categoryProvider.getAll();
+  void getCategories() async {
+    categories = await _categoryProvider.getAll();
     refresh();
   }
 
-  void logout() {
+  void logOut() {
     _sharedPref.logout(context, user.id);
   }
 
@@ -100,11 +100,11 @@ class ClienteProductoListaController {
     key.currentState.openDrawer();
   }
 
-  void cambiarROl() {
+  void changeRol() {
     Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
   }
 
-  void editarPerfil() {
+  void editProfile() {
     Navigator.pushNamed(context, 'cliente/actualizar');
   }
 }

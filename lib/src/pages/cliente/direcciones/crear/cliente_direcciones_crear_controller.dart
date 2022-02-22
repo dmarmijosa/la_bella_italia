@@ -14,15 +14,15 @@ class ClienteDireccionesCrerController {
   BuildContext context;
   Function refresh;
 
-  TextEditingController refPuntoController = new TextEditingController();
-  TextEditingController direccionController = new TextEditingController();
-  TextEditingController puebloController = new TextEditingController();
+  TextEditingController refPointController = new TextEditingController();
+  TextEditingController directionController = new TextEditingController();
+  TextEditingController townController = new TextEditingController();
 
   AddressProvider _addressProvider = new AddressProvider();
   User user;
   SharedPref _sharedPref = new SharedPref();
 
-  Map<String, dynamic> refPunto;
+  Map<String, dynamic> refPoint;
 
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -36,17 +36,17 @@ class ClienteDireccionesCrerController {
     refresh();
   }
 
-  void crearDireccion() async {
-    String nombreDireccion = direccionController.text;
-    String pueblo = puebloController.text;
-    double lat = refPunto['lat'] ?? 0;
-    double lng = refPunto['long'] ?? 0;
+  void createDirection() async {
+    String nombreDireccion = directionController.text;
+    String pueblo = townController.text;
+    double lat = refPoint['lat'] ?? 0;
+    double lng = refPoint['long'] ?? 0;
 
     if (nombreDireccion.isEmpty ||
         pueblo.isEmpty ||
         lat == 0 ||
         lng == 0 ||
-        refPunto.isEmpty) {
+        refPoint.isEmpty) {
       MyScnackbar.show(context, "Todos los campos son obligatorio");
       return;
     }
@@ -77,16 +77,16 @@ class ClienteDireccionesCrerController {
     }
   }
 
-  void abrirMapa() async {
+  void openMap() async {
     try {
-      refPunto = await showMaterialModalBottomSheet(
+      refPoint = await showMaterialModalBottomSheet(
         context: context,
         isDismissible: false,
         enableDrag: false,
         builder: (context) => ClienteDireccionesMapaPage(),
       );
-      if (refPunto != null) {
-        refPuntoController.text = refPunto['address'];
+      if (refPoint != null) {
+        refPointController.text = refPoint['address'];
         refresh();
       }
     } catch (e) {}

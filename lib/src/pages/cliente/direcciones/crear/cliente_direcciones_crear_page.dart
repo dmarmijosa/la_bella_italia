@@ -39,11 +39,11 @@ class _ClienteDireccionesCrearPageState
             children: [
               Column(
                 children: [
-                  _txtCompletarDatos(),
-                  _edtDireccion(),
-                  _edtPueblo(),
-                  _edtPuntoReferencia(),
-                  _btnAceptar()
+                  _txtCompleteDate(),
+                  _edtDirection(),
+                  _edtTown(),
+                  _edtPointRef(),
+                  _btnAcept()
                 ],
               ),
             ],
@@ -53,12 +53,12 @@ class _ClienteDireccionesCrearPageState
     );
   }
 
-  Widget _edtPuntoReferencia() {
+  Widget _edtPointRef() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: TextField(
-        controller: _obj.refPuntoController,
-        onTap: _obj.abrirMapa,
+        controller: _obj.refPointController,
+        onTap: _obj.openMap,
         autofocus: false,
         focusNode: AlwaysDisabledFocused(),
         decoration: InputDecoration(
@@ -72,11 +72,11 @@ class _ClienteDireccionesCrearPageState
     );
   }
 
-  Widget _edtPueblo() {
+  Widget _edtTown() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
       child: TextField(
-        controller: _obj.puebloController,
+        controller: _obj.townController,
         decoration: InputDecoration(
           labelText: 'Pueblo',
           suffixIcon: Icon(
@@ -88,11 +88,11 @@ class _ClienteDireccionesCrearPageState
     );
   }
 
-  Widget _edtDireccion() {
+  Widget _edtDirection() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: TextField(
-        controller: _obj.direccionController,
+        controller: _obj.directionController,
         decoration: InputDecoration(
           labelText: 'Dirección',
           suffixIcon: Icon(
@@ -104,7 +104,7 @@ class _ClienteDireccionesCrearPageState
     );
   }
 
-  Widget _txtCompletarDatos() {
+  Widget _txtCompleteDate() {
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
@@ -118,13 +118,13 @@ class _ClienteDireccionesCrearPageState
     );
   }
 
-  Widget _btnAceptar() {
+  Widget _btnAcept() {
     return Container(
       height: 50,
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 30),
       child: ElevatedButton(
-        onPressed: _obj.crearDireccion,
+        onPressed: _obj.createDirection,
         child: Text('AGREGAR DIRECCIÓN'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(

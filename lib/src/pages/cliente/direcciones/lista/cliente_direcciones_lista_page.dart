@@ -32,37 +32,37 @@ class _ClienteDireccionesListaPageState
       appBar: AppBar(
         title: Text('Dirección'),
         actions: [
-          _agregarDireccion(),
+          _addAddress(),
         ],
       ),
       body: Stack(
         children: [
-          Positioned(top: 0, child: _txtSelecionaritem()),
+          Positioned(top: 0, child: _txtSelectItem()),
           Container(
             margin: EdgeInsets.only(top: 50),
-            child: _listaDirecciones(),
+            child: _listAddress(),
           )
         ],
       ),
-      bottomNavigationBar: _btnAceptar(),
+      bottomNavigationBar: _btnOk(),
     );
   }
 
-  Widget _noDirecciones() {
+  Widget _noAddress() {
     return Column(
       children: [
         Container(
           margin: EdgeInsets.only(top: 30),
           child: NoDataWidget(text: 'No tienes ninguna dirección agregada.'),
         ),
-        _btnNuevaDireccion(),
+        _btnNewAddress(),
       ],
     );
   }
 
-  Widget _listaDirecciones() {
+  Widget _listAddress() {
     return FutureBuilder(
-        future: _obj.getDirecciones(),
+        future: _obj.getAddress(),
         builder: (context, AsyncSnapshot<List<Address>> snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data.length > 0) {
@@ -73,18 +73,18 @@ class _ClienteDireccionesListaPageState
                   itemBuilder: (_, index) {
                     print(
                         '${snapshot.data[index].id} +++++++++++++++++++++++++++++++++');
-                    return _radioDireccion(snapshot.data[index], index);
+                    return _ratioAddress(snapshot.data[index], index);
                   });
             } else {
-              return _noDirecciones();
+              return _noAddress();
             }
           } else {
-            return _noDirecciones();
+            return _noAddress();
           }
         });
   }
 
-  Widget _radioDireccion(Address direccion, int index) {
+  Widget _ratioAddress(Address direccion, int index) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -121,11 +121,11 @@ class _ClienteDireccionesListaPageState
     );
   }
 
-  Widget _btnNuevaDireccion() {
+  Widget _btnNewAddress() {
     return Container(
       height: 40,
       child: ElevatedButton(
-        onPressed: _obj.irACrearDireccion,
+        onPressed: _obj.goToCreateAddress,
         child: Text('Nueva dirección.'),
         style: ElevatedButton.styleFrom(
           primary: Colors.green,
@@ -134,7 +134,7 @@ class _ClienteDireccionesListaPageState
     );
   }
 
-  Widget _btnAceptar() {
+  Widget _btnOk() {
     return Container(
       height: 50,
       width: double.infinity,
@@ -151,7 +151,7 @@ class _ClienteDireccionesListaPageState
                 child: const Text('Cancelar'),
               ),
               TextButton(
-                onPressed: _obj.crearOrden,
+                onPressed: _obj.createOrden,
                 child: const Text('Si'),
               ),
             ],
@@ -167,7 +167,7 @@ class _ClienteDireccionesListaPageState
     );
   }
 
-  Widget _txtSelecionaritem() {
+  Widget _txtSelectItem() {
     return Container(
       alignment: Alignment.centerLeft,
       margin: EdgeInsets.symmetric(horizontal: 40, vertical: 30),
@@ -181,13 +181,13 @@ class _ClienteDireccionesListaPageState
     );
   }
 
-  Widget _agregarDireccion() {
+  Widget _addAddress() {
     return IconButton(
       icon: Icon(
         Icons.add,
         color: Colors.white,
       ),
-      onPressed: _obj.irACrearDireccion,
+      onPressed: _obj.goToCreateAddress,
     );
   }
 

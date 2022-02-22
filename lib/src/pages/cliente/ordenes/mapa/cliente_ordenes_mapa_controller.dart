@@ -31,14 +31,12 @@ class ClienteOrdenesMapaController {
   Order orden;
   IO.Socket socket;
 
-  List<LatLng> points = [];
-
   BitmapDescriptor deliveryMarker;
   BitmapDescriptor homeMarker;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  CameraPosition posicionIncial =
+  CameraPosition homePosition =
       CameraPosition(target: LatLng(40.0025746, 3.8412286), zoom: 19.27);
 
   Completer<GoogleMapController> _mapController = Completer();
@@ -125,10 +123,10 @@ class ClienteOrdenesMapaController {
         .asUint8List();
   }
 
-  Future<Null> setLocalizacionInfo() async {
-    if (posicionIncial != null) {
-      double lat = posicionIncial.target.latitude;
-      double lng = posicionIncial.target.longitude;
+  Future<Null> setLocationInfo() async {
+    if (homePosition != null) {
+      double lat = homePosition.target.latitude;
+      double lng = homePosition.target.longitude;
 
       List<Placemark> address = await placemarkFromCoordinates(lat, lng);
 
@@ -151,7 +149,7 @@ class ClienteOrdenesMapaController {
     socket?.disconnect();
   }
 
-  void onMapCrear(GoogleMapController controller) {
+  void onMapCreate(GoogleMapController controller) {
     try {
       _mapController.complete(controller);
     } catch (e) {
@@ -162,20 +160,20 @@ class ClienteOrdenesMapaController {
   void checkGPS() async {
     bool localizacionActivada = await Geolocator.isLocationServiceEnabled();
     if (localizacionActivada) {
-      actualizaLocalizacion();
+      updateLocation();
     } else {
       bool localizacionGps = await location.Location().requestService();
       if (localizacionGps) {
-        actualizaLocalizacion();
+        updateLocation();
       }
     }
   }
 
-  void actualizaLocalizacion() async {
+  void updateLocation() async {
     try {
       await _determinePosition(); // OBTENER LA POSICION ACTUAL Y TAMBIEN SOLICITAR LOS PERMISOS
 
-      iraPosicion(orden.lat, orden.lng);
+      goToPosition(orden.lat, orden.lng);
       addMarker(
         'delivery',
         orden.lat,
@@ -200,7 +198,7 @@ class ClienteOrdenesMapaController {
     }
   }
 
-  Future iraPosicion(double lat, double log) async {
+  Future goToPosition(double lat, double log) async {
     try {
       GoogleMapController controller = await _mapController.future;
       if (controller != null) {

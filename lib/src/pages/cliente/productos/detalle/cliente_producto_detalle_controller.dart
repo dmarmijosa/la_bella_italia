@@ -7,26 +7,26 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ClienteProductoDetalleController {
   BuildContext context;
   Function refresh;
-  Product producto;
-  int cantidad = 1;
+  Product product;
+  int amount = 1;
 
-  double precioProductoAgregado;
-  TextEditingController detalleController = new TextEditingController();
+  double priceProductAdd;
+  TextEditingController detailController = new TextEditingController();
 
   SharedPref _sharedPref = new SharedPref();
-  List<Product> productoSelecionado = [];
+  List<Product> productSelect = [];
 
   Future init(BuildContext context, Function refresh, Product producto) async {
     this.context = context;
     this.refresh = refresh;
-    this.producto = producto;
-    precioProductoAgregado = producto.price;
+    this.product = producto;
+    priceProductAdd = producto.price;
 
     //_sharedPref.remove('order');
-    productoSelecionado =
+    productSelect =
         Product.fromJsonList(await _sharedPref.read('order')).toList;
 
-    productoSelecionado.forEach((element) {
+    productSelect.forEach((element) {
       print('producto seleccionado: ${element.toJson()}');
     });
     UtilsApp utilsApp = new UtilsApp();
@@ -36,44 +36,44 @@ class ClienteProductoDetalleController {
     refresh();
   }
 
-  void productosEnBolsa() {
-    String detalle = detalleController.text;
-    int index = productoSelecionado.indexWhere((p) => p.id == producto.id);
+  void productInBold() {
+    String detalle = detailController.text;
+    int index = productSelect.indexWhere((p) => p.id == product.id);
     if (index == -1) {
-      if (producto.quantity == null) {
-        producto.quantity = 1;
+      if (product.quantity == null) {
+        product.quantity = 1;
       }
-      productoSelecionado.add(producto);
+      productSelect.add(product);
     } else {
-      productoSelecionado[index].quantity = cantidad;
-      productoSelecionado[index].detail = detalle;
+      productSelect[index].quantity = amount;
+      productSelect[index].detail = detalle;
     }
 
-    print('Datos: ${productoSelecionado[0].detail}');
-    _sharedPref.save('order', productoSelecionado);
+    print('Datos: ${productSelect[0].detail}');
+    _sharedPref.save('order', productSelect);
     Fluttertoast.showToast(msg: 'Producto agregado');
-    regresarPaginaAnterior();
+    goToBack();
   }
 
-  void sumarItem() {
-    cantidad = cantidad + 1;
-    precioProductoAgregado = producto.price * cantidad;
-    producto.quantity = cantidad;
+  void additem() {
+    amount = amount + 1;
+    priceProductAdd = product.price * amount;
+    product.quantity = amount;
     refresh();
   }
 
-  void restarItem() {
-    if (cantidad <= 1) {
-      cantidad = 2;
+  void reduceItem() {
+    if (amount <= 1) {
+      amount = 2;
     }
-    cantidad = cantidad - 1;
+    amount = amount - 1;
 
-    precioProductoAgregado = producto.price * cantidad;
-    producto.quantity = cantidad;
+    priceProductAdd = product.price * amount;
+    product.quantity = amount;
     refresh();
   }
 
-  void regresarPaginaAnterior() {
+  void goToBack() {
     Navigator.pop(context);
   }
 }

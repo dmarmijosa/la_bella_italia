@@ -41,33 +41,33 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
                   endIndent: 30,
                   indent: 30,
                 ),
-                _txtNombreClienteLlamar(
+                _txtNameAndPhoneClient(
                     'Repartidor : ',
-                    '${_obj.orden?.delivery?.name ?? 'No asignado'} ${_obj.orden?.delivery?.lastname ?? ''}',
-                    '${_obj.orden?.delivery?.phone ?? ''}'),
-                _obj.orden?.status == 'CREADA' ||
-                        _obj.orden?.status == 'DESPACHADA'
-                    ? _txtNombreResturanteLlamar(
+                    '${_obj.order?.delivery?.name ?? 'No asignado'} ${_obj.order?.delivery?.lastname ?? ''}',
+                    '${_obj.order?.delivery?.phone ?? ''}'),
+                _obj.order?.status == 'CREADA' ||
+                        _obj.order?.status == 'DESPACHADA'
+                    ? _txtNameAndPhoneRestaurant(
                         'Restaurante : ',
-                        '${_obj.restaurante?.name ?? 'No asignado'} ${_obj.restaurante?.lastname ?? ''}',
-                        '${_obj.restaurante?.phone ?? ''}')
+                        '${_obj.restaurant?.name ?? 'No asignado'} ${_obj.restaurant?.lastname ?? ''}',
+                        '${_obj.restaurant?.phone ?? ''}')
                     : Container(),
-                _txtDatosCliente(
-                    'Entregar en : ', '${_obj.orden?.address?.address ?? ''} '),
-                _txtDatosCliente('Creada : ',
-                    '${RelativeTimeUtil.getRelativeTime(_obj.orden?.timestamp ?? 0) ?? ''} '),
-                _txtPRecioTotal(),
-                _obj.orden?.status == 'EN CAMINO'
-                    ? _btnDespacharOrden()
+                _txtDataClient(
+                    'Entregar en : ', '${_obj.order?.address?.address ?? ''} '),
+                _txtDataClient('Creada : ',
+                    '${RelativeTimeUtil.getRelativeTime(_obj.order?.timestamp ?? 0) ?? ''} '),
+                _txtPriceTotal(),
+                _obj.order?.status == 'EN CAMINO'
+                    ? _btnStateOrder()
                     : Container(),
               ],
             ),
           )),
-      body: (_obj.orden?.products?.length ?? 0) > 0
+      body: (_obj.order?.products?.length ?? 0) > 0
           ? ListView(
-              children: _obj.orden?.products?.map(
+              children: _obj.order?.products?.map(
                 (Product producto) {
-                  return _tarjetaProducto(producto);
+                  return _targetProduct(producto);
                 },
               )?.toList(),
             )
@@ -77,7 +77,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
     );
   }
 
-  Widget _txtNombreClienteLlamar(
+  Widget _txtNameAndPhoneClient(
       String titulo, String contenido, String numero) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -88,14 +88,14 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
           maxLines: 2,
         ),
         trailing:
-            _obj.orden?.status != 'CREADA' && _obj.orden?.status != 'ENTREGADA'
+            _obj.order?.status != 'CREADA' && _obj.order?.status != 'ENTREGADA'
                 ? Wrap(
                     spacing: 12, // space between two icons
                     children: <Widget>[
                       IconButton(
                           icon: Icon(Icons.call),
                           onPressed: () {
-                            _obj.llamar(numero ?? '');
+                            _obj.callNumberPhone(numero ?? '');
                           })
                     ],
                   )
@@ -104,7 +104,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
     );
   }
 
-  Widget _txtNombreResturanteLlamar(
+  Widget _txtNameAndPhoneRestaurant(
       String titulo, String contenido, String numero) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
@@ -115,14 +115,14 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
           maxLines: 2,
         ),
         trailing:
-            _obj.orden?.status == 'CREADA' || _obj.orden?.status == 'DESPACHADA'
+            _obj.order?.status == 'CREADA' || _obj.order?.status == 'DESPACHADA'
                 ? Wrap(
                     spacing: 12, // space between two icons
                     children: <Widget>[
                       IconButton(
                           icon: Icon(Icons.call),
                           onPressed: () {
-                            _obj.llamar(numero ?? '');
+                            _obj.callNumberPhone(numero ?? '');
                           })
                     ],
                   )
@@ -131,7 +131,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
     );
   }
 
-  Widget _txtDatosCliente(String titulo, String contenido) {
+  Widget _txtDataClient(String titulo, String contenido) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
@@ -144,7 +144,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
     );
   }
 
-  Widget _btnDespacharOrden() {
+  Widget _btnStateOrder() {
     return Container(
       margin: EdgeInsets.only(
         left: 30,
@@ -154,9 +154,9 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
       child: ElevatedButton(
         //_crodc.updateOrden
         onPressed: () {
-          _obj.orden.status == 'DESPACHADA'
-              ? _obj.updateOrden()
-              : _obj.irAMapa();
+          _obj.order.status == 'DESPACHADA'
+              ? _obj.updateOrder()
+              : _obj.goToMap();
         },
         style: ElevatedButton.styleFrom(
           shape:
@@ -171,7 +171,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  _obj.orden?.status == 'DESPACHADA'
+                  _obj.order?.status == 'DESPACHADA'
                       ? 'INCIAR ENTREGA'
                       : 'VER MAPA',
                   style: TextStyle(
@@ -186,7 +186,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
               child: Container(
                 margin: EdgeInsets.only(left: 20, top: 10),
                 height: 20,
-                child: _obj.orden?.status == 'DESPACHADA'
+                child: _obj.order?.status == 'DESPACHADA'
                     ? Icon(Icons.delivery_dining)
                     : Icon(Icons.location_on),
               ),
@@ -197,12 +197,12 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
     );
   }
 
-  Widget _tarjetaProducto(Product producto) {
+  Widget _targetProduct(Product producto) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          _imagenProducto(producto),
+          _imageProduct(producto),
           SizedBox(
             width: 10,
           ),
@@ -249,7 +249,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
     );
   }
 
-  Widget _txtPRecioTotal() {
+  Widget _txtPriceTotal() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       child: Row(
@@ -287,7 +287,7 @@ class _ClienteOrdenesDetallePageState extends State<ClienteOrdenesDetallePage> {
     );
   }
 
-  Widget _imagenProducto(Product producto) {
+  Widget _imageProduct(Product producto) {
     return Container(
       width: 90,
       height: 90,

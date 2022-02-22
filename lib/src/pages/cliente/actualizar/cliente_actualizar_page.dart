@@ -53,12 +53,12 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
                 SizedBox(
                   height: 30,
                 ),
-                _edtNombre(),
-                _edtApellido(),
-                _edtTelefono(),
+                _edtName(),
+                _edtLastName(),
+                _edtPhone(),
                 _edtPassword(),
                 _edtConfirmPassword(),
-                _btnActualizar()
+                _btnUpdate()
               ],
             ),
           ),
@@ -82,7 +82,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
     );
   }
 
-  Widget _edtNombre() {
+  Widget _edtName() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -90,7 +90,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.nombreController,
+        controller: _obj.nameController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Nombre',
@@ -106,7 +106,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
     );
   }
 
-  Widget _edtApellido() {
+  Widget _edtLastName() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -114,7 +114,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.apellidoController,
+        controller: _obj.lastnameController,
         keyboardType: TextInputType.name,
         decoration: InputDecoration(
           hintText: 'Apellido',
@@ -130,7 +130,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
     );
   }
 
-  Widget _edtTelefono() {
+  Widget _edtPhone() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 7),
       decoration: BoxDecoration(
@@ -138,7 +138,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.telefonoController,
+        controller: _obj.phoneController,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           hintText: 'Número de teléfono',
@@ -189,7 +189,7 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.confirPassController,
+        controller: _obj.confirmPassController,
         obscureText: this.is_press,
         decoration: InputDecoration(
           hintText: 'Confirmar contraseña',
@@ -208,13 +208,13 @@ class _ClienteActualizarPageState extends State<ClienteActualizarPage> {
     );
   }
 
-  Widget _btnActualizar() {
+  Widget _btnUpdate() {
     return Container(
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton.icon(
         icon: Icon(Icons.autorenew),
-        onPressed: _obj.isEnable ? _obj.actualizar : null,
+        onPressed: _obj.isEnable ? _obj.update : null,
         label: Text('Actualizar'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,

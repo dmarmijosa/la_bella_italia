@@ -7,9 +7,9 @@ import 'package:la_bella_italia/src/utils/my_colors.dart';
 
 // ignore: must_be_immutable
 class ClienteProductoDetallePage extends StatefulWidget {
-  Product producto;
+  Product product;
 
-  ClienteProductoDetallePage({key, @required this.producto}) : super(key: key);
+  ClienteProductoDetallePage({key, @required this.product}) : super(key: key);
 
   @override
   _ClienteProductoDetallePageState createState() =>
@@ -25,7 +25,7 @@ class _ClienteProductoDetallePageState
     super.initState();
 
     SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-      _obj.init(context, refresh, widget.producto);
+      _obj.init(context, refresh, widget.product);
     });
   }
 
@@ -42,12 +42,12 @@ class _ClienteProductoDetallePageState
               child: Column(
                 children: [
                   _carouselProduct(),
-                  _txtNombre(),
-                  _txtDescripcion(),
-                  _edtDetalleProducto(),
-                  _cantidadPedido(),
-                  _iconoDelivery(),
-                  _btnAgregarABolsa()
+                  _txtNameProduct(),
+                  _txtDescription(),
+                  _edtDetailProduct(),
+                  _amountProductOrder(),
+                  _iconDelivery(),
+                  _btnAddInBold()
                 ],
               ),
             ),
@@ -57,7 +57,7 @@ class _ClienteProductoDetallePageState
     );
   }
 
-  Widget _edtDetalleProducto() {
+  Widget _edtDetailProduct() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
       padding: EdgeInsets.only(bottom: 10),
@@ -66,7 +66,7 @@ class _ClienteProductoDetallePageState
         borderRadius: BorderRadius.circular(30),
       ),
       child: TextField(
-        controller: _obj.detalleController,
+        controller: _obj.detailController,
         keyboardType: TextInputType.name,
         maxLength: 200,
         maxLines: 1,
@@ -84,11 +84,11 @@ class _ClienteProductoDetallePageState
     );
   }
 
-  Widget _btnAgregarABolsa() {
+  Widget _btnAddInBold() {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
       child: ElevatedButton(
-        onPressed: _obj.productosEnBolsa,
+        onPressed: _obj.productInBold,
         style: ElevatedButton.styleFrom(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -124,12 +124,12 @@ class _ClienteProductoDetallePageState
     );
   }
 
-  Widget _txtDescripcion() {
+  Widget _txtDescription() {
     return Container(
       alignment: Alignment.bottomLeft,
       margin: EdgeInsets.only(right: 30, left: 30, top: 15),
       child: Text(
-        _obj.producto?.description?.toUpperCase() ?? '',
+        _obj.product?.description?.toUpperCase() ?? '',
         style: TextStyle(
           fontSize: 13,
           color: Colors.grey,
@@ -138,7 +138,7 @@ class _ClienteProductoDetallePageState
     );
   }
 
-  Widget _cantidadPedido() {
+  Widget _amountProductOrder() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 17),
       child: Row(
@@ -149,10 +149,10 @@ class _ClienteProductoDetallePageState
               color: Colors.grey,
               size: 30,
             ),
-            onPressed: _obj.sumarItem,
+            onPressed: _obj.additem,
           ),
           Text(
-            _obj.cantidad.toString(),
+            _obj.amount.toString(),
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
@@ -165,13 +165,13 @@ class _ClienteProductoDetallePageState
               color: Colors.grey,
               size: 30,
             ),
-            onPressed: _obj.restarItem,
+            onPressed: _obj.reduceItem,
           ),
           Spacer(),
           Container(
             margin: EdgeInsets.only(right: 10),
             child: Text(
-              '${_obj.precioProductoAgregado ?? 0} \€',
+              '${_obj.priceProductAdd ?? 0} \€',
               style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.bold,
@@ -183,12 +183,12 @@ class _ClienteProductoDetallePageState
     );
   }
 
-  Widget _txtNombre() {
+  Widget _txtNameProduct() {
     return Container(
       alignment: Alignment.bottomLeft,
       margin: EdgeInsets.only(right: 30, left: 30, top: 30),
       child: Text(
-        _obj.producto?.name?.toUpperCase() ?? '',
+        _obj.product?.name?.toUpperCase() ?? '',
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
@@ -197,7 +197,7 @@ class _ClienteProductoDetallePageState
     );
   }
 
-  Widget _iconoDelivery() {
+  Widget _iconDelivery() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
       child: Row(
@@ -239,24 +239,24 @@ class _ClienteProductoDetallePageState
                 placeholder: AssetImage('assets/img/pizza2.png'),
                 fit: BoxFit.contain,
                 fadeInDuration: Duration(milliseconds: 50),
-                image: _obj.producto?.image1 != null
-                    ? NetworkImage(_obj.producto.image1)
+                image: _obj.product?.image1 != null
+                    ? NetworkImage(_obj.product.image1)
                     : AssetImage('assets/img/pizza2.png'),
               ),
               FadeInImage(
                 placeholder: AssetImage('assets/img/pizza2.png'),
                 fit: BoxFit.contain,
                 fadeInDuration: Duration(milliseconds: 50),
-                image: _obj.producto?.image2 != null
-                    ? NetworkImage(_obj.producto.image1)
+                image: _obj.product?.image2 != null
+                    ? NetworkImage(_obj.product.image1)
                     : AssetImage('assets/img/no-image.png'),
               ),
               FadeInImage(
                 placeholder: AssetImage('assets/img/pizza2.png'),
                 fit: BoxFit.contain,
                 fadeInDuration: Duration(milliseconds: 50),
-                image: _obj.producto?.image3 != null
-                    ? NetworkImage(_obj.producto.image1)
+                image: _obj.product?.image3 != null
+                    ? NetworkImage(_obj.product.image1)
                     : AssetImage('assets/img/no-image.png'),
               ),
             ],
@@ -267,7 +267,7 @@ class _ClienteProductoDetallePageState
           left: 10,
           top: 5,
           child: IconButton(
-            onPressed: _obj.regresarPaginaAnterior,
+            onPressed: _obj.goToBack,
             icon: Icon(
               Icons.arrow_back_ios,
               color: MyColors.primaryColor,

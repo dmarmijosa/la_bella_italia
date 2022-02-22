@@ -37,7 +37,7 @@ class DeliveryOrdenesMapaController {
   LatLng addressLatLng;
   Order orden;
   StreamSubscription _posicionStream;
-  double _distancia;
+  double _distance;
 
   IO.Socket socket;
 
@@ -48,7 +48,7 @@ class DeliveryOrdenesMapaController {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
-  CameraPosition posicionIncial =
+  CameraPosition positionInitial =
       CameraPosition(target: LatLng(40.0025746, 3.8412286), zoom: 19.27);
 
   Completer<GoogleMapController> _mapController = Completer();
@@ -108,8 +108,8 @@ class DeliveryOrdenesMapaController {
     }
   }
 
-  void cercaPosicion() {
-    _distancia = Geolocator.distanceBetween(
+  void positionClose() {
+    _distance = Geolocator.distanceBetween(
       _posicion.latitude,
       _posicion.longitude,
       orden.address.lat,
@@ -119,10 +119,10 @@ class DeliveryOrdenesMapaController {
   }
 
   void updateDelivered() async {
-    if (_distancia <= 100) {
+    if (_distance <= 100) {
       ResponseApi responseApi = await _orderProvider.updateToDelivered(orden);
       if (responseApi.success) {
-        sendNotificationLLegada(orden.client.notificationToken);
+        sendNotificationDeliveryinSite(orden.client.notificationToken);
         Fluttertoast.showToast(
             msg: responseApi.message, toastLength: Toast.LENGTH_LONG);
         Navigator.pushNamedAndRemoveUntil(
@@ -176,9 +176,9 @@ class DeliveryOrdenesMapaController {
   }
 
   Future<Null> setLocalizacionInfo() async {
-    if (posicionIncial != null) {
-      double lat = posicionIncial.target.latitude;
-      double lng = posicionIncial.target.longitude;
+    if (positionInitial != null) {
+      double lat = positionInitial.target.latitude;
+      double lng = positionInitial.target.longitude;
       try {
         List<Placemark> address = await placemarkFromCoordinates(lat, lng);
         if (address != null) {
@@ -215,11 +215,11 @@ class DeliveryOrdenesMapaController {
   void checkGPS() async {
     bool localizacionActivada = await Geolocator.isLocationServiceEnabled();
     if (localizacionActivada) {
-      actualizaLocalizacion();
+      updateLocation();
     } else {
       bool localizacionGps = await location.Location().requestService();
       if (localizacionGps) {
-        actualizaLocalizacion();
+        updateLocation();
       }
     }
   }
@@ -234,7 +234,7 @@ class DeliveryOrdenesMapaController {
         'Tu repartidor esta cerca al lugar de entrega');
   }
 
-  void sendNotificationLLegada(String tokenDelivery) {
+  void sendNotificationDeliveryinSite(String tokenDelivery) {
     Map<String, dynamic> data = {'click_action': 'FLUTTER_NOTIFICATION_CLICK'};
 
     pushNotificationsProvider.sendMessage(
@@ -252,13 +252,13 @@ class DeliveryOrdenesMapaController {
     refresh();
   }
 
-  void actualizaLocalizacion() async {
+  void updateLocation() async {
     try {
       await _determinePosition(); // OBTENER LA POSICION ACTUAL Y TAMBIEN SOLICITAR LOS PERMISOS
       _posicion = await Geolocator.getLastKnownPosition(); // LAT Y LNG
       saveLocation();
 
-      iraPosicion(_posicion.latitude, _posicion.longitude);
+      goToPosition(_posicion.latitude, _posicion.longitude);
       addMarker('delivery', _posicion.latitude, _posicion.longitude,
           'Tu posicion', '', deliveryMarker);
 
@@ -275,8 +275,8 @@ class DeliveryOrdenesMapaController {
         addMarker('delivery', _posicion.latitude, _posicion.longitude,
             'Tu posicion', '', deliveryMarker);
 
-        iraPosicion(_posicion.latitude, _posicion.longitude);
-        cercaPosicion();
+        goToPosition(_posicion.latitude, _posicion.longitude);
+        positionClose();
 
         refresh();
       });
@@ -285,7 +285,7 @@ class DeliveryOrdenesMapaController {
     }
   }
 
-  Future iraPosicion(double lat, double log) async {
+  Future goToPosition(double lat, double log) async {
     try {
       GoogleMapController controller = await _mapController.future;
       if (controller != null) {

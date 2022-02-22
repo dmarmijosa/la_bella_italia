@@ -33,32 +33,32 @@ class _ClienteDireccionesMapaPageState
       ),
       body: Stack(
         children: [
-          _mapaGoogle(),
+          _mapGoogle(),
           Container(
             alignment: Alignment.center,
-            child: _iconoLocalizacion(),
+            child: _iconLocalization(),
           ),
           Container(
             alignment: Alignment.topCenter,
             margin: EdgeInsets.only(top: 30),
-            child: _tarjetaPosicion(),
+            child: _targetPosition(),
           ),
           Container(
             alignment: Alignment.bottomCenter,
-            child: _btnSeleccionar(),
+            child: _btnSelect(),
           )
         ],
       ),
     );
   }
 
-  Widget _btnSeleccionar() {
+  Widget _btnSelect() {
     return Container(
       height: 50,
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 40, horizontal: 70),
       child: ElevatedButton(
-        onPressed: _obj.selectRefPunto,
+        onPressed: _obj.selectRefPoint,
         child: Text('SELECCIONAR DIRECCIÓN'),
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
@@ -69,7 +69,7 @@ class _ClienteDireccionesMapaPageState
     );
   }
 
-  Widget _iconoLocalizacion() {
+  Widget _iconLocalization() {
     return Image.asset(
       'assets/img/my_location.png',
       width: 65,
@@ -77,7 +77,7 @@ class _ClienteDireccionesMapaPageState
     );
   }
 
-  Widget _tarjetaPosicion() {
+  Widget _targetPosition() {
     return Container(
       child: Card(
         color: Colors.grey[700],
@@ -96,15 +96,15 @@ class _ClienteDireccionesMapaPageState
     );
   }
 
-  Widget _mapaGoogle() {
+  Widget _mapGoogle() {
     return GoogleMap(
       mapType: MapType.normal,
-      initialCameraPosition: _obj.posicionIncial,
-      onMapCreated: _obj.onMapCrear,
+      initialCameraPosition: _obj.positionInit,
+      onMapCreated: _obj.onMapCreate,
       myLocationButtonEnabled: false,
       myLocationEnabled: false,
       onCameraMove: (position) {
-        _obj.posicionIncial = position;
+        _obj.positionInit = position;
       },
       onCameraIdle: () async {
         await _obj.setLocalizacionInfo();

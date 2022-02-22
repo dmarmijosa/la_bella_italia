@@ -32,7 +32,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: DefaultTabController(
-        length: _obj.categorias?.length,
+        length: _obj.categories?.length,
         child: Scaffold(
           key: _obj.key,
           appBar: PreferredSize(
@@ -48,7 +48,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                   SizedBox(height: 40),
                   _menuDraver(),
                   SizedBox(height: 20),
-                  _edtBuscar(),
+                  _edtSearch(),
                 ],
               ),
               bottom: TabBar(
@@ -57,10 +57,10 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                 unselectedLabelColor: Colors.grey[400],
                 isScrollable: true,
                 tabs: List<Widget>.generate(
-                  _obj.categorias.length,
+                  _obj.categories.length,
                   (index) {
                     return Tab(
-                      child: Text(_obj.categorias[index].name ?? ''),
+                      child: Text(_obj.categories[index].name ?? ''),
                     );
                   },
                 ),
@@ -69,11 +69,10 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
           ),
           drawer: _drawer(),
           body: TabBarView(
-            children: _obj.categorias.map(
+            children: _obj.categories.map(
               (Category categoria) {
                 return FutureBuilder(
-                  future:
-                      _obj.obtenerProductos(categoria.id, _obj.productoBuscar),
+                  future: _obj.getProducts(categoria.id, _obj.productSearch),
                   builder: (context, AsyncSnapshot<List<Product>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
@@ -87,7 +86,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                           ),
                           itemCount: snapshot.data?.length ?? 0,
                           itemBuilder: (_, index) {
-                            return _tarjetaProducto(snapshot.data[index]);
+                            return _targetProduct(snapshot.data[index]);
                           },
                         );
                       } else {
@@ -110,10 +109,10 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     );
   }
 
-  Widget _tarjetaProducto(Product producto) {
+  Widget _targetProduct(Product producto) {
     return GestureDetector(
       onTap: () {
-        _obj.mostrarSheet(producto);
+        _obj.viewSheet(producto);
       },
       child: Container(
         height: 250,
@@ -196,7 +195,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
         Container(
             margin: EdgeInsets.only(right: 5, top: 5),
             child: IconButton(
-              onPressed: _obj.irACrearOrdenPage,
+              onPressed: _obj.goToCreateOrder,
               icon: Icon(
                 Icons.shopping_bag_outlined,
                 color: Colors.black,
@@ -217,11 +216,11 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
     );
   }
 
-  Widget _edtBuscar() {
+  Widget _edtSearch() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: TextField(
-        onChanged: _obj.changeText,
+        onChanged: _obj.textSearch,
         decoration: InputDecoration(
           hintText: 'Buscar',
           suffixIcon: Icon(
@@ -313,7 +312,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             ),
           ),
           ListTile(
-            onTap: _obj.editarPerfil,
+            onTap: _obj.editProfile,
             title: Text('Editar perfil'),
             trailing: Icon(
               Icons.edit,
@@ -321,7 +320,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             ),
           ),
           ListTile(
-            onTap: _obj.irAMisPedidos,
+            onTap: _obj.goToMyOrders,
             title: Text('Mis pedidos'),
             trailing: Icon(
               Icons.shopping_bag,
@@ -329,7 +328,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
             ),
           ),
           ListTile(
-            onTap: _obj.irAEliminarDirecciones,
+            onTap: _obj.goToDeleteAddress,
             title: Text('Mis direcciones'),
             trailing: Icon(
               Icons.my_location_sharp,
@@ -340,7 +339,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
               ? _obj.user.roles.length > 1
                   ? ListTile(
                       title: Text('Cambiar de rol'),
-                      onTap: _obj.cambiarROl,
+                      onTap: _obj.changeRol,
                       trailing: Icon(
                         Icons.sync,
                         color: Colors.black,
@@ -349,7 +348,7 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                   : Container()
               : Container(),
           ListTile(
-            onTap: _obj.logout,
+            onTap: _obj.logOut,
             title: Text('Cerrar sesión'),
             trailing: Icon(
               Icons.login_rounded,

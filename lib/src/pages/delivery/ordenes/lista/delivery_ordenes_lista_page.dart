@@ -72,7 +72,7 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
           body: TabBarView(
             children: _obj.status.map((String status) {
               return FutureBuilder(
-                  future: _obj.obtenerOrdenes(status),
+                  future: _obj.getOrders(status),
                   builder: (context, AsyncSnapshot<List<Order>> snapshot) {
                     if (snapshot.hasData) {
                       if (snapshot.data.length > 0) {
@@ -82,7 +82,7 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
                             itemCount: snapshot.data?.length ?? 0,
                             itemBuilder: (_, index) {
                               print(snapshot.data[index].toJson());
-                              return _tarjetaOrden(snapshot.data[index]);
+                              return _targetOrder(snapshot.data[index]);
                             });
                       } else {
                         return NoDataWidget(text: 'No hay ordenes');
@@ -98,10 +98,10 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
     );
   }
 
-  Widget _tarjetaOrden(Order orden) {
+  Widget _targetOrder(Order orden) {
     return GestureDetector(
       onTap: () {
-        _obj.abrirSheet(orden);
+        _obj.openSheet(orden);
       },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -257,7 +257,7 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
               ? _obj.user.roles.length > 1
                   ? ListTile(
                       title: Text('Cambiar de rol'),
-                      onTap: _obj.cambiarRol,
+                      onTap: _obj.changeRol,
                       trailing: Icon(
                         Icons.sync,
                         color: Colors.black,
@@ -266,7 +266,7 @@ class _DeliveryOrdenesListaPageState extends State<DeliveryOrdenesListaPage> {
                   : Container()
               : Container(),
           ListTile(
-            onTap: _obj.logout,
+            onTap: _obj.logOut,
             title: Text('Cerrar sesión'),
             trailing: Icon(
               Icons.login_rounded,

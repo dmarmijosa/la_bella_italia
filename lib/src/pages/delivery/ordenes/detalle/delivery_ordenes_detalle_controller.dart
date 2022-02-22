@@ -23,9 +23,9 @@ class DeliveryOrdenesDetalleController {
   double total = 0;
 
   User user;
-  bool estadoRestaurante;
-  String mensaje;
-  Order orden;
+  bool stateRestaurant;
+  String message;
+  Order order;
   List<User> users = [];
   String idDelivery;
   PushNotificationProvider pushNotificationsProvider =
@@ -34,11 +34,11 @@ class DeliveryOrdenesDetalleController {
   Future init(BuildContext context, Function refresh, Order orden) async {
     this.context = context;
     this.refresh = refresh;
-    this.orden = orden;
+    this.order = orden;
     user = User.fromJson(await _sharedPref.read('user'));
     _userProvider.init(context, sessionUser: user);
     _orderProvider.init(context, user);
-    obtenerTotal();
+    getTotal();
     getUsers();
     UtilsApp utilsApp = new UtilsApp();
     if (await utilsApp.internetConnectivity() == false) {
@@ -54,27 +54,27 @@ class DeliveryOrdenesDetalleController {
         tokenDelivery, data, 'ORDEN EN CAMINO', 'Tu repartidor esta en camino');
   }
 
-  void updateOrden() async {
-    ResponseApi responseApi = await _orderProvider.updateToOntheWay(orden);
+  void updateOrder() async {
+    ResponseApi responseApi = await _orderProvider.updateToOntheWay(order);
     Fluttertoast.showToast(msg: responseApi.message);
 
-    sendNotification(orden.client.notificationToken);
+    sendNotification(order.client.notificationToken);
 
     if (responseApi.success) {
       Navigator.pushNamed(
         context,
         'delivery/ordenes/mapa',
-        arguments: orden.toJson(),
+        arguments: order.toJson(),
       );
       refresh();
     }
   }
 
-  void irAMapa() async {
+  void goToMap() async {
     Navigator.pushNamed(
       context,
       'delivery/ordenes/mapa',
-      arguments: orden.toJson(),
+      arguments: order.toJson(),
     );
     refresh();
   }
@@ -84,16 +84,16 @@ class DeliveryOrdenesDetalleController {
     refresh();
   }
 
-  void obtenerTotal() {
+  void getTotal() {
     total = 0;
-    orden.products.forEach((producto) {
+    order.products.forEach((producto) {
       total = total + (producto.price * producto.quantity);
     });
 
     refresh();
   }
 
-  void llamar(String phone) {
+  void callPhone(String phone) {
     launch("tel:$phone");
   }
 }

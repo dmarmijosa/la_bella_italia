@@ -34,7 +34,7 @@ class _DeliveryOrdenesDetallePageState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ORDEN #${_obj.orden?.id ?? ''} '),
+        title: Text('ORDEN #${_obj.order?.id ?? ''} '),
       ),
       bottomNavigationBar: Container(
           height: MediaQuery.of(context).size.height * 0.45,
@@ -46,26 +46,26 @@ class _DeliveryOrdenesDetallePageState
                   endIndent: 30,
                   indent: 30,
                 ),
-                _txtNombreClienteLlamar(
+                _txtNameClientPhone(
                     'Cliente : ',
-                    '${_obj.orden?.client?.name ?? ''} ${_obj.orden?.client?.lastname ?? ''}',
-                    '${_obj.orden?.client?.phone ?? ''}'),
-                _txtDatosCliente(
-                    'Entregar en : ', '${_obj.orden?.address?.address ?? ''} '),
-                _txtDatosCliente('Creada : ',
-                    '${RelativeTimeUtil.getRelativeTime(_obj.orden?.timestamp ?? 0) ?? ''} '),
-                _txtPRecioTotal(),
-                _obj.orden?.status != 'ENTREGADA'
-                    ? _btnDespacharOrden()
+                    '${_obj.order?.client?.name ?? ''} ${_obj.order?.client?.lastname ?? ''}',
+                    '${_obj.order?.client?.phone ?? ''}'),
+                _txtDataClient(
+                    'Entregar en : ', '${_obj.order?.address?.address ?? ''} '),
+                _txtDataClient('Creada : ',
+                    '${RelativeTimeUtil.getRelativeTime(_obj.order?.timestamp ?? 0) ?? ''} '),
+                _txtPriceTotal(),
+                _obj.order?.status != 'ENTREGADA'
+                    ? _btnDispatchedOrder()
                     : Container(),
               ],
             ),
           )),
-      body: (_obj.orden?.products?.length ?? 0) > 0
+      body: (_obj.order?.products?.length ?? 0) > 0
           ? ListView(
-              children: _obj.orden?.products?.map(
+              children: _obj.order?.products?.map(
                 (Product producto) {
-                  return _tarjetaProducto(producto);
+                  return _targetProduct(producto);
                 },
               )?.toList(),
             )
@@ -75,8 +75,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _txtNombreClienteLlamar(
-      String titulo, String contenido, String numero) {
+  Widget _txtNameClientPhone(String titulo, String contenido, String numero) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
@@ -85,14 +84,14 @@ class _DeliveryOrdenesDetallePageState
           contenido,
           maxLines: 2,
         ),
-        trailing: _obj.orden?.status != 'ENTREGADA'
+        trailing: _obj.order?.status != 'ENTREGADA'
             ? Wrap(
                 spacing: 12, // space between two icons
                 children: <Widget>[
                   IconButton(
                       icon: Icon(Icons.call),
                       onPressed: () {
-                        _obj.llamar(_obj.orden.client?.phone ?? '');
+                        _obj.callPhone(_obj.order.client?.phone ?? '');
                       })
                 ],
               )
@@ -101,7 +100,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _txtDatosCliente(String titulo, String contenido) {
+  Widget _txtDataClient(String titulo, String contenido) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: ListTile(
@@ -114,7 +113,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _btnDespacharOrden() {
+  Widget _btnDispatchedOrder() {
     return Container(
       margin: EdgeInsets.only(
         left: 30,
@@ -124,9 +123,9 @@ class _DeliveryOrdenesDetallePageState
       child: ElevatedButton(
         //_crodc.updateOrden
         onPressed: () {
-          _obj.orden.status == 'DESPACHADA'
-              ? _obj.updateOrden()
-              : _obj.irAMapa();
+          _obj.order.status == 'DESPACHADA'
+              ? _obj.updateOrder()
+              : _obj.goToMap();
         },
         style: ElevatedButton.styleFrom(
           shape:
@@ -141,7 +140,7 @@ class _DeliveryOrdenesDetallePageState
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  _obj.orden?.status == 'DESPACHADA'
+                  _obj.order?.status == 'DESPACHADA'
                       ? 'INCIAR ENTREGA'
                       : 'VER MAPA',
                   style: TextStyle(
@@ -156,7 +155,7 @@ class _DeliveryOrdenesDetallePageState
               child: Container(
                 margin: EdgeInsets.only(left: 20, top: 10),
                 height: 20,
-                child: _obj.orden?.status == 'DESPACHADA'
+                child: _obj.order?.status == 'DESPACHADA'
                     ? Icon(Icons.delivery_dining)
                     : Icon(Icons.location_on),
               ),
@@ -167,12 +166,12 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _tarjetaProducto(Product producto) {
+  Widget _targetProduct(Product producto) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 6),
       child: Row(
         children: [
-          _imagenProducto(producto),
+          _imageProduct(producto),
           SizedBox(
             width: 10,
           ),
@@ -211,7 +210,7 @@ class _DeliveryOrdenesDetallePageState
           Spacer(),
           Column(
             children: [
-              _txtPrecio(producto),
+              _txtPrice(producto),
             ],
           )
         ],
@@ -219,7 +218,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _txtPRecioTotal() {
+  Widget _txtPriceTotal() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 30),
       child: Row(
@@ -244,7 +243,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _txtPrecio(Product producto) {
+  Widget _txtPrice(Product producto) {
     return Container(
       margin: EdgeInsets.only(top: 10, right: 10),
       child: Text(
@@ -257,7 +256,7 @@ class _DeliveryOrdenesDetallePageState
     );
   }
 
-  Widget _imagenProducto(Product producto) {
+  Widget _imageProduct(Product producto) {
     return Container(
       width: 90,
       height: 90,
