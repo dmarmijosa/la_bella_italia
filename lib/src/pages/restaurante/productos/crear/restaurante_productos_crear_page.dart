@@ -188,7 +188,7 @@ class _RestauranteProductosCrearPageState
         maxLines: 3,
         maxLength: 255,
         decoration: InputDecoration(
-          hintText: 'Descripcion de la categoria',
+          hintText: 'Descripcion del producto',
           border: InputBorder.none,
           contentPadding: EdgeInsets.all(15),
           hintStyle: TextStyle(color: MyColors.primaryColorDark),
