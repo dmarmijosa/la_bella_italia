@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/scheduler.dart';
@@ -25,6 +27,8 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
       _obj.init(context, refresh);
       refresh();
     });
+    new Timer.periodic(
+        Duration(seconds: 5), (Timer t) => !mounted ? dispose : refresh());
   }
 
   @override
