@@ -73,7 +73,7 @@ class LoginController {
   }
 
   void login() async {
-    String correo = emailController.text.trim();
+    String correo = emailController.text.trim().toLowerCase();
     String password = passController.text.trim();
 
     ResponseApi responseApi = await userProvider.login(correo, password);
