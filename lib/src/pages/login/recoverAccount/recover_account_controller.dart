@@ -22,7 +22,7 @@ class RecoverAccountController {
   }
 
   Future<void> recoverAccount() async {
-    String correo = emailController.text.trim();
+    String correo = emailController.text.trim().toLowerCase();
 
     ResponseApi responseApi = await userProvider.recoverAccountUser(correo);
 
