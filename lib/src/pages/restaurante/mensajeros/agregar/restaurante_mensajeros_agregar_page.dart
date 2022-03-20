@@ -62,7 +62,7 @@ class _RestauranteMensajerosAgregarPageState
 
   Widget _edtEmail() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 100),
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 50),
       decoration: BoxDecoration(
         color: MyColors.primaryOpacityColor,
         borderRadius: BorderRadius.circular(30),
