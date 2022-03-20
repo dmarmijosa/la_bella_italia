@@ -32,8 +32,10 @@ class _RestauranteMensajerosAgregarPageState
           title: Text('Regresar'),
         ),
         body: Container(
-          child: Column(
-            children: [_edtEmail(), _btnAdd()],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [_edtEmail(), _btnAdd()],
+            ),
           ),
         ),
       ),
