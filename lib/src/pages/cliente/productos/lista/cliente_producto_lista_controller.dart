@@ -89,6 +89,7 @@ class ClienteProductoListaController {
 
   void getCategories() async {
     categories = await _categoryProvider.getAll();
+
     refresh();
   }
 

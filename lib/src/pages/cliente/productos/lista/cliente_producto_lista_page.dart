@@ -27,14 +27,14 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
       _obj.init(context, refresh);
       refresh();
     });
-    new Timer.periodic(
-        Duration(seconds: 5), (Timer t) => !mounted ? dispose : refresh());
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      onTap: () => FocusScope.of(context).requestFocus(
+        FocusNode(),
+      ),
       child: DefaultTabController(
         length: _obj.categories?.length,
         child: Scaffold(
@@ -94,13 +94,17 @@ class _ClienteProductoListaPageState extends State<ClienteProductoListaPage> {
                           },
                         );
                       } else {
-                        return NoDataWidget(
-                          text: 'No hay productos',
+                        return SingleChildScrollView(
+                          child: NoDataWidget(
+                            text: 'No hay productos',
+                          ),
                         );
                       }
                     } else {
-                      return NoDataWidget(
-                        text: 'No hay productos',
+                      return SingleChildScrollView(
+                        child: NoDataWidget(
+                          text: 'No hay productos',
+                        ),
                       );
                     }
                   },
